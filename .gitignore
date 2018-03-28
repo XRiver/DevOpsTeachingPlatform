@@ -1,1 +1,7 @@
 DevOpsWeb/node_modules/
+*.xml
+*.xml
+DevOpsDocker/.idea/compiler.xml
+DevOpsDocker/.idea/DevOpsDocker.iml
+*.xml
+*.xml
