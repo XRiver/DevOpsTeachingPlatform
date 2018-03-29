@@ -32,7 +32,7 @@ public class FileTransport {
 	
 	public RemoteSignIn SignIn() {
 		//前面还有读取文件的操作
-		RemoteSignIn sign = new RemoteSignIn("", 22, "", "");
+		RemoteSignIn sign = new RemoteSignIn("119.29.88.207", 22, "ubuntu", "abc8879623");
 		return sign;
 	}
 	
