@@ -20,10 +20,10 @@ public class RemoteFileReader extends FileReaderTools{
 		// TODO Auto-generated method stub
 		StringBuilder resultString = new StringBuilder();
 		//这里的填写配置文件相关的读远程linux文件的IP、Port、Username、Password
-		String HostIP = "";
+		String HostIP = "119.29.88.207";
 		int HostPort = 22;
-		String HostUserName = "";
-		String HostPassword = "";
+		String HostUserName = "ubuntu";
+		String HostPassword = "abc8879623";
 		//这里的填写配置文件相关的读远程linux文件的IP、Port、Username、Password
 		
 		RemoteSignIn sign = new RemoteSignIn(HostIP, HostPort, HostUserName, HostPassword);
@@ -39,14 +39,21 @@ public class RemoteFileReader extends FileReaderTools{
 			if(isAuthed) {
 				SFTPv3Client sftpClient = new SFTPv3Client(connection);
 				SFTPv3FileHandle sftpHandle = sftpClient.openFileRO(file);
-				byte[] bs = new byte[11];
-				int i =0;
-				long offset = 0;
-				while(i!=-1) {
-					i = sftpClient.read(sftpHandle, offset, bs, 0, bs.length);  
+				
+				
+				byte[] bs = new byte[1];  
+	            int i = 0;  
+	            long offset = 0;  
+	            while(i!=-1){  
+	                i = sftpClient.read(sftpHandle, offset, bs, 0, bs.length);  
 	                offset += i;  
-				}
-				System.out.println(new String(bs));
+	                if(bs[0] == '\n') {
+	                	resultString.append("\r\n");
+	                }else {
+	                	resultString.append(new String(bs));
+	                }
+	            } 
+				return resultString;
 			}else {
 				System.out.println("认证失败");
 				return null;
