@@ -1,4 +1,4 @@
-package Devops.docker.DockerBranch.Controller;
+package Devops.docker.DockerBranch.VO;
 
 public class helloVO {
 	
