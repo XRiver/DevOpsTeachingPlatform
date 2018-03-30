@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="module.test.dao.TestMapper">
+	<!--<cache flushInterval="300000" size="512" type="org.mybatis.caches.memcached.MemcachedCache"/>-->
+
+	<resultMap id="resultMap" type="com.wechat.module.test.model.Test">
+		<id column="id" property="id"/>
+		<id column="name" property="name"/>
+		<id column="age" property="age"/>
+	</resultMap>
+
+
+
+    <select id="selectId" parameterType="java.util.Map" resultMap="resultMap">
+    	select * from test
+
+    	where 1=1
+    	<if test="name!=null">
+    	and name like '%${name}%'
+    	</if>
+    </select>
+
+</mapper>
