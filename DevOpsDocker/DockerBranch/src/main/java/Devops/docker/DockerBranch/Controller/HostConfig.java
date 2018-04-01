@@ -26,13 +26,13 @@ public class HostConfig {
      * 3：docker安装失败
      * 4. 配置完成
      */
-    @RequestMapping(value = "/hostConfig",method = RequestMethod.POST)
+    @RequestMapping(value = "/configHost" ,method = RequestMethod.POST)
     public int hostConfig(@RequestParam String hostname,
                           @RequestParam int opsSystem,
                           @RequestParam String ip,
                           @RequestParam String root,
                           @RequestParam String passwd,
-                          @RequestParam(value="auto" ,defaultValue = "true") boolean autoInstall,
+                          @RequestParam(value="auto" ,defaultValue = "true") String autoInstall,
                           @RequestParam String userId,
                           @RequestParam String projectId){
         return 4;

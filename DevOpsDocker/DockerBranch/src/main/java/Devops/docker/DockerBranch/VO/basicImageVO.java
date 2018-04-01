@@ -6,12 +6,14 @@ package Devops.docker.DockerBranch.VO;
 
 public class basicImageVO {
 
-    private int basicid;
-    private int name;
+    private int basicid;//基础镜像id
+    private String name;//基础镜像名
+    private String shellScript;//对应默认脚本
 
-    public basicImageVO(int basicid, int name) {
+    public basicImageVO(int basicid, String name, String shellScript) {
         this.basicid = basicid;
         this.name = name;
+        this.shellScript = shellScript;
     }
 
     public int getBasicid() {
@@ -22,11 +24,19 @@ public class basicImageVO {
         this.basicid = basicid;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public String getShellScript() {
+        return shellScript;
+    }
+
+    public void setShellScript(String shellScript) {
+        this.shellScript = shellScript;
     }
 }

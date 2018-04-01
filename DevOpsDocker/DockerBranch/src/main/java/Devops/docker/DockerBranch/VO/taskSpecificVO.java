@@ -7,19 +7,19 @@ public class taskSpecificVO {
     private String taskId;
     private String name;
     private String description;
-    private String hostId;
+    private String hostIp;
     private String projectId;
-    private String userId;
+    private String userName;
     private List<imageVO> images;
     private List<containerVO> containers;
 
-    public taskSpecificVO(String taskId, String name, String description, String hostId, String projectId, String userId, List<imageVO> images, List<containerVO> containers) {
+    public taskSpecificVO(String taskId, String name, String description, String hostIp, String projectId, String username, List<imageVO> images, List<containerVO> containers) {
         this.taskId = taskId;
         this.name = name;
         this.description = description;
-        this.hostId = hostId;
+        this.hostIp = hostIp;
         this.projectId = projectId;
-        this.userId = userId;
+        this.userName = username;
         this.images = images;
         this.containers = containers;
     }
@@ -51,12 +51,12 @@ public class taskSpecificVO {
         this.description = description;
     }
 
-    public String getHostId() {
-        return hostId;
+    public String getHostIp() {
+        return hostIp;
     }
 
-    public void setHostId(String hostId) {
-        this.hostId = hostId;
+    public void setHostIp(String hostIp) {
+        this.hostIp = hostIp;
     }
 
     public String getProjectId() {
@@ -67,12 +67,12 @@ public class taskSpecificVO {
         this.projectId = projectId;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public List<imageVO> getImages() {

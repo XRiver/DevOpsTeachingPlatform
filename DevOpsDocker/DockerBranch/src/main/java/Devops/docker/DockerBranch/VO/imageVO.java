@@ -7,11 +7,11 @@ package Devops.docker.DockerBranch.VO;
  */
 public class imageVO {
 
-    private String imageId;
-    private String name;
-    private String path;
-    private String basicImageName;
-    private String shellScript;
+    private String imageId;//镜像id
+    private String name;//镜像名
+    private String path;//镜像组件所在路径
+    private String basicImageName;//基础镜像名
+    private String shellScript;//镜像脚本
 
     public imageVO(String imageId, String name, String path, String basicImageName, String shellScript) {
         this.imageId = imageId;

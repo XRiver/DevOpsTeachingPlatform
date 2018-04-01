@@ -2,20 +2,20 @@ package Devops.docker.DockerBranch.VO;
 
 
 public class hostVO {
-    private String hostId;
-    private String hostname;
-    private String opsSystem;
-    private String ip;
-    private String creator;
-    private String time;
+    private String hostId;//主机id
+    private String hostname;//主机名
+    private String opsSystem;//操作系统版本
+    private String ip;//主机ip
+    private String creator;//创建者姓名
+    private String date;//创建日期
 
-    public hostVO(String hostId, String hostname, String opsSystem, String ip, String creator, String time) {
+    public hostVO(String hostId, String hostname, String opsSystem, String ip, String creator, String date) {
         this.hostId = hostId;
         this.hostname = hostname;
         this.opsSystem = opsSystem;
         this.ip = ip;
         this.creator = creator;
-        this.time = time;
+        this.date = date;
     }
 
     public String getHostId() {
@@ -58,11 +58,11 @@ public class hostVO {
         this.creator = creator;
     }
 
-    public String getTime() {
-        return time;
+    public String getDate() {
+        return date;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDate(String date) {
+        this.date = date;
     }
 }

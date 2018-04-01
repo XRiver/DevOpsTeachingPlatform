@@ -5,16 +5,16 @@ import java.util.List;
 public class containerVO {
 
     private String containerId;//容器id
-    private String creator;
-    private String image;
-    private String time;
+    private String creator;//创建者
+    private String image;//基于的镜像名
+    private String date;//创建日期
     private List<String> containerList;//该容器连接（可访问）的容器id
 
     public containerVO(String containerId, String creator, String image, String time, List<String> containerList) {
         this.containerId = containerId;
         this.creator = creator;
         this.image = image;
-        this.time = time;
+        this.date = time;
         this.containerList = containerList;
     }
 
@@ -42,12 +42,12 @@ public class containerVO {
         this.image = image;
     }
 
-    public String getTime() {
-        return time;
+    public String getDate() {
+        return date;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public List<String> getContainerList() {

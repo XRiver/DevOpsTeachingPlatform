@@ -1,16 +1,16 @@
 package Devops.docker.DockerBranch.VO;
 
 public class taskVO {
-    private String taskId;
-    private String taskName;
-    private String time;
-    private String status;
-    private String creator;
+    private String taskId;//任务id
+    private String taskName;//任务名
+    private String lastDate;//上一次部署日期
+    private String status;//部署成功或部署失败
+    private String creator;//创建者姓名
 
     public taskVO(String taskId, String taskName, String time, String status, String creator) {
         this.taskId = taskId;
         this.taskName = taskName;
-        this.time = time;
+        this.lastDate = time;
         this.status = status;
         this.creator = creator;
     }
@@ -31,12 +31,12 @@ public class taskVO {
         this.taskName = taskName;
     }
 
-    public String getTime() {
-        return time;
+    public String getLastDate() {
+        return lastDate;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setLastDate(String lastDate) {
+        this.lastDate = lastDate;
     }
 
     public String getStatus() {
