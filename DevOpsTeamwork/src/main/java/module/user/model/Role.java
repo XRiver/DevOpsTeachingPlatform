@@ -1,4 +1,4 @@
-package entity;
+package module.user.model;
 
 /**
  * Created by caosh on 2018/4/1.
