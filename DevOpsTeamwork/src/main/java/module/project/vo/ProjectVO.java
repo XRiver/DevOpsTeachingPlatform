@@ -16,4 +16,60 @@ public class ProjectVO {
     private ArrayList<UserVO> managerList;//项目管理者
     private Date create_time;//创建时间
     private Date update_time;//更新时间
+
+    public String getProject_name() {
+        return project_name;
+    }
+
+    public void setProject_name(String project_name) {
+        this.project_name = project_name;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public int getGroup_id() {
+        return group_id;
+    }
+
+    public void setGroup_id(int group_id) {
+        this.group_id = group_id;
+    }
+
+    public ArrayList<UserVO> getManagerList() {
+        return managerList;
+    }
+
+    public void setManagerList(ArrayList<UserVO> managerList) {
+        this.managerList = managerList;
+    }
+
+    public UserVO getCreator() {
+        return creator;
+    }
+
+    public void setCreator(UserVO creator) {
+        this.creator = creator;
+    }
+
+    public Date getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
+    }
+
+    public Date getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(Date update_time) {
+        this.update_time = update_time;
+    }
 }
