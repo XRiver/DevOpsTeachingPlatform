@@ -18,7 +18,7 @@ public class HostConfig {
      * @param root root账号
      * @param passwd root密码
      * @param autoInstall 是否自动安装。true为需要系统安装，false为用户自行安装
-     * @param userId 用户id
+     * @param username 用户名
      * @param projectId 项目id
      * @return
      * 1：连接失败，未能找到服务器
@@ -33,7 +33,7 @@ public class HostConfig {
                           @RequestParam String root,
                           @RequestParam String passwd,
                           @RequestParam(value="auto" ,defaultValue = "true") String autoInstall,
-                          @RequestParam String userId,
+                          @RequestParam String username,
                           @RequestParam String projectId){
         return 4;
     }

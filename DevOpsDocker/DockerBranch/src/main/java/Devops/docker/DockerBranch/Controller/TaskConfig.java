@@ -4,7 +4,9 @@ import Devops.docker.DockerBranch.VO.containerVO;
 import Devops.docker.DockerBranch.VO.imageVO;
 import Devops.docker.DockerBranch.VO.taskSpecificVO;
 import Devops.docker.DockerBranch.VO.taskVO;
+import net.sf.json.JSONArray;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,20 +23,18 @@ public class TaskConfig {
      * @param hostId 主机的id，并非ip
      * @param projectId 项目id
      * @param username 创建者名，而不是数据库里面的id
-     * @param images 镜像们
      * @param containers 容器们
      * @return 任务id
      */
-    @RequestMapping("/createTask")
+    @RequestMapping(value = "/createTask", method = RequestMethod.POST)
     public String createTask(@RequestParam String name,
                              String description,
                              @RequestParam String hostId,
                              @RequestParam String projectId,
                              @RequestParam String username,
-                             @RequestParam List<imageVO> images,
-                             @RequestParam List<containerVO> containers
+                             @RequestParam JSONArray containers
                              ){
-        return null;
+        return "123";
     }
 
     /**
@@ -45,22 +45,20 @@ public class TaskConfig {
      * @param hostId 主机的id，并非ip
      * @param projectId 项目id
      * @param username 创建者名，而不是数据库里面的id
-     * @param images 镜像们
      * @param containers 容器们
      * @return 任务id
      */
-    @RequestMapping("/configTask")
+    @RequestMapping(value = "/configTask",method = RequestMethod.POST)
     public String configTask(@RequestParam String taskId,
                              @RequestParam String name,
                              String description,
                              @RequestParam String hostId,
                              @RequestParam String projectId,
                              @RequestParam String username,
-                             @RequestParam List<imageVO> images,
-                             @RequestParam List<containerVO> containers
+                             @RequestParam JSONArray containers
                              ){
 
-        return null;
+        return "123";
     }
 
     /**
@@ -96,10 +94,9 @@ public class TaskConfig {
         List<String> conlist = new ArrayList<>();
         conlist.add("lalala");
         conlist.add("hahaha");
-        containerVO containerVO = new containerVO("123","xiong","123","123",conlist);
+        containerVO containerVO = new containerVO("123","xiong","123","123","3306","2014/12/01",conlist);
         list.add(imageVO);
         containerVOList.add(containerVO);
-        vo.setImages(list);
         vo.setContainers(containerVOList);
         return vo;
     }

@@ -10,17 +10,15 @@ public class taskSpecificVO {
     private String hostIp;
     private String projectId;
     private String userName;
-    private List<imageVO> images;
     private List<containerVO> containers;
 
-    public taskSpecificVO(String taskId, String name, String description, String hostIp, String projectId, String username, List<imageVO> images, List<containerVO> containers) {
+    public taskSpecificVO(String taskId, String name, String description, String hostIp, String projectId, String username, List<containerVO> containers) {
         this.taskId = taskId;
         this.name = name;
         this.description = description;
         this.hostIp = hostIp;
         this.projectId = projectId;
         this.userName = username;
-        this.images = images;
         this.containers = containers;
     }
 
@@ -73,14 +71,6 @@ public class taskSpecificVO {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public List<imageVO> getImages() {
-        return images;
-    }
-
-    public void setImages(List<imageVO> images) {
-        this.images = images;
     }
 
     public List<containerVO> getContainers() {
