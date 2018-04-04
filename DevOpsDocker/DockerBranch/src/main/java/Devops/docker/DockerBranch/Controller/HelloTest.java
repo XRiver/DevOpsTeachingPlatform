@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import Devops.docker.DockerBranch.FileOperator.FileOperateFacInstance;
+import Devops.docker.DockerBranch.FileOperator.FileOperateFactory;
+import Devops.docker.DockerBranch.FileOperator.FileWriterTools;
 import Devops.docker.DockerBranch.FileOperator.RemoteFileReader;
 import Devops.docker.DockerBranch.FileOperator.RemoteFileWriter;
 import Devops.docker.DockerBranch.RemoteConnection.FileTransport;
@@ -28,8 +31,9 @@ public class HelloTest {
 //		name = st.toString();
 //		System.out.println(name);
 		
-		RemoteFileWriter test = new RemoteFileWriter();
-		StringBuilder t = new StringBuilder("how to solve!!   \r\n   look up on web!!");
+		FileOperateFacInstance a = new FileOperateFacInstance();
+		FileWriterTools test = a.getWriter(true);
+		StringBuilder t = new StringBuilder("how to solve!!   \r\n   look up on web!!  \r\n  test the factory!!!");
 		System.out.println(test.WriteFile("/home/ubuntu/", "test", "sh", t));
 		
 		return new helloVO(counter.incrementAndGet(),
