@@ -7,17 +7,12 @@ import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.SFTPv3Client;
 import ch.ethz.ssh2.SFTPv3FileHandle;
 
-public class RemoteFileReader extends FileReaderTools{
-
-	public RemoteFileReader(String Path, String FileName, String FileType) {
-		super(Path, FileName, FileType);
-		// TODO Auto-generated constructor stub
-	}
+public class RemoteFileWriter extends FileWriterTools{
 
 	@Override
-	public StringBuilder ReadFile(String Path, String FileName, String FileType) {
+	public boolean WriteFile(String Path, String FileName, String FileType, StringBuilder containt) {
 		// TODO Auto-generated method stub
-		StringBuilder resultString = new StringBuilder();
+		
 		//这里的填写配置文件相关的读远程linux文件的IP、Port、Username、Password
 		String HostIP = "119.29.88.207";
 		int HostPort = 22;
@@ -32,38 +27,31 @@ public class RemoteFileReader extends FileReaderTools{
 		if(FileType!=null) {
 			file = file + "."+FileType;
 		}
+		
 		try {
 			connection.connect();
 			boolean isAuthed = connection.authenticateWithPassword(sign.getUSER(), sign.getPASSWORD());
+			
 			if(isAuthed) {
 				SFTPv3Client sftpClient = new SFTPv3Client(connection);
-				SFTPv3FileHandle sftpHandle = sftpClient.openFileRO(file);
+				SFTPv3FileHandle sftpHandle = sftpClient.openFileRW(file);
 				
+				byte[] bs = containt.toString().getBytes();
+				int length = bs.length;
+				long offset = 0;
 				
-				byte[] bs = new byte[1];  
-	            int i = 0;  
-	            long offset = 0;  
-	            while(i!=-1){  
-	                i = sftpClient.read(sftpHandle, offset, bs, 0, bs.length);  
-	                offset += i;  
-	                if(bs[0] == '\n') {
-	                	resultString.append("\r\n");
-	                }else {
-	                	resultString.append(new String(bs));
-	                }
-	            } 
-	            connection.close();
-				return resultString;
+				sftpClient.write(sftpHandle, offset, bs, 0, length);
+				
+				return true;
 			}else {
 				System.out.println("认证失败");
-				return null;
+				return false;
 			}
-		}catch (IOException e) {
-			// TODO: handle exception
+		}catch(IOException e) {
 			e.printStackTrace();
 		}
-				
-		return null;
+		
+		return false;
 	}
 
 }
