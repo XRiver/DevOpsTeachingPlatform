@@ -6,7 +6,7 @@ import java.util.Objects;
 @Entity
 public class Basicimage {
 
-    private int basicId;
+    private int basicid;
     private String name;
     private String shellScript;
 
@@ -16,11 +16,11 @@ public class Basicimage {
     @GeneratedValue(strategy=GenerationType.TABLE,generator="tableGenerator")
     @TableGenerator(name="tableGenerator",initialValue=0,allocationSize=1)
     public int getBasicId() {
-        return basicId;
+        return basicid;
     }
 
     public void setBasicId(int basicId) {
-        this.basicId = basicId;
+        this.basicid = basicId;
     }
 
     @Basic
@@ -48,7 +48,7 @@ public class Basicimage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Basicimage that = (Basicimage) o;
-        return basicId == that.basicId &&
+        return basicid == that.basicid &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(shellScript, that.shellScript);
     }
@@ -56,6 +56,6 @@ public class Basicimage {
     @Override
     public int hashCode() {
 
-        return Objects.hash(basicId, name, shellScript);
+        return Objects.hash(basicid, name, shellScript);
     }
 }

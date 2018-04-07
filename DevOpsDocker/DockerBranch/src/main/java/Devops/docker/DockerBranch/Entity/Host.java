@@ -12,7 +12,7 @@ public class Host {
     private String password;
     private String creator;
     private String projectid;
-    private String createdDate;
+    private String date;
     private String opsSystem;
 
     @Id
@@ -89,12 +89,12 @@ public class Host {
 
     @Basic
     @Column(name = "created_Date", nullable = true, length = 20)
-    public String getCreatedDate() {
-        return createdDate;
+    public String getDate() {
+        return date;
     }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
+    public void setDate(String createdDate) {
+        this.date = createdDate;
     }
 
     @Basic
@@ -119,13 +119,13 @@ public class Host {
                 Objects.equals(password, host.password) &&
                 Objects.equals(creator, host.creator) &&
                 Objects.equals(projectid, host.projectid) &&
-                Objects.equals(createdDate, host.createdDate) &&
+                Objects.equals(date, host.date) &&
                 Objects.equals(opsSystem, host.opsSystem);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(hostId, hostname, ip, root, password, creator, projectid, createdDate, opsSystem);
+        return Objects.hash(hostId, hostname, ip, root, password, creator, projectid, date, opsSystem);
     }
 }
