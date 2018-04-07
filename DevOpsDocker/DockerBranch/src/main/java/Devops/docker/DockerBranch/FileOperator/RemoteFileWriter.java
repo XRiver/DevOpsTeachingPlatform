@@ -42,6 +42,7 @@ public class RemoteFileWriter extends FileWriterTools{
 				
 				sftpClient.write(sftpHandle, offset, bs, 0, length);
 				
+				connection.close();
 				return true;
 			}else {
 				System.out.println("认证失败");
