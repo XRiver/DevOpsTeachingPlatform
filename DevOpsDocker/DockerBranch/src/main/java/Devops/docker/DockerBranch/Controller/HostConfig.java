@@ -1,14 +1,19 @@
 package Devops.docker.DockerBranch.Controller;
 
+import Devops.docker.DockerBranch.Entity.Basicimage;
+import Devops.docker.DockerBranch.Service.Test;
+import Devops.docker.DockerBranch.dao.testLink;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.Console;
-
 @RestController
 public class HostConfig {
+
+    @Autowired
+    Test test;
 
     /**
      *
@@ -35,7 +40,12 @@ public class HostConfig {
                           @RequestParam(value="auto" ,defaultValue = "true") String autoInstall,
                           @RequestParam String username,
                           @RequestParam String projectId){
-        return 4;
+
+        Basicimage image = new Basicimage();
+        image.setName("123");
+        image.setShellScript("angle");
+        test.save(image);
+        return 1;
     }
 
 }

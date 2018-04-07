@@ -1,13 +1,11 @@
-package Devops.docker.DockerBranch.db;
+package Devops.docker.DockerBranch.Entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Task {
+
     private int taskId;
     private String name;
     private String description;
@@ -19,7 +17,9 @@ public class Task {
     private String software;
 
     @Id
-    @Column(name = "taskId")
+    @Column(name = "task_Id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.TABLE,generator="tableGenerator")
+    @TableGenerator(name="tableGenerator",initialValue=0,allocationSize=1)
     public int getTaskId() {
         return taskId;
     }
@@ -29,7 +29,7 @@ public class Task {
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = true, length = 30)
     public String getName() {
         return name;
     }
@@ -39,7 +39,7 @@ public class Task {
     }
 
     @Basic
-    @Column(name = "description")
+    @Column(name = "description", nullable = true, length = 300)
     public String getDescription() {
         return description;
     }
@@ -49,7 +49,7 @@ public class Task {
     }
 
     @Basic
-    @Column(name = "hostId")
+    @Column(name = "host_Id", nullable = true)
     public Integer getHostId() {
         return hostId;
     }
@@ -59,7 +59,7 @@ public class Task {
     }
 
     @Basic
-    @Column(name = "projectId")
+    @Column(name = "project_Id", nullable = true, length = 20)
     public String getProjectId() {
         return projectId;
     }
@@ -69,7 +69,7 @@ public class Task {
     }
 
     @Basic
-    @Column(name = "creator")
+    @Column(name = "creator", nullable = true, length = 20)
     public String getCreator() {
         return creator;
     }
@@ -79,7 +79,7 @@ public class Task {
     }
 
     @Basic
-    @Column(name = "lastDate")
+    @Column(name = "last_Date", nullable = true, length = 20)
     public String getLastDate() {
         return lastDate;
     }
@@ -89,7 +89,7 @@ public class Task {
     }
 
     @Basic
-    @Column(name = "status")
+    @Column(name = "status", nullable = true, length = 20)
     public String getStatus() {
         return status;
     }
@@ -99,7 +99,7 @@ public class Task {
     }
 
     @Basic
-    @Column(name = "software")
+    @Column(name = "software", nullable = true, length = 30)
     public String getSoftware() {
         return software;
     }

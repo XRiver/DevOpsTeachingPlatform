@@ -1,19 +1,20 @@
-package Devops.docker.DockerBranch.db;
+package Devops.docker.DockerBranch.Entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Basicimage {
+
     private int basicId;
     private String name;
     private String shellScript;
 
+
     @Id
-    @Column(name = "basicId")
+    @Column(name = "basic_Id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.TABLE,generator="tableGenerator")
+    @TableGenerator(name="tableGenerator",initialValue=0,allocationSize=1)
     public int getBasicId() {
         return basicId;
     }
@@ -23,7 +24,7 @@ public class Basicimage {
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = true, length = 20)
     public String getName() {
         return name;
     }
@@ -33,7 +34,7 @@ public class Basicimage {
     }
 
     @Basic
-    @Column(name = "shellScript")
+    @Column(name = "shell_Script", nullable = true, length = 1000)
     public String getShellScript() {
         return shellScript;
     }

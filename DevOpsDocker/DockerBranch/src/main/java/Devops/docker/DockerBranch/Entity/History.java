@@ -1,9 +1,6 @@
-package Devops.docker.DockerBranch.db;
+package Devops.docker.DockerBranch.Entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -16,7 +13,9 @@ public class History {
     private Integer taskId;
 
     @Id
-    @Column(name = "historyId")
+    @Column(name = "history_Id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.TABLE,generator="tableGenerator")
+    @TableGenerator(name="tableGenerator",initialValue=0,allocationSize=1)
     public int getHistoryId() {
         return historyId;
     }
@@ -26,7 +25,7 @@ public class History {
     }
 
     @Basic
-    @Column(name = "operator")
+    @Column(name = "operator", nullable = true, length = 20)
     public String getOperator() {
         return operator;
     }
@@ -36,7 +35,7 @@ public class History {
     }
 
     @Basic
-    @Column(name = "date")
+    @Column(name = "date", nullable = true, length = 20)
     public String getDate() {
         return date;
     }
@@ -46,7 +45,7 @@ public class History {
     }
 
     @Basic
-    @Column(name = "status")
+    @Column(name = "status", nullable = true, length = 10)
     public String getStatus() {
         return status;
     }
@@ -56,7 +55,7 @@ public class History {
     }
 
     @Basic
-    @Column(name = "time")
+    @Column(name = "time", nullable = true, length = 20)
     public String getTime() {
         return time;
     }
@@ -66,7 +65,7 @@ public class History {
     }
 
     @Basic
-    @Column(name = "taskId")
+    @Column(name = "task_Id", nullable = true)
     public Integer getTaskId() {
         return taskId;
     }

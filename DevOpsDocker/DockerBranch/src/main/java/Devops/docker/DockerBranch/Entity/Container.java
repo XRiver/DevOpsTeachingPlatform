@@ -1,9 +1,6 @@
-package Devops.docker.DockerBranch.db;
+package Devops.docker.DockerBranch.Entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -17,7 +14,9 @@ public class Container {
     private Integer taskId;
 
     @Id
-    @Column(name = "containerId")
+    @Column(name = "container_Id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.TABLE,generator="tableGenerator")
+    @TableGenerator(name="tableGenerator",initialValue=0,allocationSize=1)
     public int getContainerId() {
         return containerId;
     }
@@ -27,7 +26,7 @@ public class Container {
     }
 
     @Basic
-    @Column(name = "creator")
+    @Column(name = "creator", nullable = true, length = 20)
     public String getCreator() {
         return creator;
     }
@@ -37,7 +36,7 @@ public class Container {
     }
 
     @Basic
-    @Column(name = "image")
+    @Column(name = "image", nullable = true, length = 20)
     public String getImage() {
         return image;
     }
@@ -47,7 +46,7 @@ public class Container {
     }
 
     @Basic
-    @Column(name = "path")
+    @Column(name = "path", nullable = true, length = 30)
     public String getPath() {
         return path;
     }
@@ -57,7 +56,7 @@ public class Container {
     }
 
     @Basic
-    @Column(name = "port")
+    @Column(name = "port", nullable = true, length = 20)
     public String getPort() {
         return port;
     }
@@ -67,7 +66,7 @@ public class Container {
     }
 
     @Basic
-    @Column(name = "date")
+    @Column(name = "date", nullable = true, length = 20)
     public String getDate() {
         return date;
     }
@@ -77,7 +76,7 @@ public class Container {
     }
 
     @Basic
-    @Column(name = "taskId")
+    @Column(name = "task_Id", nullable = true)
     public Integer getTaskId() {
         return taskId;
     }

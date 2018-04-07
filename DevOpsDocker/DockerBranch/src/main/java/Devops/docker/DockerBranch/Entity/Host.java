@@ -1,9 +1,6 @@
-package Devops.docker.DockerBranch.db;
+package Devops.docker.DockerBranch.Entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -19,7 +16,9 @@ public class Host {
     private String opsSystem;
 
     @Id
-    @Column(name = "hostId")
+    @Column(name = "host_Id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.TABLE,generator="tableGenerator")
+    @TableGenerator(name="tableGenerator",initialValue=0,allocationSize=1)
     public int getHostId() {
         return hostId;
     }
@@ -29,7 +28,7 @@ public class Host {
     }
 
     @Basic
-    @Column(name = "hostname")
+    @Column(name = "hostname", nullable = true, length = 30)
     public String getHostname() {
         return hostname;
     }
@@ -39,7 +38,7 @@ public class Host {
     }
 
     @Basic
-    @Column(name = "ip")
+    @Column(name = "ip", nullable = true, length = 20)
     public String getIp() {
         return ip;
     }
@@ -49,7 +48,7 @@ public class Host {
     }
 
     @Basic
-    @Column(name = "root")
+    @Column(name = "root", nullable = true, length = 20)
     public String getRoot() {
         return root;
     }
@@ -59,7 +58,7 @@ public class Host {
     }
 
     @Basic
-    @Column(name = "password")
+    @Column(name = "password", nullable = true, length = 20)
     public String getPassword() {
         return password;
     }
@@ -69,7 +68,7 @@ public class Host {
     }
 
     @Basic
-    @Column(name = "creator")
+    @Column(name = "creator", nullable = true, length = 20)
     public String getCreator() {
         return creator;
     }
@@ -79,7 +78,7 @@ public class Host {
     }
 
     @Basic
-    @Column(name = "projectid")
+    @Column(name = "projectid", nullable = true, length = 20)
     public String getProjectid() {
         return projectid;
     }
@@ -89,7 +88,7 @@ public class Host {
     }
 
     @Basic
-    @Column(name = "createdDate")
+    @Column(name = "created_Date", nullable = true, length = 20)
     public String getCreatedDate() {
         return createdDate;
     }
@@ -99,7 +98,7 @@ public class Host {
     }
 
     @Basic
-    @Column(name = "opsSystem")
+    @Column(name = "ops_System", nullable = true, length = 20)
     public String getOpsSystem() {
         return opsSystem;
     }
