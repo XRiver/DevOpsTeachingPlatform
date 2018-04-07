@@ -15,6 +15,9 @@ public class deployHistoryVO {
         this.time = time;
     }
 
+    public deployHistoryVO() {
+    }
+
     public String getHistoryId() {
         return historyId;
     }

@@ -6,7 +6,7 @@ import java.util.Objects;
 @Entity
 public class History {
     private int historyId;
-    private String operator;
+    private String operatorName;
     private String date;
     private String status;
     private String time;
@@ -25,13 +25,13 @@ public class History {
     }
 
     @Basic
-    @Column(name = "operator", nullable = true, length = 20)
-    public String getOperator() {
-        return operator;
+    @Column(name = "operator_Name", nullable = true, length = 20)
+    public String getOperatorName() {
+        return operatorName;
     }
 
-    public void setOperator(String operator) {
-        this.operator = operator;
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
     }
 
     @Basic
@@ -80,7 +80,7 @@ public class History {
         if (o == null || getClass() != o.getClass()) return false;
         History history = (History) o;
         return historyId == history.historyId &&
-                Objects.equals(operator, history.operator) &&
+                Objects.equals(operatorName, history.operatorName) &&
                 Objects.equals(date, history.date) &&
                 Objects.equals(status, history.status) &&
                 Objects.equals(time, history.time) &&
@@ -90,6 +90,6 @@ public class History {
     @Override
     public int hashCode() {
 
-        return Objects.hash(historyId, operator, date, status, time, taskId);
+        return Objects.hash(historyId, operatorName, date, status, time, taskId);
     }
 }

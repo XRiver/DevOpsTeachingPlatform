@@ -43,10 +43,12 @@ public class HostConfig {
                           @RequestParam String projectId){
 
         Container image = new Container();
+
+        image.setContainerId(2);
         image.setCreator("123");
         image.setDate("12:12:12");
         image.setImage("tomcat");
-        image.setPath("/user/psr");
+        image.setPath("/user/sta");
         image.setPort("8080");
         image.setTaskId(1);
         test.save(image);

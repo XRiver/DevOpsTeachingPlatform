@@ -1,9 +1,11 @@
 package Devops.docker.DockerBranch.Controller;
 
+import Devops.docker.DockerBranch.Service.impl.TestImpl;
 import Devops.docker.DockerBranch.VO.deployHistoryVO;
 import Devops.docker.DockerBranch.VO.deployInfoVO;
 import Devops.docker.DockerBranch.VO.deployStatusVO;
 import Devops.docker.DockerBranch.VO.hostVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,11 +16,13 @@ import java.util.List;
 @RestController
 public class DeployStatus {
 
+    @Autowired
+    TestImpl test;
+
     @RequestMapping("/getHistory")
     public List<deployHistoryVO> getHistory(@RequestParam String taskid){
         List<deployHistoryVO> list = new ArrayList<>();
-        deployHistoryVO vo = new deployHistoryVO("123","xiong","2012:12:12","success","2012:12:12");
-        list.add(vo);
+        list.add(test.getHistoryVO());
         return list;
     }
 
