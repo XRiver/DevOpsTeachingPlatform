@@ -5,3 +5,4 @@ DevOpsDocker/.idea/compiler.xml
 DevOpsDocker/.idea/DevOpsDocker.iml
 *.xml
 *.xml
+DevOpsDocker/DockerBranch/src/main/resources/application.properties

@@ -13,6 +13,7 @@ import Devops.docker.DockerBranch.FileOperator.FileWriterTools;
 import Devops.docker.DockerBranch.FileOperator.RemoteFileReader;
 import Devops.docker.DockerBranch.FileOperator.RemoteFileWriter;
 import Devops.docker.DockerBranch.RemoteConnection.FileTransport;
+import Devops.docker.DockerBranch.RemoteConnection.RemoteExecuteCommand;
 
 @RestController
 public class HelloTest {
@@ -31,13 +32,17 @@ public class HelloTest {
 //		name = st.toString();
 //		System.out.println(name);
 		
-		FileOperateFacInstance a = new FileOperateFacInstance();
-		FileWriterTools test = a.getWriter(true);
-		StringBuilder t = new StringBuilder("how to solve!!   \r\n   look up on web!!  \r\n  test the factory!!!");
-		System.out.println(test.WriteFile("/home/ubuntu/", "test", "sh", t));
+//		FileOperateFacInstance a = new FileOperateFacInstance();
+//		FileWriterTools test = a.getWriter(true);
+//		StringBuilder t = new StringBuilder("how to solve!!   \r\n   look up on web!!  \r\n  test the factory!!!");
+//		System.out.println(test.WriteFile("/home/ubuntu/", "test", "sh", t));
+		
+		RemoteExecuteCommand t = new RemoteExecuteCommand();
+		StringBuilder r = t.ExecCommand(new StringBuilder("ls -l"));
+		System.out.println(r.toString());
 		
 		return new helloVO(counter.incrementAndGet(),
-                String.format(template, name));
+                String.format(template, r.toString()));
 	}
 	
 }
