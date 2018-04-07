@@ -1,7 +1,7 @@
 package Devops.docker.DockerBranch.Service;
 
-import Devops.docker.DockerBranch.Entity.Basicimage;
+import Devops.docker.DockerBranch.Entity.Container;
 
 public interface Test {
-    public void save(Basicimage image);
+    public void save(Container image);
 }

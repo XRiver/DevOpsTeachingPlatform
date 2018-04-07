@@ -1,19 +1,20 @@
 package Devops.docker.DockerBranch.dao;
 
 import Devops.docker.DockerBranch.Entity.Basicimage;
+import Devops.docker.DockerBranch.Entity.Container;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface testLink extends JpaRepository<Basicimage, Long> {
+public interface testLink extends JpaRepository<Container, Long> {
 
     @Override
-    List<Basicimage> findAll();
+    List<Container> findAll();
 
     @Override
-    Basicimage save(Basicimage image);
+    Container save(Container image);
 
     @Override
     void flush();

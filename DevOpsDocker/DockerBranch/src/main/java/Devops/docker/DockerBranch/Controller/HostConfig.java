@@ -1,6 +1,7 @@
 package Devops.docker.DockerBranch.Controller;
 
 import Devops.docker.DockerBranch.Entity.Basicimage;
+import Devops.docker.DockerBranch.Entity.Container;
 import Devops.docker.DockerBranch.Service.Test;
 import Devops.docker.DockerBranch.dao.testLink;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,13 @@ public class HostConfig {
                           @RequestParam String username,
                           @RequestParam String projectId){
 
-        Basicimage image = new Basicimage();
-        image.setName("123");
-        image.setShellScript("angle");
+        Container image = new Container();
+        image.setCreator("123");
+        image.setDate("12:12:12");
+        image.setImage("tomcat");
+        image.setPath("/user/psr");
+        image.setPort("8080");
+        image.setTaskId(1);
         test.save(image);
         return 1;
     }

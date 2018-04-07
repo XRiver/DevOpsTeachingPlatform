@@ -1,6 +1,7 @@
 package Devops.docker.DockerBranch.Service.impl;
 
 import Devops.docker.DockerBranch.Entity.Basicimage;
+import Devops.docker.DockerBranch.Entity.Container;
 import Devops.docker.DockerBranch.Service.Test;
 import Devops.docker.DockerBranch.dao.testLink;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class TestImpl implements Test{
     }
 
     @Override
-    public void save(Basicimage image) {
+    public void save(Container image) {
         link.save(image);
     }
 }
