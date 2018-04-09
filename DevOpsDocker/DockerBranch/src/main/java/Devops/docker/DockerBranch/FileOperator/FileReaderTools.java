@@ -21,6 +21,13 @@ public abstract class FileReaderTools {
 		this.Path = Path;
 	}
 	
+	/**
+	 * 读取文件里面的内容
+	 * @param Path 文件的路径
+	 * @param FileName 文件的名字
+	 * @param FileType 文件的类型（后缀）
+	 * @return StringBuilder 将文件内容读取，存在SpringBuilder里
+	 * */
 	public abstract StringBuilder ReadFile(String Path,String FileName,String FileType);
 	
 

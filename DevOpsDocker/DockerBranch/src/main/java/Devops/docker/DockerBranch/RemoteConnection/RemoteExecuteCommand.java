@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
@@ -66,6 +67,7 @@ public class RemoteExecuteCommand {
 				return returnResult;
 			}else {
 				System.out.println("认证失败");
+				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
 			}
 		}catch (IOException e) {
 			// TODO: handle exception

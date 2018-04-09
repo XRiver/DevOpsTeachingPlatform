@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import Devops.docker.DockerBranch.Exception.FileOperateException;
+import Devops.docker.DockerBranch.Exception.RemoteOperateException;
+import Devops.docker.DockerBranch.FileOperator.FileDeleteTools;
 import Devops.docker.DockerBranch.FileOperator.FileOperateFacInstance;
 import Devops.docker.DockerBranch.FileOperator.FileOperateFactory;
 import Devops.docker.DockerBranch.FileOperator.FileWriterTools;
@@ -37,12 +40,24 @@ public class HelloTest {
 //		StringBuilder t = new StringBuilder("how to solve!!   \r\n   look up on web!!  \r\n  test the factory!!!");
 //		System.out.println(test.WriteFile("/home/ubuntu/", "test", "sh", t));
 		
-		RemoteExecuteCommand t = new RemoteExecuteCommand();
-		StringBuilder r = t.ExecCommand(new StringBuilder("ls -l"));
-		System.out.println(r.toString());
+//		RemoteExecuteCommand t = new RemoteExecuteCommand();
+//		StringBuilder r = t.ExecCommand(new StringBuilder("ls -l"));
+//		System.out.println(r.toString());
+		
+		FileOperateFacInstance a = new FileOperateFacInstance();
+		FileDeleteTools d = a.getDelete(true);
+		try {
+			d.DeleteFile("/home/ubuntu/", "tt", "test");
+		} catch (RemoteOperateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileOperateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return new helloVO(counter.incrementAndGet(),
-                String.format(template, r.toString()));
+                String.format(template, name));
 	}
 	
 }

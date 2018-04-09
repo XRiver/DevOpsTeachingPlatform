@@ -2,6 +2,7 @@ package Devops.docker.DockerBranch.FileOperator;
 
 import java.io.IOException;
 
+import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.SFTPv3Client;
@@ -56,7 +57,7 @@ public class RemoteFileReader extends FileReaderTools{
 				return resultString;
 			}else {
 				System.out.println("认证失败");
-				return null;
+				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
 			}
 		}catch (IOException e) {
 			// TODO: handle exception
