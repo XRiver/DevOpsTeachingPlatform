@@ -1,6 +1,6 @@
 package module.user.service;
 
-import module.user.vo.UserVO;
+import module.VO.UserVO;
 
 /**
  * Created by caosh on 2018/4/9.

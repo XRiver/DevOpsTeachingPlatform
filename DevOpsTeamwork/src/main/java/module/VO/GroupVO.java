@@ -1,6 +1,4 @@
-package module.group.vo;
-
-import module.user.vo.UserVO;
+package module.VO;
 
 import java.util.ArrayList;
 import java.util.Date;

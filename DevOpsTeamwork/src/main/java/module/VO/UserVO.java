@@ -1,4 +1,4 @@
-package module.user.vo;
+package module.VO;
 
 import module.user.model.Role;
 
