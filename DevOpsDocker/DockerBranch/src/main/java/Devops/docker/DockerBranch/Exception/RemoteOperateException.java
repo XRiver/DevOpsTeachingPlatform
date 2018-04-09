@@ -7,7 +7,6 @@ package Devops.docker.DockerBranch.Exception;
  * 文件远程操作的自定义异常类
  * 
  * */
-public class RemoteOperateException extends RuntimeException{
 public class RemoteOperateException extends Exception{
 	
 	private static final long serialVersionUID = 1L;
