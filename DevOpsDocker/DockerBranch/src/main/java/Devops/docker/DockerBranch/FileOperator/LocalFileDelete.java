@@ -17,15 +17,15 @@ public class LocalFileDelete extends FileDeleteTools{
 		File ffile = new File(file);
 		
 		if(!ffile.exists())
-			throw new FileOperateException(file + ":不存在！！");
+			throw new FileOperateException("0",file + ":不存在！！");
 		
 		if(!ffile.isFile())
-			throw new FileOperateException(file + ":不是文件");
+			throw new FileOperateException("1",file + ":不是一个文件");
 		
 		if(ffile.delete()) {
 			return true;
 		}else {
-			throw new FileOperateException(file + "删除失败，请检查是否有进程占用");
+			throw new FileOperateException("2",file + "删除失败，请检查是否有进程占用");
 		}
 	}
 
@@ -38,14 +38,14 @@ public class LocalFileDelete extends FileDeleteTools{
 			file = new File(filePath);
 			
 			if(!file.exists())
-				throw new FileOperateException(filePath + ":不存在！！");
+				throw new FileOperateException("0",filePath + ":不存在！！");
 			
 			if(!file.isFile())
-				throw new FileOperateException(filePath + ":不是文件");
+				throw new FileOperateException("1",filePath + ":不是一个文件");
 			
 			if(file.delete()) {
 			}else {
-				throw new FileOperateException(filePath + "删除失败，请检查是否有进程占用");
+				throw new FileOperateException("2",filePath + "删除失败，请检查是否有进程占用");
 			}
 			
 		}
@@ -60,15 +60,15 @@ public class LocalFileDelete extends FileDeleteTools{
 		File dirFile = new File(Path+DirName);
 		
 		if(!dirFile.exists())
-			throw new FileOperateException(Path+DirName + ":不存在！！");
+			throw new FileOperateException("0",Path+DirName + ":不存在！！");
 		
 		if(!dirFile.isDirectory())
-			throw new FileOperateException(Path+DirName + ":不是文件夹");
+			throw new FileOperateException("1",Path+DirName + ":不是一个文件夹");
 		
 		if(dirFile.delete()) {
 			return true;
 		}else {
-			throw new FileOperateException(Path+DirName + "删除失败，请检查是否有进程占用");
+			throw new FileOperateException("3",Path+DirName + "删除失败，请检查是否有进程占用");
 		}
 	}
 

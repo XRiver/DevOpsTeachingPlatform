@@ -11,7 +11,8 @@ import ch.ethz.ssh2.SFTPv3FileHandle;
 public class RemoteFileWriter extends FileWriterTools{
 
 	@Override
-	public boolean WriteFile(String Path, String FileName, String FileType, StringBuilder containt) {
+	public boolean WriteFile(String Path, String FileName, String FileType, StringBuilder containt) 
+			throws RemoteOperateException, IOException {
 		// TODO Auto-generated method stub
 		
 		//这里的填写配置文件相关的读远程linux文件的IP、Port、Username、Password
@@ -47,13 +48,14 @@ public class RemoteFileWriter extends FileWriterTools{
 				return true;
 			}else {
 				System.out.println("认证失败");
+				connection.close();
 				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
 			}
-		}catch(IOException e) {
-			e.printStackTrace();
+		}catch (IOException e) {
+			// TODO: handle exception
+			connection.close();
+			throw e;
 		}
-		
-		return false;
 	}
 
 }

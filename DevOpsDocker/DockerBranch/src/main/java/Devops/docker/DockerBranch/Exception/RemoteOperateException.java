@@ -8,6 +8,7 @@ package Devops.docker.DockerBranch.Exception;
  * 
  * */
 public class RemoteOperateException extends RuntimeException{
+public class RemoteOperateException extends Exception{
 	
 	private static final long serialVersionUID = 1L;
 	

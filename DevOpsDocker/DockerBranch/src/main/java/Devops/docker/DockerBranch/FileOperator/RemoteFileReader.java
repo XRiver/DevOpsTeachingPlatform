@@ -16,7 +16,8 @@ public class RemoteFileReader extends FileReaderTools{
 	}
 
 	@Override
-	public StringBuilder ReadFile(String Path, String FileName, String FileType) {
+	public StringBuilder ReadFile(String Path, String FileName, String FileType) 
+			throws IOException, RemoteOperateException {
 		// TODO Auto-generated method stub
 		StringBuilder resultString = new StringBuilder();
 		//这里的填写配置文件相关的读远程linux文件的IP、Port、Username、Password
@@ -33,6 +34,7 @@ public class RemoteFileReader extends FileReaderTools{
 		if(FileType!=null) {
 			file = file + "."+FileType;
 		}
+		
 		try {
 			connection.connect();
 			boolean isAuthed = connection.authenticateWithPassword(sign.getUSER(), sign.getPASSWORD());
@@ -42,29 +44,29 @@ public class RemoteFileReader extends FileReaderTools{
 				
 				
 				byte[] bs = new byte[1];  
-	            int i = 0;  
-	            long offset = 0;  
-	            while(i!=-1){  
-	                i = sftpClient.read(sftpHandle, offset, bs, 0, bs.length);  
-	                offset += i;  
-	                if(bs[0] == '\n') {
-	                	resultString.append("\r\n");
-	                }else {
-	                	resultString.append(new String(bs));
-	                }
-	            } 
-	            connection.close();
-				return resultString;
+		        int i = 0;  
+		        long offset = 0;  
+		        while(i!=-1){  
+		        	i = sftpClient.read(sftpHandle, offset, bs, 0, bs.length);  
+		            offset += i;  
+		            if(bs[0] == '\n') {
+		            	resultString.append("\r\n");
+		            }else {
+		                resultString.append(new String(bs));
+		            }
+		        } 
+		        connection.close();
+		        return resultString;
 			}else {
 				System.out.println("认证失败");
+				connection.close();
 				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
 			}
 		}catch (IOException e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			connection.close();
+			throw e;
 		}
-				
-		return null;
 	}
 
 }

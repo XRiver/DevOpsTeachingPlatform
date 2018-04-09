@@ -10,7 +10,8 @@ import ch.ethz.ssh2.SFTPv3Client;
 public class RemoteFileDelete extends FileDeleteTools{
 
 	@Override
-	public boolean DeleteFile(String Path, String FileName, String FileType) {
+	public boolean DeleteFile(String Path, String FileName, String FileType) 
+			throws RemoteOperateException, IOException {
 		// TODO Auto-generated method stub
 		
 		RemoteSignIn sign = getTheConnection();
@@ -25,8 +26,10 @@ public class RemoteFileDelete extends FileDeleteTools{
 			con.connect();
 			boolean isAuthed = con.authenticateWithPassword(sign.getUSER(), sign.getPASSWORD());
 			
-			if(!isAuthed)
+			if(!isAuthed) {
+				con.close();
 				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
+			}
 			
 			SFTPv3Client sftpClient = new SFTPv3Client(con);
 			sftpClient.rm(file);
@@ -35,18 +38,13 @@ public class RemoteFileDelete extends FileDeleteTools{
 			
 		}catch (IOException e) {
 			// TODO: handle exception
-			System.out.println("************文件:" + file + "不存在!************"); 
-			e.printStackTrace();
-			
-		}finally {
 			con.close();
+			throw e;
 		}
-		
-		return false;
 	}
 
 	@Override
-	public boolean DeleteFiles(String[] filePaths) {
+	public boolean DeleteFiles(String[] filePaths) throws RemoteOperateException, IOException {
 		// TODO Auto-generated method stub
 		RemoteSignIn sign = getTheConnection();
 		Connection con = sign.getConnection();
@@ -55,8 +53,10 @@ public class RemoteFileDelete extends FileDeleteTools{
 			con.connect();
 			boolean isAuthed = con.authenticateWithPassword(sign.getUSER(), sign.getPASSWORD());
 			
-			if(!isAuthed)
+			if(!isAuthed) {
+				con.close();
 				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
+			}
 			
 			SFTPv3Client sftpClient = new SFTPv3Client(con);
 			
@@ -69,14 +69,13 @@ public class RemoteFileDelete extends FileDeleteTools{
 			return true;
 		}catch (IOException e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			con.close();
+			throw e;
 		}
-		
-		return false;
 	}
 
 	@Override
-	public boolean DeleteRmptyDir(String Path, String DirName) {
+	public boolean DeleteRmptyDir(String Path, String DirName) throws RemoteOperateException, IOException {
 		// TODO Auto-generated method stub
 		RemoteSignIn sign = getTheConnection();
 		Connection con = sign.getConnection();
@@ -85,8 +84,10 @@ public class RemoteFileDelete extends FileDeleteTools{
 			con.connect();
 			boolean isAuthed = con.authenticateWithPassword(sign.getUSER(), sign.getPASSWORD());
 			
-			if(!isAuthed)
+			if(!isAuthed) {
+				con.close();
 				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
+			}
 			
 			SFTPv3Client sftpClient = new SFTPv3Client(con);
 			sftpClient.rmdir(Path+DirName);
@@ -96,9 +97,9 @@ public class RemoteFileDelete extends FileDeleteTools{
 			return true;
 			
 		}catch(IOException e) {
-			e.printStackTrace();
+			con.close();
+			throw e;
 		}
-		return false;
 	}
 	
 	private RemoteSignIn getTheConnection() {

@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import Devops.docker.DockerBranch.Exception.FileOperateException;
+
 /**
  * 
  * author:杨关
@@ -19,7 +21,7 @@ import java.io.IOException;
 public class LocalFileWriter extends FileWriterTools{
 
 	@Override
-	public boolean WriteFile(String Path, String FileName, String FileType, StringBuilder containt) {
+	public boolean WriteFile(String Path, String FileName, String FileType, StringBuilder containt) throws IOException, FileOperateException {
 		// TODO Auto-generated method stub
 		
 		String file = Path + FileName;
@@ -27,18 +29,19 @@ public class LocalFileWriter extends FileWriterTools{
 			file = file + "." + FileType;
 		}
 		
-		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(file)));
-			writer.write(containt.toString());
-			writer.flush();
-			writer.close();
-			return true;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		File ffile = new File(file);
 		
-		return false;
+		if(!ffile.exists())
+			throw new FileOperateException("0",file + "：不存在");
+		
+		if(!ffile.isFile())
+			throw new FileOperateException("1",file + "：不是一个文件");
+		
+		BufferedWriter writer = new BufferedWriter(new FileWriter(ffile));
+		writer.write(containt.toString());
+		writer.flush();
+		writer.close();
+		return true;
 	}
 
 }

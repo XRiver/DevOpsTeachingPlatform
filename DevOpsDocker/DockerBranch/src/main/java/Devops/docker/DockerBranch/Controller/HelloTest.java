@@ -1,5 +1,6 @@
 package Devops.docker.DockerBranch.Controller;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import Devops.docker.DockerBranch.VO.helloVO;
@@ -29,11 +30,20 @@ public class HelloTest {
 //		FileTransport F = new FileTransport("start", "sh", "/root/DockerProject/", "/home/ubuntu");
 //		System.out.println(F.putFile());
 		
-		
-//		RemoteFileReader test = new RemoteFileReader("/home/ubuntu/", "start", "sh");
-//		StringBuilder st = test.ReadFile("/home/ubuntu/", "start", "sh");
-//		name = st.toString();
-//		System.out.println(name);
+//		try {
+//			RemoteFileReader test = new RemoteFileReader("/home/ubuntu/", "start", "sh");
+//			StringBuilder st;
+//			st = test.ReadFile("/home/ubuntu/", "start", "sh");
+//			name = st.toString();
+//			System.out.println(name);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (RemoteOperateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
 		
 //		FileOperateFacInstance a = new FileOperateFacInstance();
 //		FileWriterTools test = a.getWriter(true);
@@ -44,17 +54,17 @@ public class HelloTest {
 //		StringBuilder r = t.ExecCommand(new StringBuilder("ls -l"));
 //		System.out.println(r.toString());
 		
-		FileOperateFacInstance a = new FileOperateFacInstance();
-		FileDeleteTools d = a.getDelete(true);
-		try {
-			d.DeleteFile("/home/ubuntu/", "tt", "test");
-		} catch (RemoteOperateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileOperateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		FileOperateFacInstance a = new FileOperateFacInstance();
+//		FileDeleteTools d = a.getDelete(true);
+//		try {
+//			d.DeleteFile("/home/ubuntu/", "tt", "test");
+//		} catch (RemoteOperateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (FileOperateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		return new helloVO(counter.incrementAndGet(),
                 String.format(template, name));

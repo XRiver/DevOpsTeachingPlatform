@@ -2,9 +2,10 @@ package Devops.docker.DockerBranch.FileOperator;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
+import Devops.docker.DockerBranch.Exception.FileOperateException;
 
 /**
  * 
@@ -25,7 +26,7 @@ public class LocalFileReader extends FileReaderTools{
 	}
 
 	@Override
-	public StringBuilder ReadFile(String Path, String FileName, String FileType) {
+	public StringBuilder ReadFile(String Path, String FileName, String FileType) throws IOException, FileOperateException {
 		// TODO Auto-generated method stub
 		String file = Path + FileName;
 		StringBuilder resultString = new StringBuilder();
@@ -33,23 +34,23 @@ public class LocalFileReader extends FileReaderTools{
 		if(FileType!="") {
 			file = file + "." + FileType;
 		}
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(new File(file)));
+		
+		File ffile = new File(file);
+		
+		if(!ffile.exists())
+			throw new FileOperateException("0",file + "：不存在");
+		
+		if(!ffile.isFile())
+			throw new FileOperateException("1",file + "：不是一个文件");
+		
+		BufferedReader reader = new BufferedReader(new FileReader(ffile));
+		temp = reader.readLine();
+		while(temp!=null) {
+			resultString.append(temp+"\r\n");
 			temp = reader.readLine();
-			while(temp!=null) {
-				resultString.append(temp+"\r\n");
-				temp = reader.readLine();
-			}
-			reader.close();
-			return resultString;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		return null;
+		reader.close();
+		return resultString;
 	}
 
 }

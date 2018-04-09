@@ -41,12 +41,15 @@ public class FileTransport {
 		
 	}
 
-	public boolean putFile() {
+	public boolean putFile() throws RemoteOperateException, IOException {
 		RemoteSignIn sign = SignIn();
 		Connection connection = sign.getConnection(); //通过SignIn方法拿到Connection
+		
+		
 		try {
 			connection.connect();
 			boolean isAuthed = connection.authenticateWithPassword(sign.getUSER(), sign.getPASSWORD());
+			
 			if(isAuthed) {
 				System.out.println("认证成功");
 				SCPClient scpClient = connection.createSCPClient();
@@ -59,17 +62,16 @@ public class FileTransport {
 				scpClient.put(localFile, RemotePath);
 			}else {
 				System.out.println("认证失败");
+				connection.close();
 				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
 			}
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
+		}catch (IOException e) {
+			// TODO: handle exception
 			connection.close();
+			throw e;
 		}
+		connection.close();
 		return true;
-		
 	}
 
 	public String getFileName() {
