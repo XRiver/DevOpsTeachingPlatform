@@ -38,8 +38,8 @@ public class GroupServiceImpl implements GroupService {
      * @param groupVO
      * @return
      */
-    public GroupVO editGroup(GroupVO groupVO) {
-        return null;
+    public boolean editGroup(GroupVO groupVO) {
+        return false;
     }
 
     /**
@@ -47,8 +47,8 @@ public class GroupServiceImpl implements GroupService {
      * @param userId
      * @return
      */
-    public ArrayList<UserVO> editMember(int userId) {
-        return null;
+    public boolean editMember(int userId) {
+        return false;
     }
 
     /**

@@ -52,4 +52,13 @@ public class UserServiceImpl implements UserService {
     public UserVO getUserInfo(String username) {
         return null;
     }
+
+    /**
+     * 修改个人信息
+     * @param userVO
+     * @return
+     */
+    public boolean editInfo(UserVO userVO) {
+        return false;
+    }
 }
