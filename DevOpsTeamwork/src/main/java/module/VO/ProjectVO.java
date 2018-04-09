@@ -9,6 +9,7 @@ import java.util.Date;
 public class ProjectVO {
     private String project_name;
     private String info;//项目信息
+    private int project_id;//项目编号
     private int group_id;//对应团队编号
     private UserVO creator;//项目创建者
     private ArrayList<UserVO> managerList;//项目管理者
@@ -29,6 +30,14 @@ public class ProjectVO {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public int getProject_id() {
+        return project_id;
+    }
+
+    public void setProject_id(int project_id) {
+        this.project_id = project_id;
     }
 
     public int getGroup_id() {

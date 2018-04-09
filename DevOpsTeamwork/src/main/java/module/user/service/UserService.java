@@ -47,4 +47,12 @@ public interface UserService {
     public UserVO getUserInfo(String username);
 
 
+    /**
+     * 修改个人信息
+     * @param userVO
+     * @return
+     */
+    public boolean editInfo(UserVO userVO);
+
+
 }
