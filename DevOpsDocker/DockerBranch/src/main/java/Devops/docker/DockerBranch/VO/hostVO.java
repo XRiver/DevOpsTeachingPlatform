@@ -18,6 +18,9 @@ public class hostVO {
         this.date = date;
     }
 
+    public hostVO() {
+    }
+
     public String getHostId() {
         return hostId;
     }
