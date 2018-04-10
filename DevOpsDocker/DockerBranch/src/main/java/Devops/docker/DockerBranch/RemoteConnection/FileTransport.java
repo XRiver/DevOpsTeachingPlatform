@@ -37,11 +37,36 @@ public class FileTransport {
 		return sign;
 	}
 	
-	public void getFile() {  //这里的实现还需要再等一等
+	public void getFile() throws RemoteOperateException, IOException {  //这里的实现还需要再等一等
+		RemoteSignIn sign = SignIn();
+		Connection connection = sign.getConnection(); //通过SignIn方法拿到Connection
 		
+		try {
+			connection.connect();
+			boolean isAuthed = connection.authenticateWithPassword(sign.getUSER(), sign.getPASSWORD());
+			
+			if(isAuthed) {
+				SCPClient scpClient = connection.createSCPClient();
+				String remoteFile = "";
+				if(FileType=="") {
+					remoteFile =RemotePath + FileName;
+				}else {
+					remoteFile =RemotePath + FileName + "." + FileType;
+				}
+				scpClient.get(remoteFile, LocalPath);
+			}else {
+				connection.close();
+				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
+			}
+		}catch (IOException e) {
+			// TODO: handle exception
+			connection.close();
+			throw e;
+		}
+		connection.close();
 	}
 
-	public boolean putFile() throws RemoteOperateException, IOException {
+	public boolean putFile() throws RemoteOperateException{
 		RemoteSignIn sign = SignIn();
 		Connection connection = sign.getConnection(); //通过SignIn方法拿到Connection
 		
@@ -68,7 +93,7 @@ public class FileTransport {
 		}catch (IOException e) {
 			// TODO: handle exception
 			connection.close();
-			throw e;
+			throw new RemoteOperateException(e.getStackTrace().toString());
 		}
 		connection.close();
 		return true;

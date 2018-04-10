@@ -28,8 +28,17 @@ public class HelloTest {
 
 	@RequestMapping("/greeting")
 	public helloVO Hello(@RequestParam(value="name", defaultValue="World") String name) {
+		
 //		FileTransport F = new FileTransport("start", "sh", "/root/DockerProject/", "/home/ubuntu");
-//		System.out.println(F.putFile());
+//		try {
+//			F.getFile();
+//		} catch (RemoteOperateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 //		try {
 //			RemoteFileReader test = new RemoteFileReader("/home/ubuntu/", "start", "sh");
@@ -68,21 +77,21 @@ public class HelloTest {
 //		}
 		
 		
-		FileOperateFacInstance a = new FileOperateFacInstance();
-		FileCreateTools c = a.getCreate(true);
-		try {
-//			c.createDir("/home/ubuntu/", "testCreateDir", 0700);
-			c.createFile("/home/ubuntu/testCreateDir/", "testCreateFile", "sh");
-		} catch (FileOperateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteOperateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		FileOperateFacInstance a = new FileOperateFacInstance();
+//		FileCreateTools c = a.getCreate(true);
+//		try {
+////			c.createDir("/home/ubuntu/", "testCreateDir", 0700);
+//			c.createFile("/home/ubuntu/testCreateDir/", "testCreateFile", "sh");
+//		} catch (FileOperateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (RemoteOperateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		return new helloVO(counter.incrementAndGet(),
                 String.format(template, name));
