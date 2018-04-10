@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
@@ -18,7 +19,7 @@ import ch.ethz.ssh2.StreamGobbler;
 public class RemoteExecuteCommand {
 	
 	
-	public StringBuilder ExecCommand(StringBuilder Command) {
+	public StringBuilder ExecCommand(StringBuilder Command) throws RemoteOperateException, IOException {
 		//获得主机ip等文件的代码
 		//获得主机ip等文件的代码
 		StringBuilder returnResult = new StringBuilder();
@@ -29,9 +30,8 @@ public class RemoteExecuteCommand {
 		try {
 			connection.connect();
 			boolean isAuthed = connection.authenticateWithPassword(sign.getUSER(), sign.getPASSWORD());
-			
+				
 			if(isAuthed) {
-				System.out.println("认证成功");
 				
 				//打开一个session,执行linux命令
 				Session sess = connection.openSession();
@@ -47,7 +47,7 @@ public class RemoteExecuteCommand {
 				while((line = reader.readLine()) != null) {
 					returnResult.append(line+"\r\n");
 				}
-				
+					
 				//不一定所有的服务器都会返回状态码 所以暂时去掉
 //				int ExitCode = sess.getExitStatus();
 //				
@@ -57,7 +57,7 @@ public class RemoteExecuteCommand {
 //					returnResult.append("Execute Success!!");
 //				}
 				//不一定所有的服务器都会返回状态码 所以暂时去掉
-				
+					
 				//关闭session
 				sess.close();
 				//关闭connection
@@ -66,13 +66,14 @@ public class RemoteExecuteCommand {
 				return returnResult;
 			}else {
 				System.out.println("认证失败");
+				connection.close();
+				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
 			}
 		}catch (IOException e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			connection.close();
+			throw e;
 		}
-		
-		return null;
 	}
 
 }

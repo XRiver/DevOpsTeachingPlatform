@@ -33,4 +33,16 @@ public class FileOperateFacInstance implements FileOperateFactory{
 		return Writer;
 	}
 
+	@Override
+	public FileDeleteTools getDelete(boolean isRemote) {
+		// TODO Auto-generated method stub
+		FileDeleteTools Delete;
+		if(isRemote) {
+			Delete = new RemoteFileDelete();
+		}else {
+			Delete = new LocalFileDelete();
+		}
+		return Delete;
+	}
+
 }

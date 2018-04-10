@@ -1,13 +1,6 @@
 package Devops.docker.DockerBranch.Exception;
 
-
-/**
- * 
- * author:杨关
- * 文件远程操作的自定义异常类
- * 
- * */
-public class RemoteOperateException extends Exception{
+public class FileOperateException extends Exception{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -21,7 +14,7 @@ public class RemoteOperateException extends Exception{
 	 * 构造一个基本异常
 	 * 
 	 * */
-	public RemoteOperateException (String message) {
+	public FileOperateException (String message) {
 		super(message);
 	}
 	
@@ -33,7 +26,7 @@ public class RemoteOperateException extends Exception{
 	 * 
 	 * @param message 信息描述
 	 * */
-	public RemoteOperateException (String errorCode, String message) {
+	public FileOperateException (String errorCode, String message) {
 		this(message);
 		this.errorCode = errorCode;
 	}
