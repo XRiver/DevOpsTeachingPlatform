@@ -2,11 +2,14 @@ package Devops.docker.DockerBranch.dao;
 
 import Devops.docker.DockerBranch.Entity.Host;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
 
+
 public interface HostDao extends JpaRepository<Host, Integer> {
+
     @Override
     List<Host> findAll();
 
@@ -23,4 +26,8 @@ public interface HostDao extends JpaRepository<Host, Integer> {
 
     @Override
     void delete(Host var1);
+
+    @Query(value = "select h.* from host h where h.projectId = ?1",nativeQuery = true)
+    List<Host> findAllByProjectid(int projectid);
+
 }

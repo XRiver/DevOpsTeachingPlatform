@@ -32,8 +32,8 @@ public class HostConfig {
      * 3：docker安装失败
      * 4. 配置完成
      */
-    @RequestMapping(value = "/configHost" ,method = RequestMethod.POST)
-    public int hostConfig(@RequestParam String hostname,
+    @RequestMapping(value = "/addHost" ,method = RequestMethod.POST)
+    public int addHost(@RequestParam String hostname,
                           @RequestParam int opsSystem,
                           @RequestParam String ip,
                           @RequestParam String root,
@@ -55,4 +55,40 @@ public class HostConfig {
         return 1;
     }
 
+    /**
+     *
+     * 考虑到主机ip和操作系统一般不会变，就不提供这方面修改了，一般就是改一下hostname,root账号，密码和是否自动安装
+     *
+     * @param hostId 从getHosts可获得当前正在配置的主机id
+     * @param hostname 主机名
+     * @param root root账号
+     * @param passwd root密码
+     * @param autoInstall 是否自动安装。true为需要系统安装，false为用户自行安装
+     * @param username 用户名
+     * @param projectId 项目id
+     * @return
+     * 1：连接失败，未能找到服务器
+     * 2：登录失败，账号或密码错误
+     * 3：docker安装失败
+     * 4. 配置完成
+     */
+    @RequestMapping(value = "/configHost",method = RequestMethod.POST)
+    public int configHost(@RequestParam String hostId,
+                          @RequestParam String hostname,
+                          @RequestParam String root,
+                          @RequestParam String passwd,
+                          @RequestParam(value="auto" ,defaultValue = "true") String autoInstall,
+                          @RequestParam String username,
+                          @RequestParam String projectId){
+        return 1;
+    }
+
+    /**
+     *
+     * @param hostId 被删除的主机id
+     */
+    @RequestMapping(value = "/deleteHost",method = RequestMethod.POST)
+    public void deleteHost(@RequestParam String hostId){
+
+    }
 }
