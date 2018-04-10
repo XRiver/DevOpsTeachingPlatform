@@ -23,15 +23,22 @@ public interface FileOperateFactory {
 	/**
 	 * 返回文件写工具
 	 * @param isRemote 是否远程操作
-	 * @return 根据isRemote参数返回相应的FileReaderTools
+	 * @return 根据isRemote参数返回相应的FileWriterTools
 	 * */
 	public FileWriterTools getWriter(boolean isRemote);
 	
 	/**
 	 * 返回文件删除工具
 	 * @param isRemote 是否远程操作
-	 * @return 根据isRemote参数返回相应的FileReaderTools
+	 * @return 根据isRemote参数返回相应的FileDeleteTools
 	 * */
 	public FileDeleteTools getDelete(boolean isRemote);
+	
+	/**
+	 * 返回文件创建工具
+	 * @param isRemote 是否远程操作
+	 * @return 根据isRemote参数返回相应的FileCreateTools
+	 * */
+	public FileCreateTools getCreate(boolean isRemote);
 
 }

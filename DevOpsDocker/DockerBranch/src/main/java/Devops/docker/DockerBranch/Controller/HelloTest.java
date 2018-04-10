@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import Devops.docker.DockerBranch.Exception.FileOperateException;
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
+import Devops.docker.DockerBranch.FileOperator.FileCreateTools;
 import Devops.docker.DockerBranch.FileOperator.FileDeleteTools;
 import Devops.docker.DockerBranch.FileOperator.FileOperateFacInstance;
 import Devops.docker.DockerBranch.FileOperator.FileOperateFactory;
@@ -65,6 +66,23 @@ public class HelloTest {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+		
+		
+		FileOperateFacInstance a = new FileOperateFacInstance();
+		FileCreateTools c = a.getCreate(true);
+		try {
+//			c.createDir("/home/ubuntu/", "testCreateDir", 0700);
+			c.createFile("/home/ubuntu/testCreateDir/", "testCreateFile", "sh");
+		} catch (FileOperateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteOperateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return new helloVO(counter.incrementAndGet(),
                 String.format(template, name));

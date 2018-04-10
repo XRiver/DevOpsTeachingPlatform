@@ -45,4 +45,16 @@ public class FileOperateFacInstance implements FileOperateFactory{
 		return Delete;
 	}
 
+	@Override
+	public FileCreateTools getCreate(boolean isRemote) {
+		// TODO Auto-generated method stub
+		FileCreateTools Create;
+		if(isRemote) {
+			Create = new RemoteFileCreate();
+		}else {
+			Create = new LocalFileCreate();
+		}
+		return Create;
+	}
+
 }
