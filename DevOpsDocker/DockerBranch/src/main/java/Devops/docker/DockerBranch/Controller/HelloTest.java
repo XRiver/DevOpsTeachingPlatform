@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import Devops.docker.DockerBranch.Exception.FileOperateException;
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
+import Devops.docker.DockerBranch.FileOperator.FileCreateTools;
 import Devops.docker.DockerBranch.FileOperator.FileDeleteTools;
 import Devops.docker.DockerBranch.FileOperator.FileOperateFacInstance;
 import Devops.docker.DockerBranch.FileOperator.FileOperateFactory;
@@ -27,8 +28,17 @@ public class HelloTest {
 
 	@RequestMapping("/greeting")
 	public helloVO Hello(@RequestParam(value="name", defaultValue="World") String name) {
+		
 //		FileTransport F = new FileTransport("start", "sh", "/root/DockerProject/", "/home/ubuntu");
-//		System.out.println(F.putFile());
+//		try {
+//			F.getFile();
+//		} catch (RemoteOperateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 //		try {
 //			RemoteFileReader test = new RemoteFileReader("/home/ubuntu/", "start", "sh");
@@ -62,6 +72,23 @@ public class HelloTest {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		} catch (FileOperateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		
+//		FileOperateFacInstance a = new FileOperateFacInstance();
+//		FileCreateTools c = a.getCreate(true);
+//		try {
+////			c.createDir("/home/ubuntu/", "testCreateDir", 0700);
+//			c.createFile("/home/ubuntu/testCreateDir/", "testCreateFile", "sh");
+//		} catch (FileOperateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (RemoteOperateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
