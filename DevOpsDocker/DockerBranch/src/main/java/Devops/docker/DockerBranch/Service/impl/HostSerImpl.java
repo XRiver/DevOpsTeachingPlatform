@@ -1,7 +1,9 @@
 package Devops.docker.DockerBranch.Service.impl;
 
 import Devops.docker.DockerBranch.Entity.Host;
+import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import Devops.docker.DockerBranch.Service.HostService;
+import Devops.docker.DockerBranch.Service.tools.DateTool;
 import Devops.docker.DockerBranch.VO.hostVO;
 import Devops.docker.DockerBranch.dao.HistoryDao;
 import Devops.docker.DockerBranch.dao.HostDao;
@@ -34,19 +36,49 @@ public class HostSerImpl implements HostService{
         return result;
     }
 
+    /**
+     * 检验主机是否可用，若可用便添加
+     * @param host
+     * @return
+     */
     @Override
     public int addHost(Host host) {
-        return 0;
+        int result = testHost(host);
+        if(result == 4){
+            dao.save(host);
+        }
+        return result;
     }
 
     @Override
     public void deleteHost(String hostid) {
-        Integer id = new Integer(Integer.parseInt(hostid));
+        Integer id = Integer.parseInt(hostid);
         dao.deleteById(id);
     }
 
     @Override
     public int configHost(Host host) {
-        return 0;
+        Integer id = host.getHostId();
+        Host oldHost = dao.findById(id).get();
+        host.setIp(oldHost.getIp());
+        host.setOpsSystem(oldHost.getOpsSystem());
+
+        host.setDate(DateTool.getTimeNow());
+        int result = testHost(host);
+        if(result == 4){
+            dao.save(host);
+        }
+        return result;
+    }
+
+    @Override
+    public int testHost(String hostid) {
+        Integer id = Integer.parseInt(hostid);
+        Host host = dao.findById(id).get();
+        return this.testHost(host);
+    }
+
+    public int testHost(Host host){
+        return 4;
     }
 }

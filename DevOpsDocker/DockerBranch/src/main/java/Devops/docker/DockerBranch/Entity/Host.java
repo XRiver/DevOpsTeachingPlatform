@@ -14,6 +14,7 @@ public class Host {
     private String projectid;
     private String date;
     private String opsSystem;
+    private String auto_installed;
 
     @Id
     @Column(name = "host_Id", nullable = false)
@@ -107,6 +108,16 @@ public class Host {
         this.opsSystem = opsSystem;
     }
 
+    @Basic
+    @Column(name = "docker_installed",nullable = true,length = 20)
+    public String getAuto_installed() {
+        return auto_installed;
+    }
+
+    public void setAuto_installed(String auto_installed) {
+        this.auto_installed = auto_installed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -120,12 +131,13 @@ public class Host {
                 Objects.equals(creator, host.creator) &&
                 Objects.equals(projectid, host.projectid) &&
                 Objects.equals(date, host.date) &&
-                Objects.equals(opsSystem, host.opsSystem);
+                Objects.equals(opsSystem, host.opsSystem) &&
+                Objects.equals(auto_installed, host.auto_installed);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(hostId, hostname, ip, root, password, creator, projectid, date, opsSystem);
+        return Objects.hash(hostId, hostname, ip, root, password, creator, projectid, date, opsSystem, auto_installed);
     }
 }

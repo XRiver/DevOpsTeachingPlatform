@@ -2,7 +2,10 @@ package Devops.docker.DockerBranch.Controller;
 
 import Devops.docker.DockerBranch.Entity.Basicimage;
 import Devops.docker.DockerBranch.Entity.Container;
+import Devops.docker.DockerBranch.Entity.Host;
+import Devops.docker.DockerBranch.Service.HostService;
 import Devops.docker.DockerBranch.Service.Test;
+import Devops.docker.DockerBranch.Service.tools.DateTool;
 import Devops.docker.DockerBranch.dao.testLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HostConfig {
 
     @Autowired
-    Test test;
+    HostService hostService;
 
     /**
      *
@@ -42,17 +45,24 @@ public class HostConfig {
                           @RequestParam String username,
                           @RequestParam String projectId){
 
-        Container image = new Container();
+        Host host = new Host();
+        host.setHostname(hostname);
+        if(opsSystem==1){
+            host.setOpsSystem("centos");
+        }else{
+            host.setOpsSystem("ubuntu");
+        }
+        host.setIp(ip);
+        host.setCreator(username);
+        host.setPassword(passwd);
+        host.setProjectid(projectId);
+        host.setRoot(root);
+        host.setAuto_installed(autoInstall);
+        host.setHostname(hostname);
+        host.setDate(DateTool.getTimeNow());
 
-        image.setContainerId(2);
-        image.setCreator("123");
-        image.setDate("12:12:12");
-        image.setImage("tomcat");
-        image.setPath("/user/sta");
-        image.setPort("8080");
-        image.setTaskId(1);
-        test.save(image);
-        return 1;
+        int result = hostService.addHost(host);
+        return result;
     }
 
     /**
@@ -80,7 +90,16 @@ public class HostConfig {
                           @RequestParam(value="auto" ,defaultValue = "true") String autoInstall,
                           @RequestParam String username,
                           @RequestParam String projectId){
-        return 1;
+        Host host = new Host();
+        host.setHostname(hostname);
+        host.setHostId(Integer.parseInt(hostId));
+        host.setRoot(root);
+        host.setPassword(passwd);
+        host.setProjectid(projectId);
+        host.setAuto_installed(autoInstall);
+        host.setCreator(username);
+
+        return hostService.configHost(host);
     }
 
     /**
@@ -89,6 +108,11 @@ public class HostConfig {
      */
     @RequestMapping(value = "/deleteHost",method = RequestMethod.POST)
     public void deleteHost(@RequestParam String hostId){
+        hostService.deleteHost(hostId);
+    }
 
+    @RequestMapping(value = "/testHost",method = RequestMethod.GET)
+    public int testHost(@RequestParam String hostId){
+        return hostService.testHost(hostId);
     }
 }

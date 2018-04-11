@@ -7,14 +7,16 @@ public class hostVO {
     private String opsSystem;//操作系统版本
     private String ip;//主机ip
     private String creator;//创建者姓名
+    private String auto_installed;//已经自动安装
     private String date;//创建日期
 
-    public hostVO(String hostId, String hostname, String opsSystem, String ip, String creator, String date) {
+    public hostVO(String hostId, String hostname, String opsSystem, String ip, String creator, String auto_installed, String date) {
         this.hostId = hostId;
         this.hostname = hostname;
         this.opsSystem = opsSystem;
         this.ip = ip;
         this.creator = creator;
+        this.auto_installed = auto_installed;
         this.date = date;
     }
 
@@ -67,5 +69,13 @@ public class hostVO {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getAuto_installed() {
+        return auto_installed;
+    }
+
+    public void setAuto_installed(String auto_installed) {
+        this.auto_installed = auto_installed;
     }
 }

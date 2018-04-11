@@ -6,3 +6,4 @@ DevOpsDocker/.idea/DevOpsDocker.iml
 *.xml
 *.xml
 DevOpsDocker/DockerBranch/src/main/resources/application.properties
+DevOpsDocker/DockerBranch/src/main/resources/application.properties

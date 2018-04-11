@@ -41,7 +41,7 @@ public class DeployStatus {
         vo.setLastDate("2016:12:12");
         vo.setPath("/user/xiong");
         vo.setSoftware("exam");
-        hostVO host = new hostVO("123","123","1","123:123:123:123","xiong","2013:12:12");
+        hostVO host = new hostVO("123","123","1","123:123:123:123","xiong","true","2013:12:12");
         vo.setHost(host);
         return vo;
     }

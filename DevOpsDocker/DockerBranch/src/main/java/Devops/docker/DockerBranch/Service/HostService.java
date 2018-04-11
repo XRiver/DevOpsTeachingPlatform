@@ -15,4 +15,6 @@ public interface HostService {
 
     public int configHost(Host host);
 
+    public int testHost(String hostid);
+
 }
