@@ -26,7 +26,7 @@ public class RemoteFileCreate extends FileCreateTools{
 			
 			if(!isAuthed) {
 				con.close();
-				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
+				throw new RemoteOperateException("0","认证失败！请检查账户密码是否正确！");
 			}
 			
 			SFTPv3Client sftpClient = new SFTPv3Client(con);
@@ -62,7 +62,7 @@ public class RemoteFileCreate extends FileCreateTools{
 			
 			if(!isAuthed) {
 				con.close();
-				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
+				throw new RemoteOperateException("0","认证失败！请检查账户密码是否正确！");
 			}
 			
 			SFTPv3Client sftpClient = new SFTPv3Client(con);
