@@ -1,4 +1,4 @@
-package module.group;
+package module.group.service;
 
 import module.entity.VO.GroupVO;
 import module.entity.VO.UserVO;

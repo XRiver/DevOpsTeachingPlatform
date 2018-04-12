@@ -2,7 +2,7 @@ package module.group.service.Impl;
 
 import module.entity.VO.GroupVO;
 import module.entity.VO.UserVO;
-import module.group.GroupService;
+import module.group.service.GroupService;
 
 import java.util.ArrayList;
 
@@ -77,4 +77,6 @@ public class GroupServiceImpl implements GroupService {
     public ArrayList<GroupVO> getGroupList(int userId) {
         return null;
     }
+
+
 }

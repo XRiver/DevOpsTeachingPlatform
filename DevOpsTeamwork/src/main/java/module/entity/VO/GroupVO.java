@@ -16,6 +16,18 @@ public class GroupVO {
     private Date create_time;//创建时间
     private Date update_time;//更新时间
 
+    public GroupVO(String groupName, String info, ArrayList<UserVO> memberList
+            , int groupId, UserVO creator, ArrayList<UserVO> managerList
+            , Date update_time, Date create_time) {
+        this.groupName = groupName;
+        this.info = info;
+        this.memberList = memberList;
+        this.groupId = groupId;
+        this.creator = creator;
+        this.managerList = managerList;
+        this.update_time = update_time;
+        this.create_time = create_time;
+    }
 
     public int getGroupId() {
         return groupId;

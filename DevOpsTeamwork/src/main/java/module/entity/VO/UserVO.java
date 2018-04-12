@@ -17,6 +17,18 @@ public class UserVO {
     private Date create_time;//创建时间
     private Date update_time;//更新时间
 
+    public UserVO(String username, String password, String name, String userId
+            , String email, Role role, Date create_time, Date update_time) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.userId = userId;
+        this.email = email;
+        this.role = role;
+        this.create_time = create_time;
+        this.update_time = update_time;
+    }
+
     public String getUsername() {
         return username;
     }

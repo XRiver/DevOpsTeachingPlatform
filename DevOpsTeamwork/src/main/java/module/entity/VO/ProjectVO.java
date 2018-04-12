@@ -16,6 +16,19 @@ public class ProjectVO {
     private Date create_time;//创建时间
     private Date update_time;//更新时间
 
+    public ProjectVO(String project_name, String info, int project_id, int group_id
+            , UserVO creator, ArrayList<UserVO> managerList
+            , Date create_time, Date update_time) {
+        this.project_name = project_name;
+        this.info = info;
+        this.project_id = project_id;
+        this.group_id = group_id;
+        this.creator = creator;
+        this.managerList = managerList;
+        this.create_time = create_time;
+        this.update_time = update_time;
+    }
+
     public String getProject_name() {
         return project_name;
     }
