@@ -30,7 +30,7 @@ html
             input.form-control#usrLogin(type='text')
             label(for='pwdLogin') 密码：
             input.form-control#pwdLogin(type='password')
-          button.btn.btn-primary.btn-lg.float-right#loginBtn(type='button', onClick='alert(123)') 登录
+          button.btn.btn-primary.btn-lg.float-right#loginBtn(type='button') 登录
         .tab-pane.container.pt-2#registerPane
           .form-group
             label(for='usrRegister') 用户名：
@@ -42,10 +42,10 @@ html
             div
               label 账号类型：
               label.radio-inline
-                input(type='radio', name='typeOpt', checked)
+                input(type='radio', name='typeOpt', value='student', checked)
                 |学生&nbsp;&nbsp;
               label.radio-inline
-                input(type='radio', name='typeOpt')
+                input(type='radio', name='typeOpt', value='teacher')
                 |教师
             label(for='emailRegister') 邮箱：
             input.form-control#emailRegister(type='text')
@@ -53,5 +53,5 @@ html
             input.form-control#nameRegister(type='text')
             label(for='idRegister') 学号/工号：
             input.form-control#idRegister(type='text')
-          button.btn.btn-primary.btn-lg.float-right#registerBtn(type='button', onClick='alert(456)') 注册
+          button.btn.btn-primary.btn-lg.float-right#registerBtn(type='button') 注册
       .col-2
