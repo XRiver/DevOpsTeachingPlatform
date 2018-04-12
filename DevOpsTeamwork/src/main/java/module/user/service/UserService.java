@@ -1,6 +1,6 @@
 package module.user.service;
 
-import module.VO.UserVO;
+import module.entity.VO.UserVO;
 
 /**
  * Created by caosh on 2018/4/9.

@@ -1,6 +1,6 @@
 package module.project.service;
 
-import module.VO.ProjectVO;
+import module.entity.VO.ProjectVO;
 
 import java.util.ArrayList;
 

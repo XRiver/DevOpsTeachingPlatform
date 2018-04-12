@@ -1,4 +1,6 @@
-package module.VO;
+package module.entity.PO;
+
+import module.entity.VO.UserVO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,7 +8,7 @@ import java.util.Date;
 /**
  * Created by caosh on 2018/4/1.
  */
-public class ProjectVO {
+public class ProjectPO {
     private String project_name;
     private String info;//项目信息
     private int project_id;//项目编号

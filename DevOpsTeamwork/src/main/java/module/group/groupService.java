@@ -1,7 +1,7 @@
 package module.group;
 
-import module.VO.GroupVO;
-import module.VO.UserVO;
+import module.entity.VO.GroupVO;
+import module.entity.VO.UserVO;
 
 import java.util.ArrayList;
 

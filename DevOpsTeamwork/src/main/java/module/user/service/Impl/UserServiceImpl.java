@@ -1,6 +1,6 @@
 package module.user.service.Impl;
 
-import module.VO.UserVO;
+import module.entity.VO.UserVO;
 import module.user.service.UserService;
 
 /**
