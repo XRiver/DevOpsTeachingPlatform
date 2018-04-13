@@ -20,8 +20,9 @@ public class RuleCtrl {
 	 * @param key
 	 * @return
 	 */
-	@RequestMapping(value = "{id:[0-9]*}", method = RequestMethod.GET)
+	@RequestMapping(value = "{key}", method = RequestMethod.GET)
 	public RuleVO getRule(@PathVariable String key) {
+		System.out.println(key);
 		return ruleService.getRuleVO(key);
 	}
 }

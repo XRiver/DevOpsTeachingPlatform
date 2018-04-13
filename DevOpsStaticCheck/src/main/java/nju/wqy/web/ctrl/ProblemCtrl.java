@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import nju.wqy.service.ProblemService;
 import nju.wqy.web.vo.ConfigVO;
+import nju.wqy.web.vo.PaginationVO;
 import nju.wqy.web.vo.ProblemVO;
 
 @RequestMapping(value = "staticCheck/problem")
@@ -19,9 +20,19 @@ import nju.wqy.web.vo.ProblemVO;
 public class ProblemCtrl {
 	@Autowired
 	ProblemService problemService;
-	//分为bugs codeSmell vulnear
-	@RequestMapping(value = "{id:[0-9]*}/{type}", method = RequestMethod.GET)
-	public List<ProblemVO> getCon(@PathVariable long id,@PathVariable String type){
-		return problemService.getProblem(type, id);
+
+	/**
+	 * 
+	 * @param projectKey
+	 * @param type分为bugs codeSmell vulnerabilities
+	 * @return
+	 */
+	@RequestMapping(value = "{projectKey}/{type}", method = RequestMethod.GET)
+	public PaginationVO getCon(@PathVariable String  projectKey,@PathVariable String type){
+		List<ProblemVO> pv=problemService.getProblem(type,projectKey);
+		PaginationVO vo=new PaginationVO();
+		vo.setRows(pv);
+		vo.setTotal(pv.size());
+		return vo;
 	}
 }

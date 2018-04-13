@@ -15,30 +15,35 @@ import nju.wqy.web.vo.ProblemVO;
 public class ProblemServiceImpl implements ProblemService{
 
 	@Override
-	public List<ProblemVO> getProblem(String type, long id) {
+	public List<ProblemVO> getProblem(String type, String projectKey) {
+		String url="http://localhost:9000/api/issues/search?componentKeys="+projectKey+"&s=FILE_LINE&resolved=false&types="+type+"&ps=100&facets=severities%2Ctypes&additionalFields=_all";
 		List<ProblemVO> problems=new ArrayList<ProblemVO>();
-		String result=APIManager.get("http://localhost:9000/api/issues/search?componentKeys=Student&s=FILE_LINE&resolved=false&ps=100&facets=severities%2Ctypes&additionalFields=_all");
+		String result=APIManager.get(url);
 		if(result!=null){  
 			JSONObject obj=JSONObject.fromObject(result);      
 			result=obj.getString("issues");//得到json格式字符串数组  
 			JSONArray arr=JSONArray.fromObject(result);  
 			for(int i=0;i<arr.size();i++) {
+				if(getValue(arr.getString(i),"message").equals("1 duplicated blocks of code must be removed.")) {
+					break;
+				}	
 				ProblemVO vo=new ProblemVO();
 				vo.setFilePath(getValue(arr.getString(i),"component"));
 				vo.setLineNo(getValue(arr.getString(i),"line"));
 				vo.setMessage(getValue(arr.getString(i),"message"));
 				vo.setRule(getValue(arr.getString(i),"rule"));
+				vo.setType(type);
+				vo.setSeverity(getValue(arr.getString(i),"severity"));
 				problems.add(vo);
 			}
 		} 
 
 		return problems;
 	}
+
 	public static String getValue(Object o,String key) {
-		System.out.println(o);
 		JSONObject obj=JSONObject.fromObject(o); 	
 		String value=obj.getString(key);
-		System.out.println(value);
 		return value;
 	}
 }
