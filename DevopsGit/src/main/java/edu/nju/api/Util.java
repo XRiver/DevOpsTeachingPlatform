@@ -1,8 +1,10 @@
 package edu.nju.api;
 
 import edu.nju.config.ConfigBean;
+import edu.nju.config.LogBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sun.rmi.runtime.Log;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -45,7 +47,7 @@ public class Util {
                 urlNameString = "http://119.29.157.178/api/v4"+url + "?" + param;
 
             //System.out.println("curl http url : " + urlNameString);
-
+            LogBean.log("GET : "+urlNameString);
             URL realUrl = new URL(urlNameString);
             // 打开和URL之间的连接
             URLConnection connection = realUrl.openConnection();
@@ -78,6 +80,7 @@ public class Util {
                 result += line;
             }
         } catch (Exception e) {
+            LogBean.log("发送 GET请求出现异常！"+e);
             System.out.println("发送GET请求出现异常！" + e);
             e.printStackTrace();
         }
@@ -91,6 +94,7 @@ public class Util {
                 e2.printStackTrace();
             }
         }
+        LogBean.log("get result: " +result);
         return result.equals("") ? null : result;
     }
 
@@ -126,6 +130,7 @@ public class Util {
                 param = param.substring(0, param.length() - 1);
             }
             System.out.println("param:"+param);
+            LogBean.log("POST : "+param);
             out.print(param);
             // flush输出流的缓冲
             out.flush();
@@ -138,6 +143,7 @@ public class Util {
             }
         } catch (Exception e) {
             System.out.println("发送 POST 请求出现异常！"+e);
+            LogBean.log("发送 POST 请求出现异常！"+e);
             e.printStackTrace();
         }
         //使用finally块来关闭输出流、输入流
@@ -155,6 +161,7 @@ public class Util {
             }
         }
         System.out.println("result: "  +result);
+        LogBean.log("post result: " +result);
         return result;
     }
 
@@ -192,6 +199,7 @@ public class Util {
                 param = param.substring(0, param.length() - 1);
             }
             System.out.println("param:"+param);
+            LogBean.log("PUT : "+param);
             out.print(param);
             out.flush();
             out.close();
@@ -203,6 +211,7 @@ public class Util {
             br.close();
         } catch (Exception e) {
             System.out.println("发送 PUT 请求出现异常！"+e);
+            LogBean.log("发送 PUT 请求出现异常！"+e);
             e.printStackTrace();
         }
         //使用finally块来关闭输出流、输入流
@@ -220,6 +229,7 @@ public class Util {
             }
         }
         System.out.println("result: "  +result);
+        LogBean.log("put result: " +result);
         return result;
     }
 }

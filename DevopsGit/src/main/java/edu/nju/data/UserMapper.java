@@ -16,4 +16,7 @@ public interface UserMapper {
 
     @Insert("Insert into userandgitlabuser(userID,gitlabID) values (#{userID},#{gitlabID})")
     public String insert(String userID,String gitlabID);
+
+    @Select("Select userID from userandgitlabuser where gitlabID = #{gitlabID}")
+    public String getUserID(String gitlabID);
 }

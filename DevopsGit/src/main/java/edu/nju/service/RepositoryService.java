@@ -2,6 +2,7 @@ package edu.nju.service;
 
 import com.alibaba.fastjson.JSON;
 import edu.nju.api.Util;
+import edu.nju.config.LogBean;
 import edu.nju.model.FileNode;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +80,9 @@ public class RepositoryService {
      * TODO
      * @return
      */
-    public String deleteFile(){
+    public String deleteFile(String projectid,String file_path,
+                             String branch,String commit_message){
+        LogBean.log("delete file service not write");
         return "";
     }
 }

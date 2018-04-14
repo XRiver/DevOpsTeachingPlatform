@@ -46,4 +46,9 @@ public class TransferService {
     public String insertGroupID(String GroupID,String gitlabID){
         return groupMapper.insert(GroupID,gitlabID);
     }
+
+    public String getUserIDByGitlabID(String gitlabID){
+        return userMapper.getUserID(gitlabID);
+    }
+
 }

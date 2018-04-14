@@ -1,5 +1,7 @@
 package edu.nju.service;
 
+import edu.nju.api.Util;
+import edu.nju.config.LogBean;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +16,9 @@ public class CommitService {
      * @return
      */
     public String getCommits(String projectID){
-        return "";
+        String result= Util.get("/projects/"+projectID+"/repository/commits",null);
+        LogBean.log("getCommits result:"+result);
+
+        return result;
     }
 }

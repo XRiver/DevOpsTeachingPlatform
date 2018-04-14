@@ -17,7 +17,6 @@ import java.util.Map;
  * Created by Administrator on 2018/4/1.
  */
 @RestController
-@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -53,7 +52,7 @@ public class UserController {
         user.setUsername(username);
         user.setEmail(email);
         user.setName(name);
-        user.setId(Integer.parseInt(id));
+        user.setId(id);
         String result=userService.addUser(user);
         if(result==null){
             LogBean.log("usercontroller adduser: return null");
@@ -68,9 +67,16 @@ public class UserController {
         return JSON.toJSONString(user);
     }
 
+    /**
+     *
+     * @return List<user>  userID 应该已经转换成了团队模块分配的ID；
+     */
     @RequestMapping(value = "/user/allusers",method = RequestMethod.GET)
     public String getAllUsers(){
         List<User> userList=userService.getAllUsers();
+        for(int i=0;i<userList.size();i++){
+            userList.get(i).setId(transferService.getUserIDByGitlabID(userList.get(i).getId()));
+        }
         return JSON.toJSONString(userList);
     }
 
