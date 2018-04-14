@@ -14,11 +14,8 @@ import lombok.Data;
 @Entity
 @Table(name = "config")
 public class ConfigData {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
 	
-	@NotNull
+	@Id
 	@Column(name = "project_key")
 	private String projectKey;
 	
@@ -42,14 +39,6 @@ public class ConfigData {
 
 	@Column(name = "java_binary")
 	private String javaBinary;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getProjectKey() {
 		return projectKey;

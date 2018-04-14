@@ -1,17 +1,11 @@
 package nju.wqy.web.vo;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+
 
 import lombok.Data;
 
 @Data
 public class ConfigVO {
-
-	private long id;
 
 
 	private String projectKey;
@@ -33,14 +27,6 @@ public class ConfigVO {
 	private String sourceEncoding;
 
 	private String javaBinary;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getProjectKey() {
 		return projectKey;

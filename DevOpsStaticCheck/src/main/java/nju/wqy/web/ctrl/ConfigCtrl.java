@@ -29,9 +29,9 @@ public class ConfigCtrl {
 	 * @param id 项目id
 	 * @return
 	 */
-	@RequestMapping(value = "{id:[0-9]*}", method = RequestMethod.GET)
-	public ConfigVO getConfig(@PathVariable long id) {
-		return configService.getConfig(id);
+	@RequestMapping(value = "{projectKey}", method = RequestMethod.GET)
+	public ConfigVO getConfig(@PathVariable String projectKey) {
+		return configService.getConfig(projectKey);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)

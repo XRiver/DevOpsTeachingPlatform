@@ -5,7 +5,7 @@ import nju.wqy.web.vo.OperationStatus;
 
 public interface ConfigService {
 
-	ConfigVO getConfig(long id);
+	ConfigVO getConfig(String projectKey);
 	OperationStatus save(ConfigVO vo);
 	OperationStatus modify(ConfigVO vo);
 }

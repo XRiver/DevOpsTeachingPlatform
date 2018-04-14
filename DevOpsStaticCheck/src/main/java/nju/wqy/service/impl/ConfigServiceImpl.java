@@ -22,39 +22,44 @@ public class ConfigServiceImpl implements ConfigService{
 
 
 	@Override
-	public ConfigVO getConfig(long id) {
-		ConfigData data=configDao.findOne(id);
+	public ConfigVO getConfig(String projectKey) {
+		ConfigData data=configDao.getByProjectKey(projectKey);
 		ConfigVO vo=configWrapper.configWrapper(data);
 		if (vo != null) {
 			return vo;
 		} else {
-			throw new NotFoundException("config "+id+" not found");
+			throw new NotFoundException("config "+projectKey+" not found");
 		}
 	}
 
 
 	@Override
 	public OperationStatus save(ConfigVO vo) {
-		ConfigData data=new ConfigData();
-		//data.setId(vo.getId());
-		data.setJavaBinary(vo.getJavaBinary());
-		data.setLanguage(vo.getLanguage());
-		data.setProjectKey(vo.getProjectKey());
-		data.setProjectName(vo.getProjectName());
-		data.setProjectVersion(vo.getProjectVersion());
-		data.setSource(vo.getSource());
-		data.setSourceEncoding(vo.getSourceEncoding());
-		if(configDao.save(data)!=null) {
-			return new OperationStatus(SUCCESS);
-		}else {
-			return new OperationStatus(FAILURE);
+		ConfigData data=configDao.getByProjectKey(vo.getProjectKey());
+		if(data==null) {//新增
+			data=new ConfigData();
+//			data.setJavaBinary(vo.getJavaBinary());
+//			data.setLanguage(vo.getLanguage());
+			data.setProjectKey(vo.getProjectKey());
+			data.setProjectName(vo.getProjectName());
+//			data.setProjectVersion(vo.getProjectVersion());
+//			data.setSource(vo.getSource());
+			data.setSourceEncoding(vo.getSourceEncoding());
+			if(configDao.save(data)!=null) {
+				return new OperationStatus(SUCCESS);
+			}else {
+				return new OperationStatus(FAILURE);
+			}
+		}else {//修改
+			return modify(vo);
 		}
+
 	}
 
 
 	@Override
 	public OperationStatus modify(ConfigVO vo) {
-		ConfigData data=configDao.findOne(vo.getId());
+		ConfigData data=configDao.getByProjectKey(vo.getProjectKey());
 		if(data!=null) {
 			data.setJavaBinary(vo.getJavaBinary());
 			data.setLanguage(vo.getLanguage());
