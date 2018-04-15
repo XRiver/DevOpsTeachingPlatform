@@ -43,14 +43,14 @@ public class BugController {
         return bugs;
     }
 
-    @RequestMapping(value = "/bug/get-by-id", method = RequestMethod.GET)
+    @RequestMapping(value = "/bug/get", method = RequestMethod.GET)
     public BugVO getBugById(@RequestParam("id") long id){
         BugVO bug=bugService.getBugById(id);
         return bug;
     }
 
     @RequestMapping(value = "/bug/change", method = RequestMethod.POST)
-    public MyResponseData<Boolean> changeBug(@RequestParam("bugId") long bugId, @RequestParam("change")BugChangeVO bugChangeVO){
+    public MyResponseData<Boolean> changeBug(@RequestParam("id") long bugId, @RequestParam("change")BugChangeVO bugChangeVO){
         bugService.createBugChange(bugChangeVO,bugId);
         return new MyResponseData<Boolean>("succeed", new String[]{"成功更改缺陷！"}, true);
     }

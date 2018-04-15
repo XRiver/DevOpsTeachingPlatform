@@ -11,28 +11,29 @@ public class BugChange {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "bug_id")
-    private Bug bug;
-
     private String time;
 
-    private String before;
+    private String before_state;
 
-    private String after;
+    private String after_state;
 
     private String info;
 
     private String manager;
 
+    @ManyToOne
+    @JoinColumn(name = "bug_id")
+    private Bug bug;
+
+
     public BugChange() {
     }
 
-    public BugChange(Bug bug, String time, String before, String after, String info, String manager) {
+    public BugChange(Bug bug, String time, String before_state, String after_state, String info, String manager) {
         this.bug = bug;
         this.time = time;
-        this.before = before;
-        this.after = after;
+        this.before_state = before_state;
+        this.after_state = after_state;
         this.info = info;
         this.manager = manager;
     }
@@ -42,14 +43,14 @@ public class BugChange {
             this.id=bugChangeVO.getId();
         }
         this.time =bugChangeVO.getTime();
-        this.before =bugChangeVO.getBefore();
-        this.after = bugChangeVO.getAfter();
+        this.before_state =bugChangeVO.getBefore_state();
+        this.after_state = bugChangeVO.getAfter_state();
         this.info = bugChangeVO.getInfo();
         this.manager = bugChangeVO.getManager();
     }
 
     public BugChangeVO toBugChangeVO(){
-        return new BugChangeVO(id,time,before,after,info,manager);
+        return new BugChangeVO(id,time,before_state,after_state,info,manager);
     }
 
 
@@ -77,20 +78,20 @@ public class BugChange {
         this.time = time;
     }
 
-    public String getBefore() {
-        return before;
+    public String getBefore_state() {
+        return before_state;
     }
 
-    public void setBefore(String before) {
-        this.before = before;
+    public void setBefore_state(String before_state) {
+        this.before_state = before_state;
     }
 
-    public String getAfter() {
-        return after;
+    public String getAfter_state() {
+        return after_state;
     }
 
-    public void setAfter(String after) {
-        this.after = after;
+    public void setAfter_state(String after_state) {
+        this.after_state = after_state;
     }
 
     public String getInfo() {

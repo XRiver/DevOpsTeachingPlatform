@@ -36,7 +36,7 @@ public class ReportController {
         return reports;
     }
 
-    @RequestMapping(value = "/report/get-by-id", method = RequestMethod.GET)
+    @RequestMapping(value = "/report/get", method = RequestMethod.GET)
     public ReportVO getReportById(@RequestParam("id") long id){
         ReportVO report=reportService.getReportById(id);
         return report;

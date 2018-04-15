@@ -8,9 +8,9 @@ public class BugChangeVO {
 
     private String time;
 
-    private String before;
+    private String before_state;
 
-    private String after;
+    private String after_state;
 
     private String info;
 
@@ -19,11 +19,11 @@ public class BugChangeVO {
     public BugChangeVO() {
     }
 
-    public BugChangeVO(Long id, String time, String before, String after, String info, String manager) {
+    public BugChangeVO(Long id, String time, String before_state, String after_state, String info, String manager) {
         this.id = id;
         this.time = time;
-        this.before = before;
-        this.after = after;
+        this.before_state = before_state;
+        this.after_state = after_state;
         this.info = info;
         this.manager = manager;
     }
@@ -44,20 +44,20 @@ public class BugChangeVO {
         this.time = time;
     }
 
-    public String getBefore() {
-        return before;
+    public String getBefore_state() {
+        return before_state;
     }
 
-    public void setBefore(String before) {
-        this.before = before;
+    public void setBefore_state(String before_state) {
+        this.before_state = before_state;
     }
 
-    public String getAfter() {
-        return after;
+    public String getAfter_state() {
+        return after_state;
     }
 
-    public void setAfter(String after) {
-        this.after = after;
+    public void setAfter_state(String after_state) {
+        this.after_state = after_state;
     }
 
     public String getInfo() {

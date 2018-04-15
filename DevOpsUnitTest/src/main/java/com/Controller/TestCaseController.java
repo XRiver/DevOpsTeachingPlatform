@@ -32,7 +32,7 @@ public class TestCaseController {
         return new MyResponseData<Boolean>("succeed", new String[]{"成功更新测试用例！"}, true);
     }
 
-    @RequestMapping(value = "/testcase/get-by-id", method = RequestMethod.GET)
+    @RequestMapping(value = "/testcase/get", method = RequestMethod.GET)
     public TestCaseVO getTestCaseById(@RequestParam("id") long id){
         TestCaseVO testcase=testCaseService.getTestCaseById(id);
         return testcase;

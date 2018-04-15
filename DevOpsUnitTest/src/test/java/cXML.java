@@ -19,7 +19,7 @@ import java.util.Date;
  */
 public class cXML {
 
-    public static void main(String[] args) {
+    public static void a(String[] args) {
         String path="C:\\java\\c";
 
         Report report=cReport(path);

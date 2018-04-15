@@ -1,5 +1,6 @@
 package com.Service.Impl;
 
+import com.Common.BugState;
 import com.DataVO.BugChangeVO;
 import com.DataVO.BugVO;
 import com.Entity.Bug;
@@ -22,7 +23,9 @@ public class BugServiceImpl implements BugService{
 
     @Override
     public boolean createBug(BugVO bugVO) {
-        bugRepository.save(new Bug(bugVO));
+        Bug bug=new Bug(bugVO);
+        bug.setState(BugState.newbuilt.toString());
+        bugRepository.save(bug);
         return true;
     }
 
@@ -61,6 +64,8 @@ public class BugServiceImpl implements BugService{
     public boolean createBugChange(BugChangeVO bugChangeVO, Long bugId) {
         BugChange bugChange=new BugChange(bugChangeVO);
         Bug bug=bugRepository.findById(bugId);
+        bugChange.setBefore_state(bug.getState());
+        bug.setState(bugChange.getAfter_state());
         bug.addBug_change(bugChange);
         bugRepository.saveAndFlush(bug);
 

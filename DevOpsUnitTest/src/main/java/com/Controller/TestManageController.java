@@ -40,7 +40,7 @@ public class TestManageController {
         return tests;
     }
 
-    @RequestMapping(value = "/test/get-by-id", method = RequestMethod.GET)
+    @RequestMapping(value = "/test/get", method = RequestMethod.GET)
     public TestVO getTestById(@RequestParam("id") long id){
         TestVO test=testService.getTestById(id);
         return test;
