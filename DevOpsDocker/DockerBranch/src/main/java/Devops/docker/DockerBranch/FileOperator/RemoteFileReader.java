@@ -60,7 +60,7 @@ public class RemoteFileReader extends FileReaderTools{
 			}else {
 				System.out.println("认证失败");
 				connection.close();
-				throw new RemoteOperateException("认证失败！请检查账户密码是否正确！");
+				throw new RemoteOperateException("0","认证失败！请检查账户密码是否正确！");
 			}
 		}catch (IOException e) {
 			// TODO: handle exception

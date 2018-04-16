@@ -5,7 +5,8 @@ package Devops.docker.DockerBranch.Exception;
  * 
  * author:杨关
  * 文件远程操作的自定义异常类
- * 
+ * 错误编码：
+ * 1：认证失败！请检查账户密码是否正确！
  * */
 public class RemoteOperateException extends Exception{
 	

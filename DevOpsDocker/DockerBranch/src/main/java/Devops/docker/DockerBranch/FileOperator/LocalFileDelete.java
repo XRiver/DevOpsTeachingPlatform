@@ -45,7 +45,7 @@ public class LocalFileDelete extends FileDeleteTools{
 			
 			if(file.delete()) {
 			}else {
-				throw new FileOperateException("2",filePath + "删除失败，请检查是否有进程占用");
+				throw new FileOperateException("2",filePath + "删除失败");
 			}
 			
 		}
@@ -68,7 +68,7 @@ public class LocalFileDelete extends FileDeleteTools{
 		if(dirFile.delete()) {
 			return true;
 		}else {
-			throw new FileOperateException("3",Path+DirName + "删除失败，请检查是否有进程占用");
+			throw new FileOperateException("2",Path+DirName + "删除失败");
 		}
 	}
 
