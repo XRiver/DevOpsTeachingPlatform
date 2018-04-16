@@ -6,6 +6,7 @@ import java.util.Objects;
 @Entity
 public class Container {
     private int containerId;
+    private String containerName;
     private String creator;
     private String image;
     private String path;
@@ -85,12 +86,23 @@ public class Container {
         this.taskId = taskId;
     }
 
+    @Basic
+    @Column(name = "container_name",nullable = true)
+    public String getContainerName() {
+        return containerName;
+    }
+
+    public void setContainerName(String containerName) {
+        this.containerName = containerName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Container container = (Container) o;
         return containerId == container.containerId &&
+                Objects.equals(containerName, container.containerName) &&
                 Objects.equals(creator, container.creator) &&
                 Objects.equals(image, container.image) &&
                 Objects.equals(path, container.path) &&
@@ -102,6 +114,6 @@ public class Container {
     @Override
     public int hashCode() {
 
-        return Objects.hash(containerId, creator, image, path, port, date, taskId);
+        return Objects.hash(containerId, containerName, creator, image, path, port, date, taskId);
     }
 }

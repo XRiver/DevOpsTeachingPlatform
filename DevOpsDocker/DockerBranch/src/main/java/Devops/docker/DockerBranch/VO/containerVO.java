@@ -5,21 +5,26 @@ import java.util.List;
 public class containerVO {
 
     private String containerId;//容器id
+    private String containerName;//容器名
     private String creator;//创建者
     private String image;//基于的镜像名
     private String path;//部署组件所在路径
     private String port;//访问端口设定
     private String date;//创建日期
-    private List<String> containerList;//该容器连接（可访问）的容器id
+    private List<String> containerList;//该容器连接（可访问）的容器名
 
-    public containerVO(String containerId, String creator, String image, String path, String port, String date, List<String> containerList) {
+    public containerVO(String containerId, String containerName, String creator, String image, String path, String port, String date, List<String> containerList) {
         this.containerId = containerId;
+        this.containerName = containerName;
         this.creator = creator;
         this.image = image;
         this.path = path;
         this.port = port;
         this.date = date;
         this.containerList = containerList;
+    }
+
+    public containerVO() {
     }
 
     public String getPath() {
@@ -76,5 +81,13 @@ public class containerVO {
 
     public void setContainerList(List<String> containerList) {
         this.containerList = containerList;
+    }
+
+    public String getContainerName() {
+        return containerName;
+    }
+
+    public void setContainerName(String containerName) {
+        this.containerName = containerName;
     }
 }

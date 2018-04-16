@@ -27,4 +27,7 @@ public interface TaskDao extends JpaRepository<Task, Integer> {
 
     @Query(value = "select t.* from task t where t.host_id = ?1",nativeQuery = true)
     List<Task> findTasksByHostId(int hostid);
+
+    @Query(value = "select t.* from task t where t.project_id = ?1",nativeQuery = true)
+    List<Task> findAllByProjectId(String project_id);
 }

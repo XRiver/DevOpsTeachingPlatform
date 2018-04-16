@@ -16,6 +16,9 @@ public class basicImageVO {
         this.shellScript = shellScript;
     }
 
+    public basicImageVO() {
+    }
+
     public int getBasicid() {
         return basicid;
     }
