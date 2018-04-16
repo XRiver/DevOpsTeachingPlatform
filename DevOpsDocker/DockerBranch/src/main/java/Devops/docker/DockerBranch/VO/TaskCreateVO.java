@@ -1,30 +1,26 @@
 package Devops.docker.DockerBranch.VO;
 
+import Devops.docker.DockerBranch.Entity.Container;
 
 import java.util.List;
 
-public class taskSpecificVO {
+public class TaskCreateVO {
     private String taskId;
     private String name;
     private String description;
     private String hostId;
-    private String hostIp;
     private String projectId;
-    private String userName;
+    private String username;
     private List<containerVO> containers;
 
-    public taskSpecificVO(String taskId, String name, String description, String hostId, String hostIp, String projectId, String userName, List<containerVO> containers) {
+    public TaskCreateVO(String taskId, String name, String description, String hostId, String projectId, String username, List<containerVO> containers) {
         this.taskId = taskId;
         this.name = name;
         this.description = description;
         this.hostId = hostId;
-        this.hostIp = hostIp;
         this.projectId = projectId;
-        this.userName = userName;
+        this.username = username;
         this.containers = containers;
-    }
-
-    public taskSpecificVO() {
     }
 
     public String getTaskId() {
@@ -51,12 +47,12 @@ public class taskSpecificVO {
         this.description = description;
     }
 
-    public String getHostIp() {
-        return hostIp;
+    public String getHostId() {
+        return hostId;
     }
 
-    public void setHostIp(String hostIp) {
-        this.hostIp = hostIp;
+    public void setHostId(String hostId) {
+        this.hostId = hostId;
     }
 
     public String getProjectId() {
@@ -67,12 +63,12 @@ public class taskSpecificVO {
         this.projectId = projectId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public List<containerVO> getContainers() {
@@ -81,13 +77,5 @@ public class taskSpecificVO {
 
     public void setContainers(List<containerVO> containers) {
         this.containers = containers;
-    }
-
-    public String getHostId() {
-        return hostId;
-    }
-
-    public void setHostId(String hostId) {
-        this.hostId = hostId;
     }
 }

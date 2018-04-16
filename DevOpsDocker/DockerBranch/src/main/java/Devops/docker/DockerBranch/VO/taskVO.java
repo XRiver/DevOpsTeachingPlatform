@@ -15,6 +15,9 @@ public class taskVO {
         this.creator = creator;
     }
 
+    public taskVO() {
+    }
+
     public String getTaskId() {
         return taskId;
     }
