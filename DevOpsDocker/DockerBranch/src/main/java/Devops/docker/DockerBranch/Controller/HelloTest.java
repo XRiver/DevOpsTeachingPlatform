@@ -17,6 +17,7 @@ import Devops.docker.DockerBranch.FileOperator.FileOperateFactory;
 import Devops.docker.DockerBranch.FileOperator.FileWriterTools;
 import Devops.docker.DockerBranch.FileOperator.RemoteFileReader;
 import Devops.docker.DockerBranch.FileOperator.RemoteFileWriter;
+import Devops.docker.DockerBranch.Monitoring.influxDB.testInfuxDB;
 import Devops.docker.DockerBranch.RemoteConnection.FileTransport;
 import Devops.docker.DockerBranch.RemoteConnection.RemoteExecuteCommand;
 
@@ -92,6 +93,9 @@ public class HelloTest {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+		
+		testInfuxDB t = new testInfuxDB();
+		name = t.testGetData();
 		
 		return new helloVO(counter.incrementAndGet(),
                 String.format(template, name));

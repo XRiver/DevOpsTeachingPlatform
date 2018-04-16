@@ -46,6 +46,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
+		
+		<!-- influxdb -->
+		<dependency>
+ 			<groupId>com.github.miwurster</groupId>
+  			<artifactId>spring-data-influxdb</artifactId>
+  			<version>1.7</version>
+		</dependency>
+		
 		<!--hibernate-->
 		<dependency>
 			<groupId>org.hibernate</groupId>
