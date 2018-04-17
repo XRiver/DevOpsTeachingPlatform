@@ -1,7 +1,44 @@
 doctype html
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(charset='UTF-8')
+    title 南京大学软件学院DevOps教学平台
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.0.8/css/all.css')
+    link(rel='stylesheet', href='/stylesheets/layout.css')
+    script(src='https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
   body
-    block content
+    .container-fluid#frame
+      nav.navbar.sticky-top.py-3#headers
+        .container-fluid
+          h3.col-6 南京大学软件学院DevOps教学平台
+          .col-6.text-right.align-middle#userMenu 你好，#{realName} &nbsp;&nbsp;
+            .dropdown.float-right
+                button.btn.btn-outline-info.btn-sm.dropdown-toggle(type="button",data-toggle="dropdown") 用户设置
+                .dropdown-menu
+                  a.dropdown-item#modInfoBtn(href="#") 修改个人资料
+                  a.dropdown-item#modPassBtn(href="#") 修改密码
+            button.btn.btn-outline-warning.btn-sm.float-right#logoutBtn(type="button") 退出登录
+        .container-fluid#teamworkMenu 
+          .row
+            - if(activeProjectId!=-1) {
+            span 当前激活的项目id为#{activeProjectId}，等等
+            - } else {
+            span 当前未激活项目
+            - }
+            button.btn.btn-outline-info.btn-sm.float-left#teamManageBtn(type="button") 团队管理
+            button.btn.btn-outline-info.btn-sm.float-left#projectManageBtn(type="button") 项目管理
+      .row.container-fluid.px-1.py-2
+        .btn-group-vertical.col-2.border.border-primary#menu
+          button.btn.btn-primary.btn-block#jenkinsBtn(type='button', data-toggle='collapse', data-target='.collapse-workboards')
+            | 持续集成
+            i.fa.fa-chevron-down
+          button.btn.btn-secondary.btn-block.collapse.collapse-workboards(type='button') 其一               
+          button.btn.btn-secondary.btn-block.collapse.collapse-workboards(type='button') 其二
+          button.btn.btn-secondary.btn-block.collapse.collapse-workboards(type='button') 其三    
+          button.btn.btn-primary.btn-block#dockerBtn(type='button') Docker部署
+        .col-10#main.border.border-primary
+          block content

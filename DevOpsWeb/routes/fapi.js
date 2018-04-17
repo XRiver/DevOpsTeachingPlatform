@@ -1,6 +1,6 @@
 var express = require('express');
 var rp = require('request-promise');
-var help = require('./help');
+var help = require('../api-lib/help');
 
 var router = express.Router();
 router.post('/login', function(req, res, next) {
@@ -12,7 +12,7 @@ router.post('/login', function(req, res, next) {
         sess.logined = true;
         res.send({
             status:0,
-            redirect:'/index'
+            redirect:'/index?p=welcome'
         });
     } else {
         res.send({
