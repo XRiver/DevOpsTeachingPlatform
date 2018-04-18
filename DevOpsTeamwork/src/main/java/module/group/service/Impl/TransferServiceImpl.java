@@ -1,7 +1,7 @@
 package module.group.service.Impl;
 
-import module.entity.PO.GroupPO;
-import module.entity.VO.GroupVO;
+import module.model.Group;
+import module.model.VO.GroupVO;
 import module.group.service.TransferService;
 
 /**
@@ -10,8 +10,8 @@ import module.group.service.TransferService;
 public class TransferServiceImpl implements TransferService {
 
 
-    public GroupPO transfer_to_PO(GroupVO groupVO) {
-        GroupPO groupPO = new GroupPO(groupVO.getGroupName(),
+    public Group transfer_to_PO(GroupVO groupVO) {
+        Group groupPO = new Group(groupVO.getGroupName(),
                 groupVO.getInfo(),
                 groupVO.getMemberList(),
                 groupVO.getGroupId(),
@@ -22,7 +22,7 @@ public class TransferServiceImpl implements TransferService {
         return groupPO;
     }
 
-    public GroupVO transfer_to_VO(GroupPO groupPO) {
+    public GroupVO transfer_to_VO(Group groupPO) {
         GroupVO groupVO = new GroupVO(groupPO.getGroupName(),
                 groupPO.getInfo(),
                 groupPO.getMemberList(),

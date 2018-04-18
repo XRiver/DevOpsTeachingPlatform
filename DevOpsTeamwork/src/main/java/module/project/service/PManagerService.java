@@ -1,6 +1,6 @@
 package module.project.service;
 
-import module.entity.VO.UserVO;
+import module.model.VO.UserVO;
 
 import java.util.List;
 

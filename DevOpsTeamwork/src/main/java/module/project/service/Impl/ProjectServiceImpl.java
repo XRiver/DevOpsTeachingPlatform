@@ -1,6 +1,6 @@
 package module.project.service.impl;
 
-import module.entity.VO.ProjectVO;
+import module.model.VO.ProjectVO;
 import module.project.dao.PManagerMapper;
 import module.project.dao.ProjectMapper;
 import module.project.model.PManager;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

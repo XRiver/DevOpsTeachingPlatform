@@ -1,4 +1,4 @@
-package module.entity.PO;
+package module.model.VO;
 
 import module.user.model.Role;
 
@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by caosh on 2018/4/1.
  */
-public class UserPO {
+public class UserVO {
     private String username;//用户名
     private String password;
     private String name;//姓名
@@ -17,7 +17,7 @@ public class UserPO {
     private Date create_time;//创建时间
     private Date update_time;//更新时间
 
-    public UserPO(String username, String password, String name, String userId
+    public UserVO(String username, String password, String name, String userId
             , String email, Role role, Date create_time, Date update_time) {
         this.username = username;
         this.password = password;

@@ -1,14 +1,14 @@
 package module.group.service;
 
-import module.entity.PO.GroupPO;
-import module.entity.VO.GroupVO;
+import module.model.Group;
+import module.model.VO.GroupVO;
 
 /**
  * Created by caosh on 2018/4/12.
  */
 public interface TransferService {
 
-    public GroupPO transfer_to_PO(GroupVO groupVO);
+    public Group transfer_to_PO(GroupVO groupVO);
 
-    public GroupVO transfer_to_VO(GroupPO groupPO);
+    public GroupVO transfer_to_VO(Group groupPO);
 }

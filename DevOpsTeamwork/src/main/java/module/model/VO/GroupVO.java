@@ -1,6 +1,4 @@
-package module.entity.PO;
-
-import module.entity.VO.UserVO;
+package module.model.VO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,7 +6,7 @@ import java.util.Date;
 /**
  * Created by caosh on 2018/4/1.
  */
-public class GroupPO {
+public class GroupVO {
     private String groupName;
     private String info;//团队信息
     private ArrayList<UserVO> memberList;//团队成员
@@ -18,7 +16,7 @@ public class GroupPO {
     private Date create_time;//创建时间
     private Date update_time;//更新时间
 
-    public GroupPO(String groupName, String info, ArrayList<UserVO> memberList
+    public GroupVO(String groupName, String info, ArrayList<UserVO> memberList
             , int groupId, UserVO creator, ArrayList<UserVO> managerList
             , Date update_time, Date create_time) {
         this.groupName = groupName;

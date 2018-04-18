@@ -1,30 +1,28 @@
-package module.entity.VO;
+package module.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by caosh on 2018/4/1.
  */
-public class GroupVO {
+public class Group {
     private String groupName;
     private String info;//团队信息
-    private ArrayList<UserVO> memberList;//团队成员
+//    private ArrayList<UserVO> memberList;//团队成员
     private int groupId;//团队编号
-    private UserVO creator;//团队创建者
-    private ArrayList<UserVO> managerList;//团队管理者
+    private String creatorName;//团队创建者
+//    private ArrayList<UserVO> managerList;//团队管理者
     private Date create_time;//创建时间
     private Date update_time;//更新时间
 
-    public GroupVO(String groupName, String info, ArrayList<UserVO> memberList
-            , int groupId, UserVO creator, ArrayList<UserVO> managerList
-            , Date update_time, Date create_time) {
+    public Group(String groupName, String info,
+                 int groupId,String creatorName, Date update_time, Date create_time) {
         this.groupName = groupName;
         this.info = info;
-        this.memberList = memberList;
+//        this.memberList = memberList;
         this.groupId = groupId;
-        this.creator = creator;
-        this.managerList = managerList;
+        this.creatorName = creatorName;
+//        this.managerList = managerList;
         this.update_time = update_time;
         this.create_time = create_time;
     }
@@ -45,13 +43,13 @@ public class GroupVO {
         this.groupName = groupName;
     }
 
-    public ArrayList<UserVO> getMemberList() {
-        return memberList;
-    }
-
-    public void setMemberList(ArrayList<UserVO> memberList) {
-        this.memberList = memberList;
-    }
+//    public ArrayList<UserVO> getMemberList() {
+//        return memberList;
+//    }
+//
+//    public void setMemberList(ArrayList<UserVO> memberList) {
+//        this.memberList = memberList;
+//    }
 
     public String getInfo() {
         return info;
@@ -61,21 +59,21 @@ public class GroupVO {
         this.info = info;
     }
 
-    public UserVO getCreator() {
-        return creator;
+    public String getCreator() {
+        return creatorName;
     }
 
-    public void setCreator(UserVO creator) {
-        this.creator = creator;
+    public void setCreator(String creator) {
+        this.creatorName = creator;
     }
 
-    public ArrayList<UserVO> getManagerList() {
-        return managerList;
-    }
+//    public ArrayList<UserVO> getManagerList() {
+//        return managerList;
+//    }
 
-    public void setManagerList(ArrayList<UserVO> managerList) {
-        this.managerList = managerList;
-    }
+//    public void setManagerList(ArrayList<UserVO> managerList) {
+//        this.managerList = managerList;
+//    }
 
     public Date getCreate_time() {
         return create_time;
