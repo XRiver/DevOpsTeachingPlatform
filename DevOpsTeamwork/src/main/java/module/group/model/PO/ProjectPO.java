@@ -1,6 +1,6 @@
-package module.model.PO;
+package module.group.model.PO;
 
-import module.model.VO.UserVO;
+import module.group.model.VO.UserVO;
 
 import java.util.ArrayList;
 import java.util.Date;

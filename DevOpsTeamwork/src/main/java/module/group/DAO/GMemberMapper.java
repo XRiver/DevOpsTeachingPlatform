@@ -1,6 +1,6 @@
 package module.group.DAO;
 
-import module.model.GMember;
+import module.group.model.GMember;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 

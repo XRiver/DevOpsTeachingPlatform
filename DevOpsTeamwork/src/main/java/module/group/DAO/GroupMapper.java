@@ -1,6 +1,6 @@
 package module.group.DAO;
 
-import module.model.Group;
+import module.group.model.Group;
 import org.springframework.stereotype.Repository;
 
 /**

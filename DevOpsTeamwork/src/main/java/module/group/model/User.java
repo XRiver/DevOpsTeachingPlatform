@@ -1,4 +1,4 @@
-package module.model;
+package module.group.model;
 
 import module.user.model.Role;
 

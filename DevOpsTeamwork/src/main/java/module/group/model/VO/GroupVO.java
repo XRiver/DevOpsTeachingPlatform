@@ -1,4 +1,4 @@
-package module.model.VO;
+package module.group.model.VO;
 
 import java.util.ArrayList;
 import java.util.Date;

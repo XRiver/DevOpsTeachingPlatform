@@ -1,6 +1,6 @@
 package module.project.service.impl;
 
-import module.model.VO.ProjectVO;
+import module.group.model.VO.ProjectVO;
 import module.project.dao.PManagerMapper;
 import module.project.dao.ProjectMapper;
 import module.project.model.PManager;

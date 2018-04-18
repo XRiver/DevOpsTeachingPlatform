@@ -1,7 +1,7 @@
 package module.group.service.Impl;
 
-import module.model.Group;
-import module.model.VO.GroupVO;
+import module.group.model.Group;
+import module.group.model.VO.GroupVO;
 import module.group.service.TransferService;
 
 /**
