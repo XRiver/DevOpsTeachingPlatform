@@ -3,6 +3,7 @@ package module.project.service;
 import module.entity.VO.ProjectVO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by caosh on 2018/4/9.
@@ -18,27 +19,18 @@ public interface ProjectService {
      * @param groupId
      * @return
      */
-    public ProjectVO createWithGroup(String projectName, String info, ArrayList<Integer> managerList,
-                                     int groupId);
+    int createWithGroup(String projectName, String info, List<String> managerList,
+                                     int groupId,String creatorName);
 
     /**
-     * 创建项目（无团队）
+     *
+     * @param projectId
      * @param projectName
      * @param info
-     * @param managerList
-     * @param memberList
+     * @param applicant
      * @return
      */
-    public ProjectVO createWithoutGroup(String projectName, String info, ArrayList<Integer> managerList,
-                                        ArrayList<Integer> memberList);
-
-
-    /**
-     * 编辑项目信息
-     * @param projectVO
-     * @return
-     */
-    public boolean editProject(ProjectVO projectVO);
+    boolean editProject(int projectId,String projectName, String info, String applicant);
 
 
     /**
@@ -46,7 +38,7 @@ public interface ProjectService {
      * @param userId
      * @return
      */
-    public boolean editMember(int userId);
+    boolean editMember(int userId);
 
 
     /**
@@ -54,5 +46,5 @@ public interface ProjectService {
      * @param projectId
      * @return
      */
-    public ProjectVO getGroupInfo(int projectId);
+    ProjectVO getGroupInfo(int projectId);
 }
