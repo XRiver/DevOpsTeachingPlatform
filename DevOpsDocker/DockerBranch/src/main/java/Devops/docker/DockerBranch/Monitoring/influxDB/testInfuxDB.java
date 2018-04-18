@@ -10,11 +10,6 @@ public class testInfuxDB {
 	
 	String url = "http://119.29.88.207:8086/query";
 	
-	EncodeRestTemplate rest;
-	
-	public testInfuxDB() {
-		rest = new EncodeRestTemplate();
-	}
 	
 	public String testGetData() {
 		String tt = "";
