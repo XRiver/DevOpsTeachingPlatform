@@ -1,6 +1,6 @@
 package module.project.service.impl;
 
-import module.model.VO.UserVO;
+import module.group.model.VO.UserVO;
 import module.project.service.PManagerService;
 
 import java.util.List;

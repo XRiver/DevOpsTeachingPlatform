@@ -1,7 +1,7 @@
 package module.group.service;
 
-import module.model.Group;
-import module.model.VO.GroupVO;
+import module.group.model.Group;
+import module.group.model.VO.GroupVO;
 
 /**
  * Created by caosh on 2018/4/12.
