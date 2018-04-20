@@ -19,12 +19,29 @@ import ch.ethz.ssh2.StreamGobbler;
 public class RemoteExecuteCommand {
 	
 	
-	public StringBuilder ExecCommand(StringBuilder Command) throws RemoteOperateException, IOException {
-		//获得主机ip等文件的代码
-		//获得主机ip等文件的代码
+	/**
+	 *远程执行linux命令并获得执行结果的方法 
+	 * @param StringBuilder Command 需要执行的命令
+	 * @param String Ip 要连接的主机的ip地址
+	 * @param String UserName 要ssh连接的主机的root账号
+	 * @param String password 要ssh连接的主机的密码
+	 * @param int port 远程主机ssh监听端口 默认22 如果参数为-1，则默认端口
+	 * @return StringBuilder 返回的结果以StringBuilder返回
+	 * 
+	 * */
+	public StringBuilder ExecCommand(StringBuilder Command,String Ip,String UserName,String password,
+			int port) throws RemoteOperateException, IOException {
+
+		int pport = 0;
+		if(port == -1) {
+			pport = 22;
+		}else {
+			pport = port;
+		}
+		
 		StringBuilder returnResult = new StringBuilder();
 		
-		RemoteSignIn sign = new RemoteSignIn("119.29.88.207", 22, "ubuntu", "abc8879623");
+		RemoteSignIn sign = new RemoteSignIn(Ip, pport, UserName, password);
 		Connection connection = sign.getConnection(); //通过SignIn方法拿到Connection
 		
 		try {

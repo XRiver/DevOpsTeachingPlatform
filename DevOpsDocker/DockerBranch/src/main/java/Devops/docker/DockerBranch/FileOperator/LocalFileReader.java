@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.FileOperateException;
 
 /**
@@ -26,7 +27,8 @@ public class LocalFileReader extends FileReaderTools{
 	}
 
 	@Override
-	public StringBuilder ReadFile(String Path, String FileName, String FileType) throws IOException, FileOperateException {
+	public StringBuilder ReadFile(String Path, String FileName, String FileType,
+			Host host) throws IOException, FileOperateException {
 		// TODO Auto-generated method stub
 		String file = Path + FileName;
 		StringBuilder resultString = new StringBuilder();

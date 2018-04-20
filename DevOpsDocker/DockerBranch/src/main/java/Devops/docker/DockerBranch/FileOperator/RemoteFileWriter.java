@@ -2,6 +2,7 @@ package Devops.docker.DockerBranch.FileOperator;
 
 import java.io.IOException;
 
+import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
 import ch.ethz.ssh2.Connection;
@@ -11,15 +12,15 @@ import ch.ethz.ssh2.SFTPv3FileHandle;
 public class RemoteFileWriter extends FileWriterTools{
 
 	@Override
-	public boolean WriteFile(String Path, String FileName, String FileType, StringBuilder containt) 
+	public boolean WriteFile(String Path, String FileName, String FileType, StringBuilder containt,Host host) 
 			throws RemoteOperateException, IOException {
 		// TODO Auto-generated method stub
 		
 		//这里的填写配置文件相关的读远程linux文件的IP、Port、Username、Password
-		String HostIP = "119.29.88.207";
+		String HostIP = host.getIp();
 		int HostPort = 22;
-		String HostUserName = "ubuntu";
-		String HostPassword = "abc8879623";
+		String HostUserName = host.getHostname();
+		String HostPassword = host.getPassword();
 		//这里的填写配置文件相关的读远程linux文件的IP、Port、Username、Password
 		
 		RemoteSignIn sign = new RemoteSignIn(HostIP, HostPort, HostUserName, HostPassword);

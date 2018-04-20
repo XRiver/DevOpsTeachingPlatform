@@ -17,6 +17,7 @@ import Devops.docker.DockerBranch.FileOperator.FileOperateFactory;
 import Devops.docker.DockerBranch.FileOperator.FileWriterTools;
 import Devops.docker.DockerBranch.FileOperator.RemoteFileReader;
 import Devops.docker.DockerBranch.FileOperator.RemoteFileWriter;
+import Devops.docker.DockerBranch.Monitoring.influxDB.GetRemoteLinuxTotalMemory;
 import Devops.docker.DockerBranch.Monitoring.influxDB.testInfuxDB;
 import Devops.docker.DockerBranch.RemoteConnection.FileTransport;
 import Devops.docker.DockerBranch.RemoteConnection.RemoteExecuteCommand;
@@ -62,8 +63,18 @@ public class HelloTest {
 //		System.out.println(test.WriteFile("/home/ubuntu/", "test", "sh", t));
 		
 //		RemoteExecuteCommand t = new RemoteExecuteCommand();
-//		StringBuilder r = t.ExecCommand(new StringBuilder("ls -l"));
+//		StringBuilder r=null;
+//		try {
+//			r = t.ExecCommand(new StringBuilder("head /proc/meminfo"));
+//		} catch (RemoteOperateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 //		System.out.println(r.toString());
+//		name = r.toString();
 		
 //		FileOperateFacInstance a = new FileOperateFacInstance();
 //		FileDeleteTools d = a.getDelete(true);
@@ -94,8 +105,19 @@ public class HelloTest {
 //			e.printStackTrace();
 //		}
 		
-		testInfuxDB t = new testInfuxDB();
-		name = t.testGetData();
+//		testInfuxDB t = new testInfuxDB();
+//		name = t.testGetData();
+		
+		GetRemoteLinuxTotalMemory g = new GetRemoteLinuxTotalMemory("ubuntu", "abc8879623", "119.29.88.207", 22);
+		try {
+			name = g.GetMemory();
+		} catch (RemoteOperateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return new helloVO(counter.incrementAndGet(),
                 String.format(template, name));

@@ -2,6 +2,7 @@ package Devops.docker.DockerBranch.FileOperator;
 
 import java.io.IOException;
 
+import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
 import ch.ethz.ssh2.Connection;
@@ -16,15 +17,15 @@ public class RemoteFileReader extends FileReaderTools{
 	}
 
 	@Override
-	public StringBuilder ReadFile(String Path, String FileName, String FileType) 
+	public StringBuilder ReadFile(String Path, String FileName, String FileType,Host host) 
 			throws IOException, RemoteOperateException {
 		// TODO Auto-generated method stub
 		StringBuilder resultString = new StringBuilder();
 		//这里的填写配置文件相关的读远程linux文件的IP、Port、Username、Password
-		String HostIP = "119.29.88.207";
+		String HostIP = host.getIp();
 		int HostPort = 22;
-		String HostUserName = "ubuntu";
-		String HostPassword = "abc8879623";
+		String HostUserName = host.getHostname();
+		String HostPassword = host.getPassword();
 		//这里的填写配置文件相关的读远程linux文件的IP、Port、Username、Password
 		
 		RemoteSignIn sign = new RemoteSignIn(HostIP, HostPort, HostUserName, HostPassword);

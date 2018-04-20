@@ -3,6 +3,7 @@ package Devops.docker.DockerBranch.FileOperator;
 import java.io.File;
 import java.io.IOException;
 
+import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.FileOperateException;
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 
@@ -11,7 +12,7 @@ import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 public class LocalFileCreate extends FileCreateTools{
 
 	@Override
-	public boolean createDir(String Path, String DirName, int posixPermissions)
+	public boolean createDir(String Path, String DirName, int posixPermissions,Host host)
 			throws FileOperateException, RemoteOperateException, IOException {
 		// TODO Auto-generated method stub
 		String DirS = Path + DirName;
@@ -32,7 +33,7 @@ public class LocalFileCreate extends FileCreateTools{
 	}
 
 	@Override
-	public boolean createFile(String Path, String FileName, String FileType)
+	public boolean createFile(String Path, String FileName, String FileType,Host host)
 			throws FileOperateException, RemoteOperateException, IOException {
 		// TODO Auto-generated method stub
 		

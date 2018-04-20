@@ -2,6 +2,7 @@ package Devops.docker.DockerBranch.FileOperator;
 
 import java.io.IOException;
 
+import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.FileOperateException;
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
@@ -11,11 +12,11 @@ import ch.ethz.ssh2.SFTPv3Client;
 public class RemoteFileCreate extends FileCreateTools{
 
 	@Override
-	public boolean createDir(String Path, String DirName, int posixPermissions)
+	public boolean createDir(String Path, String DirName, int posixPermissions,Host host)
 			throws FileOperateException, RemoteOperateException, IOException {
 		// TODO Auto-generated method stub
 		
-		RemoteSignIn sign = getTheConnection();
+		RemoteSignIn sign = getTheConnection(host);
 		Connection con = sign.getConnection();
 		
 		String Dir = Path + DirName;
@@ -43,11 +44,11 @@ public class RemoteFileCreate extends FileCreateTools{
 	}
 
 	@Override
-	public boolean createFile(String Path, String FileName, String FileType)
+	public boolean createFile(String Path, String FileName, String FileType,Host host)
 			throws FileOperateException, RemoteOperateException, IOException {
 		// TODO Auto-generated method stub
 		
-		RemoteSignIn sign = getTheConnection();
+		RemoteSignIn sign = getTheConnection(host);
 		Connection con = sign.getConnection();
 		
 		String file = Path + FileName;
@@ -78,12 +79,12 @@ public class RemoteFileCreate extends FileCreateTools{
 		}
 	}
 	
-	private RemoteSignIn getTheConnection() {
+	private RemoteSignIn getTheConnection(Host host) {
 		//读取配置文件
-		String HostIP = "119.29.88.207";
+		String HostIP = host.getIp();
 		int HostPort = 22;
-		String HostUserName = "ubuntu";
-		String HostPassword = "abc8879623";
+		String HostUserName = host.getHostname();
+		String HostPassword = host.getPassword();
 		//读取配置文件
 		
 		RemoteSignIn sign = new RemoteSignIn(HostIP, HostPort, HostUserName, HostPassword);
