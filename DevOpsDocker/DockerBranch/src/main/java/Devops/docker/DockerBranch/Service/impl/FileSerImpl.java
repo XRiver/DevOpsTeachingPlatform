@@ -40,7 +40,7 @@ public class FileSerImpl implements FileService {
         }
 
 
-        FileTransport fileTransport = new FileTransport(fileName,fileType,localPath+fileName,path);
+//        FileTransport fileTransport = new FileTransport(fileName,fileType,localPath+fileName,path);
 
 
         return file.getContentType();
