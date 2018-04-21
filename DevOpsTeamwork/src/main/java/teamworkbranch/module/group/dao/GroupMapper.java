@@ -1,5 +1,6 @@
 package teamworkbranch.module.group.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import teamworkbranch.module.group.model.Group;
 
@@ -31,10 +32,12 @@ public interface GroupMapper {
 
     /**
      * 更新团队
-     * @param group
+     * @param name
+     * @param info
+     * @param groupId
      * @return
      */
-    int updateProject(Group group);
+    int updateGroup(@Param("name") String name, @Param("info") String info,@Param("groupId") int groupId);
 
     /**
      * 获得最后插入的id

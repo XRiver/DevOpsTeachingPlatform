@@ -24,13 +24,17 @@
 
     </insert>
 
-    <update id="updateGroup" parameterType="int">
+    <update id="updateGroup">
         update group set name=#{name},info=#{info} where group_id=#{groupId}
     </update>
 
     <delete id="deleteGroup" parameterType="int">
         delete from group where group_id=#{groupId}
     </delete>
+
+    <select id="selectById" parameterType="int" resultMap="groupMap">
+        select * from group left join group_manager on group.group_id=group_member.group_id where group_id=#{groupId}
+    </select>
 
     <select id="selectById" parameterType="int" resultMap="groupMap">
         select * from group left join group_manager on group.group_id=group_member.group_id where group_id=#{groupId}

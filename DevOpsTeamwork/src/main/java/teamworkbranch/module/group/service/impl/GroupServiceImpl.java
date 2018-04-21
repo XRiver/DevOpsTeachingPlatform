@@ -63,6 +63,7 @@ public class GroupServiceImpl implements GroupService {
      * @return
      */
     public boolean editGroup(String name,String info,int groupId) {
+        groupMapper.updateGroup(name,info,groupId);
         return true;
     }
 
@@ -80,8 +81,8 @@ public class GroupServiceImpl implements GroupService {
      * @param groupId
      * @return
      */
-    public GroupVO getGroupInfo(int groupId) {
-        return null;
+    public Group getGroupInfo(int groupId) {
+        return groupMapper.selectById(groupId);
     }
 
     /**

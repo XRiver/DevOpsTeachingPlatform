@@ -2,6 +2,7 @@ package teamworkbranch.module.group.service;
 
 import teamworkbranch.module.entity.VO.GroupVO;
 import teamworkbranch.module.entity.VO.UserVO;
+import teamworkbranch.module.group.model.Group;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public interface GroupService {
      * @param groupId
      * @return
      */
-    public GroupVO getGroupInfo(int groupId);
+    public Group getGroupInfo(int groupId);
 
 
     /**
