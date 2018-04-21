@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.FileOperateException;
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import Devops.docker.DockerBranch.FileOperator.FileCreateTools;
@@ -18,6 +19,8 @@ import Devops.docker.DockerBranch.FileOperator.FileWriterTools;
 import Devops.docker.DockerBranch.FileOperator.RemoteFileReader;
 import Devops.docker.DockerBranch.FileOperator.RemoteFileWriter;
 import Devops.docker.DockerBranch.Monitoring.influxDB.GetRemoteLinuxTotalMemory;
+import Devops.docker.DockerBranch.Monitoring.influxDB.InfluxDBImpl;
+import Devops.docker.DockerBranch.Monitoring.influxDB.InfluxDBService;
 import Devops.docker.DockerBranch.Monitoring.influxDB.testInfuxDB;
 import Devops.docker.DockerBranch.RemoteConnection.FileTransport;
 import Devops.docker.DockerBranch.RemoteConnection.RemoteExecuteCommand;
@@ -108,16 +111,22 @@ public class HelloTest {
 //		testInfuxDB t = new testInfuxDB();
 //		name = t.testGetData();
 		
-		GetRemoteLinuxTotalMemory g = new GetRemoteLinuxTotalMemory("ubuntu", "abc8879623", "119.29.88.207", 22);
-		try {
-			name = g.GetMemory();
-		} catch (RemoteOperateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		GetRemoteLinuxTotalMemory g = new GetRemoteLinuxTotalMemory("ubuntu", "abc8879623", "119.29.88.207", 22);
+//		try {
+//			name = g.GetMemory();
+//		} catch (RemoteOperateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+//		InfluxDBService test = new InfluxDBImpl();
+//		Host h = new Host();
+//		h.setIp("119.29.88.207");h.setHostname("ubuntu");h.setPassword("abc8879623");
+//		test.PerContainerCpuUsageRate("influxsrv", "2m", "119.29.88.207", 8086, 
+//				"root", "root", "cadvisor", "autogen", h);
 		
 		return new helloVO(counter.incrementAndGet(),
                 String.format(template, name));
