@@ -15,6 +15,12 @@ public class GMember {
     public GMember() {
     }
 
+    public GMember(int group_id, String member_name) {
+        this.group_id = group_id;
+        this.member_name = member_name;
+        this.is_manager = 0;
+    }
+
     public int getGroup_id() {
         return group_id;
     }

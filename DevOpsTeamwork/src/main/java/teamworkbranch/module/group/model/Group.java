@@ -16,6 +16,12 @@ public class Group {
     public Group() {
     }
 
+    public Group(String name, String info, String creator_name) {
+        this.name = name;
+        this.info = info;
+        this.creator_name = creator_name;
+    }
+
     public int getGroup_id() {
         return group_id;
     }

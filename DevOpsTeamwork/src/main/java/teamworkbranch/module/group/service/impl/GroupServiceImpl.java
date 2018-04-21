@@ -1,27 +1,48 @@
 package teamworkbranch.module.group.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import teamworkbranch.module.entity.VO.GroupVO;
 import teamworkbranch.module.entity.VO.UserVO;
+import teamworkbranch.module.group.dao.GMemberMapper;
+import teamworkbranch.module.group.dao.GroupMapper;
+import teamworkbranch.module.group.model.GMember;
+import teamworkbranch.module.group.model.Group;
 import teamworkbranch.module.group.service.GroupService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by caosh on 2018/4/9.
  */
+@Service
+@Transactional
 public class GroupServiceImpl implements GroupService {
+
+    @Autowired
+    GroupMapper groupMapper;
+    @Autowired
+    GMemberMapper gMemberMapper;
+
+
     /**
      * 创建团队
      * @param groupName
      * @param info
-     * @param memberList
-     * @param managerList
-     * @param creatorId
+     * @param creatorName
      * @return
      */
-    public GroupVO createGroup(String groupName, String info, ArrayList<Integer> memberList
-            , ArrayList<Integer> managerList, int creatorId) {
-        return null;
+    public int createGroup(String groupName, String info, String creatorName, List<String> memberList) {
+        Group group = new Group(groupName,info,creatorName);
+        groupMapper.insertGroup(group);
+        int groupId =  groupMapper.selectLastId();
+        for(String member: memberList){
+            GMember gMember = new GMember(groupId,member);
+        }
+
+        return 0;
     }
 
     /**
@@ -30,16 +51,19 @@ public class GroupServiceImpl implements GroupService {
      * @return
      */
     public boolean deleteGroup(int groupId) {
-        return false;
+        groupMapper.deleteGroup(groupId);
+        return true;
     }
 
     /**
      * 编辑团队信息
-     * @param groupVO
+     * @param name
+     * @param info
+     * @param groupId
      * @return
      */
-    public boolean editGroup(GroupVO groupVO) {
-        return false;
+    public boolean editGroup(String name,String info,int groupId) {
+        return true;
     }
 
     /**

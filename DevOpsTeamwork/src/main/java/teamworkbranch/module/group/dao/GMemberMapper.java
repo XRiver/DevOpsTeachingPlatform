@@ -22,7 +22,7 @@ public interface GMemberMapper {
          *
          * 删除团队成员
          */
-        int deleteGMember(@Param("groupId") int groupId, @Param("manager") String manager);
+        int deleteGMember(@Param("groupId") int groupId, @Param("member") String member);
 
 
 

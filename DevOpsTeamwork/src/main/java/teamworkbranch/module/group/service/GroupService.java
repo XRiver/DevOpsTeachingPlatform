@@ -4,6 +4,7 @@ import teamworkbranch.module.entity.VO.GroupVO;
 import teamworkbranch.module.entity.VO.UserVO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by caosh on 2018/4/9.
@@ -14,13 +15,11 @@ public interface GroupService {
      * 创建团队
      * @param groupName
      * @param info
+     * @param creatorName
      * @param memberList
-     * @param managerList
-     * @param creatorId
      * @return
      */
-    public GroupVO createGroup(String groupName, String info, ArrayList<Integer> memberList,
-                               ArrayList<Integer> managerList, int creatorId);
+    public int createGroup(String groupName, String info, String creatorName, List<String> memberList);
 
 
     /**
@@ -33,18 +32,15 @@ public interface GroupService {
 
     /**
      * 编辑团队信息
-     * @param groupVO
+     * @param name
+     * @param info
+     * @param groupId
      * @return
      */
-    public boolean editGroup(GroupVO groupVO);
+    public boolean editGroup(String name,String info,int groupId);
 
 
-    /**
-     * 团队修改人员
-     * @param userId
-     * @return
-     */
-    public boolean editMember(int userId);
+
 
 
     /**

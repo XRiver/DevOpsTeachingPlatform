@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="teamworkbranch.module.group.dao.GroupMapper">
+    <!--<cache flushInterval="300000" size="512" type="org.mybatis.caches.memcached.MemcachedCache"/>-->
+
+    <resultMap id="groupMap" type="teamworkbranch.module.group.model.group">
+        <id column="group_id" property="groupId"/>
+        <result column="creator_name" property="creator_Name"/>
+        <result column="name" property="name"/>
+        <result column="info" property="info"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+
+    </resultMap>
+
+
+
+    <insert id="insertGroup" useGeneratedKeys="true" keyProperty="group_id" parameterType="teamworkbranch.module.group.model.group">
+        insert into group (creator_name,name,info,group_id)
+        values (#{creator_Name},#{name},#{info},#{groupId})
+        <selectKey keyProperty="group_id" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>selectKey
+
+    </insert>
+
+    <update id="updateGroup" parameterType="int">
+        update group set name=#{name},info=#{info} where group_id=#{groupId}
+    </update>
+
+    <delete id="deleteGroup" parameterType="int">
+        delete from group where group_id=#{groupId}
+    </delete>
+
+    <select id="selectById" parameterType="int" resultMap="groupMap">
+        select * from group left join group_manager on group.group_id=group_member.group_id where group_id=#{groupId}
+    </select>
+
+    <!--<insert id="insertManager" >-->
+        <!--insert into group (creator_name,name,info,group_id) values (#{creatorName},#{name},#{info},#{groupId})-->
+    <!--</insert>-->
+
+    <!--这里可以获得刚插入表格的id，为后面manager的插入提供了groupId字段-->
+    <select id="selectLastId" resultType="int">
+        select LAST_INSERT_ID()
+    </select>
+
+
+
+</mapper>
