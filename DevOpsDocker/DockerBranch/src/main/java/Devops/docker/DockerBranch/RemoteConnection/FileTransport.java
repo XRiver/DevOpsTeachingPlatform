@@ -2,6 +2,7 @@ package Devops.docker.DockerBranch.RemoteConnection;
 
 import java.io.IOException;
 
+import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.SCPClient;
@@ -21,19 +22,21 @@ public class FileTransport {
 	private String FileType;
 	private String LocalPath;
 	private String RemotePath;
+	private Host host;
 	
 	
-	public FileTransport(String fileName, String fileType, String localPath, String remotePath) {
+	public FileTransport(String fileName, String fileType, String localPath, String remotePath,Host host) {
 		super();
 		FileName = fileName;
 		FileType = fileType;
 		LocalPath = localPath;
 		RemotePath = remotePath;
+		this.host = host;
 	}
 	
 	public RemoteSignIn SignIn() {
 		//前面还有读取文件的操作
-		RemoteSignIn sign = new RemoteSignIn("119.29.88.207", 22, "ubuntu", "abc8879623");
+		RemoteSignIn sign = new RemoteSignIn(host.getIp(), 22, host.getHostname(), host.getPassword());
 		return sign;
 	}
 	
@@ -136,6 +139,14 @@ public class FileTransport {
 
 	public void setRemotePath(String remotePath) {
 		RemotePath = remotePath;
+	}
+
+	public Host getHost() {
+		return host;
+	}
+
+	public void setHost(Host host) {
+		this.host = host;
 	}
 	
 }

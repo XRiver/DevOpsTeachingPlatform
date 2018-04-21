@@ -1,9 +1,13 @@
 package Devops.docker.DockerBranch.Monitoring.influxDB;
 
 
+import java.util.List;
+
 import org.influxdb.InfluxDB;
 import org.influxdb.dto.Query;
 import org.influxdb.dto.QueryResult;
+import org.influxdb.dto.QueryResult.Result;
+import org.influxdb.dto.QueryResult.Series;
 import org.springframework.data.influxdb.InfluxDBConnectionFactory;
 
 public class testInfuxDB {
@@ -26,9 +30,26 @@ public class testInfuxDB {
 		
 		InfluxDB db = factory.getConnection();
 		
-		Query q = new Query("select * from memory_usage where time <= '2018-04-13T14:16:06Z'", "cadvisor");
+		Query q = new Query("select * from memory_usage limit 5", "cadvisor");
 		
 		QueryResult result = db.query(q);
+		
+		List<Result> rs = result.getResults();
+		
+		Result test = rs.get(0);
+		
+		List<Series> ss = test.getSeries();
+		
+		Series s = ss.get(0);
+		
+		List<List<Object>> rrrr = s.getValues();
+		
+		for(int i = 0 ; i < rrrr.size();i++) {
+			for(int j = 0 ; j < rrrr.get(i).size();j++) {
+				System.out.print(rrrr.get(i).get(j).toString()+"  ");
+			}
+			System.out.println();
+		}
 		
 		System.out.println(result.toString() + "新部件");
 		
