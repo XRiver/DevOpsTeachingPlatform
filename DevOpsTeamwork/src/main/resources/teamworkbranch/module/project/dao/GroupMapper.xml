@@ -33,11 +33,11 @@
     </delete>
 
     <select id="selectById" parameterType="int" resultMap="groupMap">
-        select * from group left join group_manager on group.group_id=group_member.group_id where group_id=#{groupId}
+        select * from group left join group_member on group.group_id=group_member.group_id where group_id=#{groupId}
     </select>
 
-    <select id="selectById" parameterType="int" resultMap="groupMap">
-        select * from group left join group_manager on group.group_id=group_member.group_id where group_id=#{groupId}
+    <select id="selectMyGroups" parameterType="int" resultMap="groupMap">
+        select * from group left join group_member on group.group_id=group_member.group_id where group_member.member_name=#{memberName}
     </select>
 
     <!--<insert id="insertManager" >-->

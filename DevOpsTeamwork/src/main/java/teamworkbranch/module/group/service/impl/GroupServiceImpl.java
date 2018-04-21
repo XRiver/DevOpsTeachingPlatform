@@ -3,7 +3,6 @@ package teamworkbranch.module.group.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import teamworkbranch.module.entity.VO.GroupVO;
 import teamworkbranch.module.entity.VO.UserVO;
 import teamworkbranch.module.group.dao.GMemberMapper;
 import teamworkbranch.module.group.dao.GroupMapper;
@@ -96,11 +95,11 @@ public class GroupServiceImpl implements GroupService {
 
     /**
      * 查看所属团队
-     * @param userId
+     * @param memberName
      * @return
      */
-    public ArrayList<GroupVO> getGroupList(int userId) {
-        return null;
+    public List<Group> getGroupList(String memberName) {
+        return groupMapper.selectMyGroups(memberName);
     }
 
 

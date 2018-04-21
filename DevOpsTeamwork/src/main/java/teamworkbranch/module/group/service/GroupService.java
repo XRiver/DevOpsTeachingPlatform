@@ -1,6 +1,5 @@
 package teamworkbranch.module.group.service;
 
-import teamworkbranch.module.entity.VO.GroupVO;
 import teamworkbranch.module.entity.VO.UserVO;
 import teamworkbranch.module.group.model.Group;
 
@@ -62,10 +61,10 @@ public interface GroupService {
 
     /**
      * 查看所属团队
-     * @param userId
+     * @param memberName
      * @return
      */
-    public ArrayList<GroupVO> getGroupList(int userId);
+    public List<Group> getGroupList(String memberName);
 
 
 

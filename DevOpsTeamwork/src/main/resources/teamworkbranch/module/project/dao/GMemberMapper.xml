@@ -15,8 +15,8 @@
     </resultMap>
 
     <insert id="insertGMember" >
-        insert into group_member(group_id,member_name)
-        values (#{groupId},#{member_Name})
+        insert into group_member(group_id,member_name,is_manager)
+        values (#{groupId},#{member_Name},#{is_manager})
     </insert>
 
     <delete id="deleteGMember">

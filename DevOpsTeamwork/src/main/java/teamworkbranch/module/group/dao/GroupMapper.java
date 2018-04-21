@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import teamworkbranch.module.group.model.Group;
 
+import java.util.List;
+
 /**
  * Created by caosh on 2018/4/12.
  */
@@ -11,10 +13,17 @@ import teamworkbranch.module.group.model.Group;
 public interface GroupMapper {
     /**
      * 通过ID获取团队
-     * @param id
+     * @param groupId
      * @return Group
      */
-    Group selectById(int id);
+    Group selectById(int groupId);
+
+    /**
+     * 通过姓名获取所属团队
+     * @param memberName
+     * @return Group
+     */
+    List<Group> selectMyGroups(String memberName);
 
     /**
      * 新增团队
