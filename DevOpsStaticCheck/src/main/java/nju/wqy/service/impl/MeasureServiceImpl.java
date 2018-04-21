@@ -1,5 +1,9 @@
 package nju.wqy.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -8,6 +12,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import nju.wqy.service.MeasureService;
 import nju.wqy.util.APIManager;
+import nju.wqy.web.vo.HistoryVO;
 import nju.wqy.web.vo.IndexVO;
 import nju.wqy.web.vo.MeasureVO;
 @Service
@@ -82,10 +87,8 @@ public class MeasureServiceImpl implements MeasureService{
 		return Double.parseDouble(getValue(o));
 	}
 	public static String getValue(Object o) {
-		System.out.println(o);
 		JSONObject obj=JSONObject.fromObject(o); 	
 		String value=obj.getString("value");
-		System.out.println(value);
 		return value;
 	}
 	public static String getValue(Object o,String value) {
@@ -93,5 +96,23 @@ public class MeasureServiceImpl implements MeasureService{
 		JSONObject obj=JSONObject.fromObject(o); 	
 		return obj.getString(value);
 
+	}
+	@Override
+	public List<HistoryVO> getHistory(String projectKey, String type) {
+		String result=APIManager.get("http://localhost:9000/api/measures/search_history?component="+projectKey+"&metrics="+type+"&ps=1000");
+		List<HistoryVO> lists=new ArrayList<HistoryVO>();
+		if(result!=null){  
+			JSONObject obj=JSONObject.fromObject(result);      
+			JSONArray arr=obj.getJSONArray("measures");
+			JSONArray history=arr.getJSONObject(0).getJSONArray("history");
+			for(int i=0;i<history.size();i++) {
+				HistoryVO vo=new HistoryVO();
+				System.out.println(history.getString(i));
+				vo.setDate(getValue(history.getString(i),"date"));
+				vo.setValue(Integer.parseInt(getValue(history.getString(i),"value")));
+				lists.add(vo);
+			}
+		}
+		return lists;
 	}
 }

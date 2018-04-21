@@ -12,7 +12,6 @@ import nju.wqy.util.APIManager;
 import nju.wqy.web.vo.IndexVO;
 @Service
 public class IndexServiceImpl implements IndexService{
-	private String baseUrl="http://localhost:9000/api/";
 
 	@Override
 	public IndexVO getIndex(long id) {
@@ -37,7 +36,7 @@ public class IndexServiceImpl implements IndexService{
 				IndexVO vo=new IndexVO();
 				vo.setHealthDegree(healthDegree);
 				vo.setRiskIndex(riskIndex);
-				
+				vo.setLastAnalyse(lastAnalyse);
 			}
 		} 
 

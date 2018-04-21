@@ -6,7 +6,7 @@ public class IndexVO {
 	private int healthDegree;
 	private double riskIndex;
 	private int unresolvedProblems;
-	private Date lastAnalyse;
+	private String lastAnalyse;
 	public int getHealthDegree() {
 		return healthDegree;
 	}
@@ -25,10 +25,10 @@ public class IndexVO {
 	public void setUnresolvedProblems(int unresolvedProblems) {
 		this.unresolvedProblems = unresolvedProblems;
 	}
-	public Date getLastAnalyse() {
+	public String getLastAnalyse() {
 		return lastAnalyse;
 	}
-	public void setLastAnalyse(Date lastAnalyse) {
+	public void setLastAnalyse(String lastAnalyse) {
 		this.lastAnalyse = lastAnalyse;
 	}
 
