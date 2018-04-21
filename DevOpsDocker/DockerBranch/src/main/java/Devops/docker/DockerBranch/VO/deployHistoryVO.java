@@ -2,7 +2,7 @@ package Devops.docker.DockerBranch.VO;
 
 public class deployHistoryVO {
     private String historyId;//历史id
-    private String operatorName;//创建者姓名
+    private String operatorName;//操作者姓名
     private String date;//日期
     private String status;//部署结果
     private String time;//部署时间

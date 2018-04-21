@@ -2,8 +2,11 @@ package Devops.docker.DockerBranch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import javax.servlet.MultipartConfigElement;
 
@@ -27,4 +30,5 @@ public class DockerBranchApplication {
 		factory.setMaxRequestSize("100MB");
 		return factory.createMultipartConfig();
 	}
+
 }

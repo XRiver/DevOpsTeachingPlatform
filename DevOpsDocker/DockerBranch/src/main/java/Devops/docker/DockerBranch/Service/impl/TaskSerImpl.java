@@ -1,5 +1,6 @@
 package Devops.docker.DockerBranch.Service.impl;
 
+import Devops.docker.DockerBranch.Controller.SocketServer;
 import Devops.docker.DockerBranch.Entity.Container;
 import Devops.docker.DockerBranch.Entity.Containerlink;
 import Devops.docker.DockerBranch.Entity.Host;
@@ -16,6 +17,8 @@ import Devops.docker.DockerBranch.dao.HostDao;
 import Devops.docker.DockerBranch.dao.TaskDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +42,8 @@ public class TaskSerImpl implements TaskSer{
 
     @Autowired
     HostDao hostDao;
+
+    private static final Logger logger = LoggerFactory.getLogger(TaskSerImpl.class);
 
     @Override
     public String createTask(TaskCreateVO vo) {
@@ -182,7 +187,7 @@ public class TaskSerImpl implements TaskSer{
 
     @Override
     public int startTask(String username, String taskId) {
-
+        logger.info("成功启动");
         return 0;
     }
 
