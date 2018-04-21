@@ -1,16 +1,12 @@
 package Devops.docker.DockerBranch.Controller;
 
-import Devops.docker.DockerBranch.Entity.Container;
 import Devops.docker.DockerBranch.Service.TaskSer;
-import Devops.docker.DockerBranch.Service.tools.DateTool;
 import Devops.docker.DockerBranch.VO.*;
-import jdk.nashorn.internal.parser.JSONParser;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,7 +14,6 @@ public class TaskConfig {
 
     @Autowired
     TaskSer taskSer;
-
 
     /**
      *
@@ -91,7 +86,7 @@ public class TaskConfig {
      */
     @RequestMapping(value = "/startTask",method = RequestMethod.GET)
     public int startTask(@RequestParam String username,@RequestParam String taskId){
-
+        SocketServer.sendMessage("成功连接",taskId);
         return 1;
     }
 
