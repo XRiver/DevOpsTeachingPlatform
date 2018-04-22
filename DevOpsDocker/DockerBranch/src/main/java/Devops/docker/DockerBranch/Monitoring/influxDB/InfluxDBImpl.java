@@ -13,7 +13,9 @@ import org.springframework.data.influxdb.InfluxDBConnectionFactory;
 
 import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class InfluxDBImpl implements InfluxDBService{
 
 	@Override
