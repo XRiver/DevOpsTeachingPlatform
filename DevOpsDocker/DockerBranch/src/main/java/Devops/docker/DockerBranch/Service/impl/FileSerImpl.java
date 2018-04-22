@@ -1,5 +1,6 @@
 package Devops.docker.DockerBranch.Service.impl;
 
+import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.RemoteConnection.FileTransport;
 import Devops.docker.DockerBranch.Service.FileService;
 import Devops.docker.DockerBranch.Service.tools.FileTools;
@@ -31,7 +32,7 @@ public class FileSerImpl implements FileService {
         logger.info("上传的文件名为："+fileName);
 
         String localPath = "F:\\save\\";
-        String remoteIp = hostDao.findById(Integer.parseInt(hostId)).get().getIp();
+        Host host = hostDao.findById(Integer.parseInt(hostId)).get();
 
         try{
             FileTools.uploadFile(file.getBytes(),localPath,fileName);
@@ -40,9 +41,9 @@ public class FileSerImpl implements FileService {
         }
 
 
-        FileTransport fileTransport = new FileTransport(fileName,fileType,localPath+fileName,path);
+        FileTransport fileTransport = new FileTransport(fileName,fileType,localPath+fileName,path,host);
 
 
-        return file.getContentType();
+        return file.getName();
     }
 }

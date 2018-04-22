@@ -46,17 +46,17 @@ public class DeployStatus {
         return vo;
     }
 
-    /**
-     *
-     * @param taskid
-     * @return 实时部署状态信息，需要轮询获得
-     */
-    @RequestMapping("/getDeployStatus")
-    public deployStatusVO getStatus(@RequestParam String taskid){
-        deployStatusVO vo = new deployStatusVO();
-        vo.setLog("deploying");
-        vo.setStatus(2);
-        vo.setTaskId("123");
-        return vo;
-    }
+//    /**
+//     *
+//     * @param taskid
+//     * @return 实时部署状态信息，需要轮询获得
+//     */
+//    @RequestMapping("/getDeployStatus")
+//    public deployStatusVO getStatus(@RequestParam String taskid){
+//        deployStatusVO vo = new deployStatusVO();
+//        vo.setLog("deploying");
+//        vo.setStatus(2);
+//        vo.setTaskId("123");
+//        return vo;
+//    }
 }

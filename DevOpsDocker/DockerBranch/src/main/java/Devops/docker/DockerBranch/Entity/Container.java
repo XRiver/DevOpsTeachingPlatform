@@ -12,6 +12,7 @@ public class Container {
     private String path;
     private String port;
     private String date;
+    private String filename;
     private Integer taskId;
 
     @Id
@@ -95,6 +96,12 @@ public class Container {
     public void setContainerName(String containerName) {
         this.containerName = containerName;
     }
+
+    @Basic
+    @Column(name = "file_name",nullable = true)
+    public String getFilename(){return filename; }
+
+    public void setFilename(String filename){this.filename = filename;}
 
     @Override
     public boolean equals(Object o) {

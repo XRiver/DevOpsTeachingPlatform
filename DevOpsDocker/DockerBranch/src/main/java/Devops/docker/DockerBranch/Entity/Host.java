@@ -8,6 +8,7 @@ public class Host {
     private int hostId;
     private String hostname;
     private String ip;
+    private String sshPort;
     private String root;
     private String password;
     private String creator;
@@ -15,6 +16,24 @@ public class Host {
     private String date;
     private String opsSystem;
     private String auto_installed;
+
+    public Host() {
+
+    }
+
+    public Host(int hostId, String hostname, String ip, String sshPort, String root, String password, String creator, String projectid, String date, String opsSystem, String auto_installed) {
+        this.hostId = hostId;
+        this.hostname = hostname;
+        this.ip = ip;
+        this.sshPort = sshPort;
+        this.root = root;
+        this.password = password;
+        this.creator = creator;
+        this.projectid = projectid;
+        this.date = date;
+        this.opsSystem = opsSystem;
+        this.auto_installed = auto_installed;
+    }
 
     @Id
     @Column(name = "host_Id", nullable = false)
@@ -118,6 +137,16 @@ public class Host {
         this.auto_installed = auto_installed;
     }
 
+    @Basic
+    @Column(name = "ssh_port",nullable = true,length = 20)
+    public String getSshPort() {
+        return sshPort;
+    }
+
+    public void setSshPort(String sshPort) {
+        this.sshPort = sshPort;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -126,6 +155,7 @@ public class Host {
         return hostId == host.hostId &&
                 Objects.equals(hostname, host.hostname) &&
                 Objects.equals(ip, host.ip) &&
+                Objects.equals(sshPort, host.sshPort) &&
                 Objects.equals(root, host.root) &&
                 Objects.equals(password, host.password) &&
                 Objects.equals(creator, host.creator) &&
@@ -138,6 +168,6 @@ public class Host {
     @Override
     public int hashCode() {
 
-        return Objects.hash(hostId, hostname, ip, root, password, creator, projectid, date, opsSystem, auto_installed);
+        return Objects.hash(hostId, hostname, ip, sshPort, root, password, creator, projectid, date, opsSystem, auto_installed);
     }
 }

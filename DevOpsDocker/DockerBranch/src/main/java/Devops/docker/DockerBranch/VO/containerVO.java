@@ -10,16 +10,18 @@ public class containerVO {
     private String image;//基于的镜像名
     private String path;//部署组件所在路径
     private String port;//访问端口设定
+    private String filename;//包含的文件名
     private String date;//创建日期
     private List<String> containerList;//该容器连接（可访问）的容器名
 
-    public containerVO(String containerId, String containerName, String creator, String image, String path, String port, String date, List<String> containerList) {
+    public containerVO(String containerId, String containerName, String creator, String image, String path, String port, String filename, String date, List<String> containerList) {
         this.containerId = containerId;
         this.containerName = containerName;
         this.creator = creator;
         this.image = image;
         this.path = path;
         this.port = port;
+        this.filename = filename;
         this.date = date;
         this.containerList = containerList;
     }
@@ -89,5 +91,13 @@ public class containerVO {
 
     public void setContainerName(String containerName) {
         this.containerName = containerName;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }
