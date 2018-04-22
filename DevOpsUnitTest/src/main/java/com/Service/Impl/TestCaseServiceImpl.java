@@ -40,6 +40,11 @@ public class TestCaseServiceImpl implements TestCaseService{
     @Override
     public boolean updateTestCase(TestCaseVO testCaseVO) {
         TestCase testCase=new TestCase(testCaseVO);
+        if(testCaseVO.getId()==0){
+            System.out.println("id 不存在");
+            return false;
+        }
+
         testCase.setId(testCaseVO.getId());
         testCaseRepo.saveAndFlush(testCase);
         return true;
@@ -48,6 +53,9 @@ public class TestCaseServiceImpl implements TestCaseService{
     @Override
     public TestCaseVO getTestCaseById(Long id) {
         TestCase testCase=testCaseRepo.findById(id);
+        if(testCase==null){
+            return null;
+        }
         return testCase.toTestCaseVO();
     }
 }

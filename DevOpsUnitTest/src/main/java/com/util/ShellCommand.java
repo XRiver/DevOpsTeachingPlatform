@@ -76,6 +76,10 @@ public class ShellCommand {
 
 
     public static boolean clearDir(String path){
+
+        if(path.length()<=1){
+            return  false;
+        }
         return callSudoCommand("rm -rf"+path);
 
     }

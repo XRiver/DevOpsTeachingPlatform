@@ -10,7 +10,9 @@ import com.Service.BugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,6 +40,10 @@ public class BugServiceImpl implements BugService{
 
     @Override
     public boolean updateBug(BugVO bugVO) {
+        if(bugVO.getId()==0){
+            System.out.println("id 不存在");
+            return false;
+        }
         Bug bug=new Bug(bugVO);
         bug.setId(bugVO.getId());
         bugRepository.saveAndFlush(bug);
@@ -57,11 +63,23 @@ public class BugServiceImpl implements BugService{
 
     @Override
     public BugVO getBugById(Long id) {
+        if(bugRepository.findById(id)==null){
+            System.out.println("id 不存在");
+            return null;
+        }
         return bugRepository.findById(id).toBugVO();
     }
 
     @Override
     public boolean createBugChange(BugChangeVO bugChangeVO, Long bugId) {
+        if(bugChangeVO.getAfter_state()==null||bugChangeVO.getAfter_state().equals("")){
+            System.out.println("没有设置状态");
+            return false;
+        }
+
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        bugChangeVO.setTime(sdf.format(d));
         BugChange bugChange=new BugChange(bugChangeVO);
         Bug bug=bugRepository.findById(bugId);
         bugChange.setBefore_state(bug.getState());

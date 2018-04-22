@@ -5,6 +5,7 @@ import com.Entity.Report;
 import com.Entity.TestEntity;
 import com.Repository.TestRepository;
 import com.Service.TestExecuteService;
+import com.util.FileSearch;
 import com.util.ReportGenerate;
 import com.util.ScriptGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,6 @@ public class TestExecuteServiceImpl implements TestExecuteService{
         Runtime runtime = Runtime.getRuntime();
         String command="";
         String src=testRepository.findById(testId).getSrc();
-
         String testPath=path+"/"+src;
         String shPath=testPath+"/exectest.sh";
         File shfile = new File(shPath);
@@ -192,6 +192,7 @@ public class TestExecuteServiceImpl implements TestExecuteService{
             report.setError_info("diretory error");
             return report.toReportVO();
         } else {
+            /**
             // 内部匿名类，用来过滤文件类型
             File[] pyList = dir.listFiles(new FileFilter() {
                 public boolean accept(File file) {
@@ -206,6 +207,9 @@ public class TestExecuteServiceImpl implements TestExecuteService{
             for(int i=0;i<pyList.length;i++){
                 files.add(pyList[i].getName());
             }
+
+             */
+            List<String> files=FileSearch.getAllFiles(".py","test",testPath,"");
             return pythonTest(path,files,testId,username);
 
         }
@@ -319,6 +323,7 @@ public class TestExecuteServiceImpl implements TestExecuteService{
             report.setError_info("diretory error");
             return report.toReportVO();
         } else {
+            /**
             // 内部匿名类，用来过滤文件类型
             File[] pyList = dir.listFiles(new FileFilter() {
                 public boolean accept(File file) {
@@ -333,6 +338,9 @@ public class TestExecuteServiceImpl implements TestExecuteService{
             for(int i=0;i<pyList.length;i++){
                 files.add(pyList[i].getName());
             }
+            */
+            List<String> files=FileSearch.getAllFiles(".c","",testPath,"");
+
             return cTest(path,files,testId,username);
 
         }
@@ -377,6 +385,10 @@ public class TestExecuteServiceImpl implements TestExecuteService{
     }
 
     private boolean saveReport(Report report, Long testId ,String username){
+        if(report==null||report.getCase_num()==0){
+            return  false;
+        }
+
         TestEntity testEntity=testRepository.findById(testId);
         testEntity.setLatest_time(report.getTime());
         testEntity.setPerform_times(testEntity.getPerform_times()+1);
@@ -392,24 +404,5 @@ public class TestExecuteServiceImpl implements TestExecuteService{
     }
 
 
-    private static List<String> getAllFiles(String postfix,String path){
-        List<String> fileList=new ArrayList<String>();
-        File dir=new File(path);
-        File[] allList = dir.listFiles();
-        for(File f:allList){
-            if(f.isDirectory()){
-                List<String> tempList=getAllFiles(postfix,f.getPath());
-                for(String s:tempList){
-                    fileList.add(s);
-                }
-            }
-
-            if(f.isFile() && f.getName().endsWith("."+postfix)){
-                fileList.add(f.getPath());
-            }
-
-        }
-        return fileList;
-    }
 
 }

@@ -1,7 +1,6 @@
 package com.util;
 
-import com.Service.ScriptService;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -55,5 +54,41 @@ public class ScriptGenerate{
 
         return out;
     }
+
+    @Value("${local.url}")
+    static String localUrl;
+    @Value("${dtd,path}")
+    static String dtdPath;
+
+    public static String javashPipeline(String group,String project){
+        String out="cp -a ./ /project/"+group+"/"+project+"\n";
+        out=out+"cd "+"/project/"+group+"/"+project+"\n";
+        out=out+"mvn test \n";
+        out=out+"curl "+localUrl+"/starttest?group="+group+"&project="+project+"\n";
+        return out;
+    }
+
+    public static String pyshPipeline(String group,String project,List<String> file){
+        String out="cp -a ./ /project/"+group+"/"+project+"\n";
+        out=out+"cd "+"/project/"+group+"/"+project+"\n";
+        out=out+"py.test ";
+        for(String s:file){
+            out=out+s+" ";
+        }
+        out+=" --junitxml="+"./log.xml";
+        out=out+"\n";
+        out=out+"curl "+localUrl+"/starttest?group="+group+"&project="+project+"\n";
+        return out;
+    }
+
+    public static String cshPipeline(String group,String project){
+        String out="cp -a ./ /project/"+group+"/"+project+"\n";
+        out=out+"cd "+"/project/"+group+"/"+project+"\n";
+        out=out+"make \n ./test \n";
+        out=out+"cp "+dtdPath+"/project/"+group+"/"+project+"/CUnit-Run.dtd"+"\n";
+        out=out+"curl "+localUrl+"/starttest?group="+group+"&project="+project+"\n";
+        return out;
+    }
+
 
 }

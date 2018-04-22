@@ -8,8 +8,8 @@ import java.io.InputStreamReader;
 
 public class CloneManager {
     public static void main(String[] args){
-        String s=cloneRepo("https://github.com/terminuskyuu/helloTest.git","master");
-        System.out.println(s);
+        //String s=cloneRepo("https://github.com/terminuskyuu/helloTest.git","master");
+        //System.out.println(s);
     }
 
     public static String cloneRepo(String url,String branch){

@@ -1,5 +1,6 @@
 package com.Controller;
 
+import com.Common.BugState;
 import com.DataVO.BugChangeVO;
 import com.DataVO.BugVO;
 import com.DataVO.MyResponseData;
@@ -21,6 +22,7 @@ public class BugController {
 
     @RequestMapping(value = "/bug/create", method = RequestMethod.POST)
     public MyResponseData<Boolean> createBug(@RequestBody BugVO bugVO){
+        bugVO.setState(BugState.newbuilt.toString());
         bugService.createBug(bugVO);
         return new MyResponseData<Boolean>("succeed", new String[]{"成功创建缺陷！"}, true);
     }

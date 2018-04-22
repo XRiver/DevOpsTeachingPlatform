@@ -36,6 +36,11 @@ public class TestServiceImpl implements TestService{
 
     @Override
     public boolean updateTest(TestVO testVO) {
+        if(testVO.getId()==0){
+            System.out.println("id 不存在");
+            return false;
+        }
+
         TestEntity input=new TestEntity(testVO);
         input.setId(testVO.getId());
         testRepository.saveAndFlush(input);
@@ -55,6 +60,10 @@ public class TestServiceImpl implements TestService{
     @Override
     public TestVO getTestById(Long id) {
         TestEntity test=testRepository.findById(id);
+        if(test==null){
+            System.out.println("id 不存在");
+            return null;
+        }
         return test.toTestVO();
     }
 }

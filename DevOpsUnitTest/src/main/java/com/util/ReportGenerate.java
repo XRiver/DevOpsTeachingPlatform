@@ -20,6 +20,13 @@ import java.util.List;
 
 
 public class ReportGenerate {
+    public static void main(String[] args){
+        File log=new File("C:\\java\\py\\test\\log.xml");
+        pythonXmlReport(log);
+
+    }
+
+
     public  static Report javaXmlReport(File[] fileList){
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         Report report=new Report();
@@ -132,6 +139,11 @@ public class ReportGenerate {
                     Element failure=(Element) fail.getFirstChild();
                     if(failure!=null){
                         String type=failure.getAttribute("message");
+                        int index=type.toLowerCase().lastIndexOf("use");
+                        if(index>0){
+                            type=type.substring(0,index);
+                        }
+
                         faultInfo.setType(type);
                         report.addFault_info(faultInfo);
 

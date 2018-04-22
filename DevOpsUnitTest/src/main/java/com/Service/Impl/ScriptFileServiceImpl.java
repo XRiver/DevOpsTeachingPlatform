@@ -1,17 +1,15 @@
 package com.Service.Impl;
 
 import com.Entity.TestEntity;
-import com.Feignclient.FileService;
 import com.Repository.TestRepository;
+import com.Service.ApiCallService;
 import com.Service.ScriptFileService;
+import com.util.FileSearch;
 import com.util.ScriptGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,37 +18,80 @@ public class ScriptFileServiceImpl implements ScriptFileService {
     @Autowired
     private TestRepository testRepository;
     @Autowired
-    private FileService fileService;
+    private ApiCallService apiCallService;
 
 
-    public boolean uploadScript(long testId){
+    public boolean uploadScript(String path,long testId){
         TestEntity test=testRepository.findById(testId);
         String src=test.getSrc();
         String projectId=test.getProject_id();
-        List<String> fileList=fileService.getAllPath(projectId);
         String lan=test.getLanguage();
         String branch=test.getBranch();
         String content="";
 
         if(lan.equals("java")){
             content= ScriptGenerate.javashAll();
-            fileService.uploadFile(projectId,src+"/exectest.sh",branch,content);
+            String response=apiCallService.uploadFile(projectId,src+"/exectest.sh",branch,content);
+            System.out.println(response);
         }else  if(lan.equals("python")){
-            List<String> files=getAllFiles(".py","test",src,fileList);
+            List<String> files=getAllFiles(".py","test",src,path);
             content= ScriptGenerate.pythonsh(files);
-            fileService.uploadFile(projectId,src+"/exectest.sh",branch,content);
+            String response=apiCallService.uploadFile(projectId,src+"/exectest.sh",branch,content);
+            System.out.println(response);
         }else if(lan.equals("c")){
-            List<String> files=getAllFiles(".c","",src,fileList);
+            List<String> files=getAllFiles(".c","",src,path);
             content= ScriptGenerate.cmakefile(files);
-            fileService.uploadFile(projectId,src+"/makefile",branch,content);
+            String response=apiCallService.uploadFile(projectId,src+"/makefile",branch,content);
+            System.out.println(response);
             content="make \n ./test \n";
-            fileService.uploadFile(projectId,src+"/exectest.sh",branch,content);
+            response=apiCallService.uploadFile(projectId,src+"/exectest.sh",branch,content);
+            System.out.println(response);
         }else{
             return false;
         }
 
         return true;
     }
+
+    public boolean pipelineScript(String group,String project){
+        /**
+        TestEntity test=testRepository.findByProject_id(project).get(0);
+        String src=test.getSrc();
+
+        String lan=test.getLanguage();
+         */
+        String lan=FileSearch.getLanguage("/project/"+group+"/"+project);
+
+        String projectId=project;
+        String branch="master";
+        String content="";
+
+        if(lan.equals("java")){
+            content= ScriptGenerate.javashPipeline(group,project);
+            String response=apiCallService.uploadFile(projectId,"/test.sh",branch,content);
+            System.out.println(response);
+        }else  if(lan.equals("python")){
+            List<String> files=FileSearch.getAllFiles(".py","test","/project/"+group+"/"+project,"");
+            content= ScriptGenerate.pyshPipeline(group,project,files);
+            String response=apiCallService.uploadFile(projectId,"/test.sh",branch,content);
+            System.out.println(response);
+        }else if(lan.equals("c")){
+            List<String> files=FileSearch.getAllFiles(".c","","/project/"+group+"/"+project,"");
+            String makecontent= ScriptGenerate.cmakefile(files);
+            String response=apiCallService.uploadFile(projectId,"/makefile",branch,makecontent);
+            System.out.println(response);
+            content=ScriptGenerate.cshPipeline(group,project);
+            response=apiCallService.uploadFile(projectId,"/test.sh",branch,content);
+            System.out.println(response);
+        }else{
+            return false;
+        }
+
+        return true;
+    }
+
+
+
 
     private static File createFile(String content,String path){
         File file = new File(path);
@@ -73,21 +114,32 @@ public class ScriptFileServiceImpl implements ScriptFileService {
     }
 
 
-    private static List<String> getAllFiles(String postfix,String contain,String src, List<String>files){
-        int len=src.length();
-        if(src.endsWith("/")){
-
-        }else{
-            len++;
-        }
-        List<String> fileList=new ArrayList<String>();
-        for(String s:files){
-            if(s.contains(src)&&s.endsWith(postfix)&&s.contains(contain)) {
-                fileList.add(s.substring(len));
+    private static List<String> getAllFiles(String postfix,String contain,String src, String path){
+        String testPath=path+"/"+src;
+        File dir=new File(testPath);
+        if (!dir.isDirectory()) {
+            System.out.println("not a dir");
+            return null;
+        } else {
+            /**
+            // 内部匿名类，用来过滤文件类型
+            File[] pyList = dir.listFiles(new FileFilter() {
+                public boolean accept(File file) {
+                    if (file.isFile() && file.getName().endsWith(postfix) && file.getName().toLowerCase().contains(contain)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+            List<String> files = new ArrayList<String>();
+            for (int i = 0; i < pyList.length; i++) {
+                files.add(pyList[i].getName());
             }
-
+             return files;
+             */
+            return FileSearch.getAllFiles(postfix,contain,testPath,"");
         }
-        return fileList;
     }
 
 }

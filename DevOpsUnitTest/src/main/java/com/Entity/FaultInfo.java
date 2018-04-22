@@ -23,6 +23,7 @@ public class FaultInfo {
 
     private int line;
 
+    @Lob
     private String type;
 
     public FaultInfo() {
