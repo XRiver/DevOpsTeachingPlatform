@@ -122,11 +122,22 @@ public class HelloTest {
 //			e.printStackTrace();
 //		}
 		
-//		InfluxDBService test = new InfluxDBImpl();
-//		Host h = new Host();
-//		h.setIp("119.29.88.207");h.setHostname("ubuntu");h.setPassword("abc8879623");
-//		test.PerContainerCpuUsageRate("influxsrv", "2m", "119.29.88.207", 8086, 
+		InfluxDBService test = new InfluxDBImpl();
+		Host h = new Host();
+		h.setIp("119.29.88.207");h.setHostname("ubuntu");h.setPassword("abc8879623");
+//		test.AllCpuUsageRate("2m", "119.29.88.207", 8086, 
 //				"root", "root", "cadvisor", "autogen", h);
+				
+		try {
+			test.AllMemoryUsageRate("2m", "119.29.88.207", 8086, 
+					"root", "root", "cadvisor", "autogen", h);
+		} catch (RemoteOperateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return new helloVO(counter.incrementAndGet(),
                 String.format(template, name));
