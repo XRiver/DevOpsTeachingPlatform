@@ -1,6 +1,7 @@
 package Devops.docker.DockerBranch.Monitoring.influxDB;
 
 import java.io.IOException;
+import java.util.List;
 
 import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
@@ -20,7 +21,7 @@ public interface InfluxDBService {
 	 * @param int DataBasePort 数据库的监听端口
 	 * @return String 以json格式返回
 	 * */
-	public String PerContainerCpuUsageRate(String ContainerName,String TimeScale,
+	public List<CpuUsageVO> PerContainerCpuUsageRate(String ContainerName,String TimeScale,
 			String Ip,int DataBasePort,String DataBaseUserName,String DataBasePassword,String database,String type,
 			Host host);
 	
@@ -30,7 +31,7 @@ public interface InfluxDBService {
 	 * @param String TimeScale 返回的数据量（最近1min:m,最近1hour:h）
 	 * @return String 以json格式返回
 	 * */
-	public String PerContainerMemoryUsageRate(String ContainerName,String TimeScale,
+	public List<MemoryUsageVO> PerContainerMemoryUsageRate(String ContainerName,String TimeScale,
 			String Ip,int DataBasePort,String DaseBaseUserName,String DataBasePassword,String database,String type,
 			Host host)throws RemoteOperateException, IOException;
 	
@@ -39,7 +40,7 @@ public interface InfluxDBService {
 	 * @param String TimeScale 返回的数据量（最近1min:m,最近1hour:h）
 	 * @return String 以json格式返回
 	 * */
-	public String AllCpuUsageRate(String TimeScale,
+	public List<CpuUsageVO> AllCpuUsageRate(String TimeScale,
 			String Ip,int DataBasePort,String DataBaseUserName,String DataBasePassword,String database,String type,
 			Host host);
 	
@@ -48,7 +49,7 @@ public interface InfluxDBService {
 	 * @param String TimeScale 返回的数据量（最近1min:m,最近1hour:h）
 	 * @return String 以json格式返回
 	 * */
-	public String AllMemoryUsageRate(String TimeScale,
+	public List<MemoryUsageVO> AllMemoryUsageRate(String TimeScale,
 			String Ip,int DataBasePort,String DataBaseUserName,String DataBasePassword,String database,String type,
 			Host host)throws RemoteOperateException, IOException;
  

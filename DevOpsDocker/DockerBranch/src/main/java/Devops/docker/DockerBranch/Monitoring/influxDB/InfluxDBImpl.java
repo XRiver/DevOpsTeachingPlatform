@@ -17,7 +17,7 @@ import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 public class InfluxDBImpl implements InfluxDBService{
 
 	@Override
-	public String PerContainerCpuUsageRate(String ContainerName, String TimeScale, String Ip, int DataBasePort,
+	public List<CpuUsageVO> PerContainerCpuUsageRate(String ContainerName, String TimeScale, String Ip, int DataBasePort,
 			String DataBaseUserName, String DataBasePassword, String database, String type, Host host){
 		// TODO Auto-generated method stub
 		String connection = "http://"+Ip+":"+DataBasePort;
@@ -64,11 +64,11 @@ public class InfluxDBImpl implements InfluxDBService{
 			System.out.println(c.getTime() + "  "+c.getContainer_name() + "  " + c.getCpuPersentage());
 		}
 		
-		return "ss";
+		return cpuList;
 	}
 
 	@Override
-	public String PerContainerMemoryUsageRate(String ContainerName, String TimeScale, String Ip, int DataBasePort,
+	public List<MemoryUsageVO> PerContainerMemoryUsageRate(String ContainerName, String TimeScale, String Ip, int DataBasePort,
 			String DataBaseUserName, String DataBasePassword, String database, String type, Host host) 
 					throws RemoteOperateException, IOException {
 		// TODO Auto-generated method stub
@@ -124,11 +124,11 @@ public class InfluxDBImpl implements InfluxDBService{
 			System.out.println(m.getTime()+"  "+m.getContainer_name()+"  "+m.getMemoryPersentage());
 		}
 		
-		return "sss";
+		return MemoryVOList;
 	}
 
 	@Override
-	public String AllCpuUsageRate(String TimeScale, String Ip, int DataBasePort, String DataBaseUserName,
+	public List<CpuUsageVO> AllCpuUsageRate(String TimeScale, String Ip, int DataBasePort, String DataBaseUserName,
 			String DataBasePassword, String database, String type, Host host) {
 		// TODO Auto-generated method stub
 		
@@ -176,11 +176,11 @@ public class InfluxDBImpl implements InfluxDBService{
 			System.out.println(c.getTime() + "  "+c.getContainer_name() + "  " + c.getCpuPersentage());
 		}
 		
-		return null;
+		return cpuList;
 	}
 
 	@Override
-	public String AllMemoryUsageRate(String TimeScale, String Ip, int DataBasePort, String DataBaseUserName,
+	public List<MemoryUsageVO> AllMemoryUsageRate(String TimeScale, String Ip, int DataBasePort, String DataBaseUserName,
 			String DataBasePassword, String database, String type, Host host) 
 					throws RemoteOperateException, IOException {
 		// TODO Auto-generated method stub
@@ -236,7 +236,7 @@ public class InfluxDBImpl implements InfluxDBService{
 			System.out.println(m.getTime()+"  "+m.getContainer_name()+"  "+m.getMemoryPersentage());
 		}
 		
-		return "sss";
+		return MemoryVOList;
 	}
 
 	
