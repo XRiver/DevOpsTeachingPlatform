@@ -8,7 +8,7 @@ import nju.wqy.entity.ConfigData;
 
 
 
-public interface ConfigDao extends JpaRepository<ConfigData, Long> {
+public interface ConfigDao extends JpaRepository<ConfigData, String> {
 	@Query("from ConfigData c where c.projectKey=:projectKey")
 	ConfigData getByProjectKey(@Param("projectKey")String projectKey);
 }

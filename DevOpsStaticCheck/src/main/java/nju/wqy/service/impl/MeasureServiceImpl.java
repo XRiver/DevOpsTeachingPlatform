@@ -1,35 +1,68 @@
 package nju.wqy.service.impl;
 
+import static nju.wqy.web.vo.OperationStatus.Status.FAILURE;
+import static nju.wqy.web.vo.OperationStatus.Status.SUCCESS;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import nju.wqy.dao.IntegratedDao;
+import nju.wqy.entity.ConfigData;
+import nju.wqy.entity.IntegratedData;
 import nju.wqy.service.MeasureService;
 import nju.wqy.util.APIManager;
+import nju.wqy.web.vo.ConfigVO;
 import nju.wqy.web.vo.HistoryVO;
 import nju.wqy.web.vo.IndexVO;
 import nju.wqy.web.vo.MeasureVO;
+import nju.wqy.web.vo.OperationStatus;
 @Service
 public class MeasureServiceImpl implements MeasureService{
+
+	@Autowired
+	IntegratedDao integratedDao;
+
+	private OperationStatus saveIntegratedDate(MeasureVO vo,String projectKey) {
+		IntegratedData data=new IntegratedData();
+		int problemNo=vo.getBug()+vo.getCodeSmell()+vo.getVulnerability();
+		int healthDegree=1;
+		int risk=1;
+		data.setProjectKey(projectKey);
+		data.setProblemNo(problemNo);
+		data.setHealthDegree(healthDegree);
+		data.setRisk(risk);
+		data.setLastAnalysis((new Date().toString()));
+
+		//新增或修改
+		if(integratedDao.save(data)!=null) {
+			System.out.println("success to write integrated");
+			return new OperationStatus(SUCCESS);
+		}else {
+			return new OperationStatus(FAILURE);
+		}
+	}
 
 	@Override
 	public MeasureVO getMeasure(String projectKey) {
 		//得到各种问题的数量
-		String result=APIManager.get("http://localhost:9000/api/measures/component?additionalFields=periods&componentKey="+projectKey+"&metricKeys=bugs%2Cclasses%2Ccode_smells%2Ccomment_lines%2Ccomment_lines_density%2Cvulnerabilities%2Cfunctions%2Cfiles%2Clines%2Cncloc");
+		String result=APIManager.get("http://localhost:9000/api/measures/component?additionalFields=periods&componentKey="+projectKey+
+				"&metricKeys=bugs%2Cclasses%2Ccode_smells%2Ccomment_lines%2Ccomment_lines_density%2Cvulnerabilities%2Cfunctions%2Cfiles%2Clines%2Cncloc");
 		MeasureVO vo=null;
 		if(result!=null){  
 			Gson gs = new Gson();  
-			System.out.println(result);
 			JSONObject obj=JSONObject.fromObject(result);      
-			obj=obj.getJSONObject("component"); 
-			JSONArray arr=obj.getJSONArray("measures");
+			JSONObject objComponent=obj.getJSONObject("component"); 
+			JSONArray arr=objComponent.getJSONArray("measures");
 			vo=getVo(arr);
+			saveIntegratedDate(vo,projectKey);
 		}
 		return vo;
 	}
@@ -107,7 +140,6 @@ public class MeasureServiceImpl implements MeasureService{
 			JSONArray history=arr.getJSONObject(0).getJSONArray("history");
 			for(int i=0;i<history.size();i++) {
 				HistoryVO vo=new HistoryVO();
-				System.out.println(history.getString(i));
 				vo.setDate(getValue(history.getString(i),"date"));
 				vo.setValue(Integer.parseInt(getValue(history.getString(i),"value")));
 				lists.add(vo);

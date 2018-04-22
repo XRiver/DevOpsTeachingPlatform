@@ -1,5 +1,8 @@
 package nju.wqy.service.impl;
 
+import static nju.wqy.web.vo.OperationStatus.Status.FAILURE;
+import static nju.wqy.web.vo.OperationStatus.Status.SUCCESS;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,23 +25,27 @@ public class CheckServiceImpl implements CheckService{
 	@Autowired
 	private ConfigWrapper configWrapper;
 	@Override
-	public OperationStatus check(long id) {
+	public OperationStatus check(String projectKey) {
 		//检查相应文件夹下是否有相应文件
 		//如果有则更新一下
 		//如果没有则需clone一个
+		//以上都通过gitlab runner
 		//根据id找到数据库中的相应配置
-		ConfigData data=configDao.findOne(id);
+		ConfigData data=configDao.findOne(projectKey);
 		if (data == null) {
-			throw new NotFoundException("config "+id+" not found");
+			throw new NotFoundException("config "+projectKey+" not found");
 		}
 		//生成配置内容
-		List<String> config=generateConfig(data);		
+		//List<String> config=generateConfig(data);		
 		//生成配置文件，规定一个目录
-		FileManager.writeFile(".", config);
+		//FileManager.writeFile(".", config);
 		//调用shell命令行，这里也需要告诉他目录
-		startSonar("");
+		boolean isSuc=startSonar(".");
+		 if(isSuc) {
+			 return new OperationStatus(SUCCESS);
+		 }
+		 return new OperationStatus(FAILURE);
 		
-		return null;
 	}
 
 	private boolean startSonar(String filePath) {
@@ -47,9 +54,9 @@ public class CheckServiceImpl implements CheckService{
 		cmd.add("cd "+filePath);
 		//视情况是否需要写全名
 		cmd.add("sonar-scanner");
-		FileManager.writeFile(filePath, cmd);
+		//FileManager.writeFile("sonar-project.properties", cmd);
 		//执行shell脚本
-		if(ShellManager.callShellScript(filePath)) {
+		if(ShellManager.callShellCommand("sh startSonar.sh")) {
 			return true;
 		}
 		return false;

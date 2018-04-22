@@ -14,11 +14,12 @@ import nju.wqy.web.vo.IndexVO;
 public class IndexServiceImpl implements IndexService{
 
 	@Override
-	public IndexVO getIndex(long id) {
+	public IndexVO getIndex(String projectKey) {
 		Map<String,String> params=new HashMap<String,String>();
 		params.put("projectKeys","Student");
 		//得到各种问题的数量
-		String result=APIManager.get("http://localhost:9000/api/measures/search_history?component=Student&metrics=bugs%2Cvulnerabilities%2Ccode_smells%2Cduplicated_lines_density%2Cncloc%2Cncloc_language_distribution");
+		String result=APIManager.get("http://localhost:9000/api/measures/search_history?component="+projectKey
+				+"&metrics=bugs%2Cvulnerabilities%2Ccode_smells%2Cduplicated_lines_density%2Cncloc%2Cncloc_language_distribution");
 		if(result!=null){  
 			JSONObject obj=JSONObject.fromObject(result);      
 			result=obj.getString("measures");//得到json格式字符串数组  
@@ -36,7 +37,7 @@ public class IndexServiceImpl implements IndexService{
 				IndexVO vo=new IndexVO();
 				vo.setHealthDegree(healthDegree);
 				vo.setRiskIndex(riskIndex);
-				vo.setLastAnalyse(lastAnalyse);
+				//				 vo.setLastAnalyse(lastAnalyse);
 			}
 		} 
 

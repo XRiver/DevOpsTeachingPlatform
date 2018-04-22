@@ -29,20 +29,20 @@ public class IndexCtrl {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "{id:[0-9]*}", method = RequestMethod.GET)
-	public IndexVO getIndexVO(@PathVariable long id) {
+	@RequestMapping(value = "{projectKey}", method = RequestMethod.GET)
+	public IndexVO getIndexVO(@PathVariable String projectKey) {
 
-		return indexService.getIndex(id);
+		return indexService.getIndex(projectKey);
 	}
 	/**
 	 * 页面开始检查按钮
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "{id:[0-9]*}",method = RequestMethod.POST)
-	public OperationStatus check(@PathVariable long id) {
+	@RequestMapping(value = "{projectKey}",method = RequestMethod.POST)
+	public OperationStatus check(@PathVariable String projectKey) {
 
-		return checkService.check(id);
+		return checkService.check(projectKey);
 
 	}
 }

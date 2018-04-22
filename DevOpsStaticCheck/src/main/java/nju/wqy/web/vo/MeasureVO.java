@@ -13,7 +13,14 @@ public class MeasureVO {
 	private int bug;
 	private int vulnerability;
 	private int file;
+	private String lastAnalyse;
 	
+	public String getLastAnalyse() {
+		return lastAnalyse;
+	}
+	public void setLastAnalyse(String lastAnalyse) {
+		this.lastAnalyse = lastAnalyse;
+	}
 	public int getLine() {
 		return line;
 	}

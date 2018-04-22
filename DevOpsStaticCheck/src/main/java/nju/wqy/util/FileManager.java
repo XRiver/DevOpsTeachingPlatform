@@ -41,7 +41,7 @@ public class FileManager {
 	public static void writeFile(String filePath,List<String> contents) {
 		createFile(filePath);
 		String lineSeparator=System.getProperty("line.separator");
-		FileWriter fw = null;
+		FileWriter fw = null ;
 		try {
 			fw=new FileWriter(filePath);
 			for(int i=0;i<contents.size();i++) {
