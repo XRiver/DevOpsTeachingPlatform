@@ -42,10 +42,10 @@ public class GroupController {
 
     @RequestMapping(value = "/deleteGroup", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String deleteGroup(int groupId) {
+    public String deleteGroup(int groupId,String memberName) {
         JSONObject toReturn = new JSONObject();
         try{
-            groupService.deleteGroup(groupId);
+            groupService.deleteGroup(groupId,memberName);
             toReturn.put("success", true);
             toReturn.put("msg", "success");
         }catch (Exception e){
@@ -58,10 +58,10 @@ public class GroupController {
 
     @RequestMapping(value = "/editGroup", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String editGroup(String name,String info,int groupId) {
+    public String editGroup(String name,String info,int groupId,String memberName) {
         JSONObject toReturn = new JSONObject();
         try {
-            groupService.editGroup(name, info, groupId);
+            groupService.editGroup(name, info, groupId,memberName);
             toReturn.put("success", true);
             toReturn.put("msg", "success");
         } catch (Exception e) {

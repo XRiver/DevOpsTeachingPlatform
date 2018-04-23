@@ -1,9 +1,10 @@
 package teamworkbranch.module.group.service;
 
-import teamworkbranch.module.entity.VO.UserVO;
+import teamworkbranch.exception.NonprivilegedUserException;
+import teamworkbranch.exception.NotExistedException;
+import teamworkbranch.module.group.model.GMember;
 import teamworkbranch.module.group.model.Group;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,9 +26,10 @@ public interface GroupService {
     /**
      * 删除团队
      * @param groupId
+     * @param memberName
      * @return
      */
-    public boolean deleteGroup(int groupId);
+    public boolean deleteGroup(int groupId,String memberName) throws NotExistedException, NonprivilegedUserException;
 
 
     /**
@@ -35,9 +37,10 @@ public interface GroupService {
      * @param name
      * @param info
      * @param groupId
+     * @param memberName
      * @return
      */
-    public boolean editGroup(String name,String info,int groupId);
+    public boolean editGroup(String name,String info,int groupId,String memberName) throws NotExistedException, NonprivilegedUserException;
 
 
 
@@ -56,7 +59,7 @@ public interface GroupService {
      * @param groupId
      * @return
      */
-    public ArrayList<UserVO> getMemberList(int groupId);
+    public List<GMember> getMemberList(int groupId);
 
 
     /**

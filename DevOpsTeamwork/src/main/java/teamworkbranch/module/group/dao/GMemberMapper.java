@@ -2,6 +2,9 @@ package teamworkbranch.module.group.dao;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import teamworkbranch.module.group.model.GMember;
+
+import java.util.List;
 
 
 /**
@@ -35,6 +38,20 @@ public interface GMemberMapper {
         int editGMember(@Param("groupId") int groupId, @Param("member") String member
                 ,@Param("is_manager") int is_manager);
 
+        /**
+        * 查看团队成员列表
+        * @param groupId
+        * @return
+        */
+        List<GMember> getGMemberByGroup(int groupId);
+
+        /**
+        *通过ID获取团队成员信息
+        * @param groupId
+        * @param memberName
+        * @return
+        */
+        GMember selectById(@Param("groupId") int groupId,@Param("memberName") String memberName);
 
 
 

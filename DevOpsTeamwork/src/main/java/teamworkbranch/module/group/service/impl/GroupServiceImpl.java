@@ -3,14 +3,14 @@ package teamworkbranch.module.group.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import teamworkbranch.module.entity.VO.UserVO;
+import teamworkbranch.exception.NonprivilegedUserException;
+import teamworkbranch.exception.NotExistedException;
 import teamworkbranch.module.group.dao.GMemberMapper;
 import teamworkbranch.module.group.dao.GroupMapper;
 import teamworkbranch.module.group.model.GMember;
 import teamworkbranch.module.group.model.Group;
 import teamworkbranch.module.group.service.GroupService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,10 +47,19 @@ public class GroupServiceImpl implements GroupService {
     /**
      * 删除团队
      * @param groupId
+     * @param memberName
      * @return
      */
-    public boolean deleteGroup(int groupId) {
-        groupMapper.deleteGroup(groupId);
+    public boolean deleteGroup(int groupId,String memberName) throws NotExistedException, NonprivilegedUserException {
+        GMember gMember = gMemberMapper.selectById(groupId,memberName);
+        if(gMember==null){
+            throw new NotExistedException();
+        }else if(gMember.getIs_manager()==0){
+            throw new NonprivilegedUserException();
+        }
+        else {
+            groupMapper.deleteGroup(groupId);
+        }
         return true;
     }
 
@@ -61,8 +70,20 @@ public class GroupServiceImpl implements GroupService {
      * @param groupId
      * @return
      */
-    public boolean editGroup(String name,String info,int groupId) {
-        groupMapper.updateGroup(name,info,groupId);
+    public boolean editGroup(String name,String info,int groupId,String memberName) throws NotExistedException, NonprivilegedUserException {
+        Group group = groupMapper.selectById(groupId);
+        GMember gMember = gMemberMapper.selectById(groupId,memberName);
+        if(gMember==null){
+            throw new NotExistedException();
+        }else if(gMember.getIs_manager()==0){
+            throw new NonprivilegedUserException();
+        }
+        else {
+            group.setName(name);
+            group.setInfo(info);
+            groupMapper.updateGroup(group);
+
+        }
         return true;
     }
 
@@ -89,8 +110,8 @@ public class GroupServiceImpl implements GroupService {
      * @param groupId
      * @return
      */
-    public ArrayList<UserVO> getMemberList(int groupId) {
-        return null;
+    public List<GMember> getMemberList(int groupId) {
+        return gMemberMapper.getGMemberByGroup(groupId);
     }
 
     /**
