@@ -6,8 +6,8 @@ import java.sql.Timestamp;
  * Created by caosh on 2018/4/19.
  */
 public class Group {
-    private int group_id;//团队编号
-    private String creator_name;//创建者
+    private int groupId;//团队编号
+    private String creator_Name;//创建者
     private String name;//团队名称
     private String info;//团队介绍
     private Timestamp createTime;//创建日期
@@ -16,26 +16,26 @@ public class Group {
     public Group() {
     }
 
-    public Group(String name, String info, String creator_name) {
+    public Group(String name, String info, String creator_Name) {
         this.name = name;
         this.info = info;
-        this.creator_name = creator_name;
+        this.creator_Name = creator_Name;
     }
 
-    public int getGroup_id() {
-        return group_id;
+    public int getgroupId() {
+        return groupId;
     }
 
-    public void setGroup_id(int group_id) {
-        this.group_id = group_id;
+    public void setgroupId(int groupId) {
+        this.groupId = groupId;
     }
 
-    public String getCreator_name() {
-        return creator_name;
+    public String getcreator_Name() {
+        return creator_Name;
     }
 
-    public void setCreator_name(String creator_name) {
-        this.creator_name = creator_name;
+    public void setcreator_Name(String creator_Name) {
+        this.creator_Name = creator_Name;
     }
 
     public String getInfo() {
