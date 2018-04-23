@@ -3,7 +3,7 @@
 <mapper namespace="teamworkbranch.module.group.dao.GroupMapper">
     <!--<cache flushInterval="300000" size="512" type="org.mybatis.caches.memcached.MemcachedCache"/>-->
 
-    <resultMap id="groupMap" type="teamworkbranch.module.group.model.Group">
+    <resultMap id="groupMap" type="teamworkbranch.module.group.model.group">
         <id column="group_id" property="groupId"/>
         <result column="creator_name" property="creator_Name"/>
         <result column="name" property="name"/>
@@ -15,7 +15,7 @@
 
 
 
-    <insert id="insertGroup" useGeneratedKeys="true" keyProperty="group_id" parameterType="teamworkbranch.module.group.model.Group">
+    <insert id="insertGroup" useGeneratedKeys="true" keyProperty="group_id" parameterType="teamworkbranch.module.group.model.group">
         insert into group (creator_name,name,info,group_id)
         values (#{creator_Name},#{name},#{info},#{groupId})
         <selectKey keyProperty="group_id" resultType="int">
