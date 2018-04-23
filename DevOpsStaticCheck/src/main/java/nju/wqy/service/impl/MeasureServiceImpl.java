@@ -33,8 +33,10 @@ public class MeasureServiceImpl implements MeasureService{
 	private OperationStatus saveIntegratedDate(MeasureVO vo,String projectKey) {
 		IntegratedData data=new IntegratedData();
 		int problemNo=vo.getBug()+vo.getCodeSmell()+vo.getVulnerability();
-		int healthDegree=1;
-		int risk=1;
+		int risk=3*vo.getBug()+2*vo.getCodeSmell()+1*vo.getVulnerability();
+		int healthDegree=1000*risk/vo.getLoc();
+		System.out.println(vo.getLoc());
+		System.out.println("health"+healthDegree);
 		data.setProjectKey(projectKey);
 		data.setProblemNo(problemNo);
 		data.setHealthDegree(healthDegree);

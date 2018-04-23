@@ -1,9 +1,16 @@
 package nju.wqy.service;
 
-import java.util.List;
 
-import nju.wqy.web.vo.ProblemVO;
+import nju.wqy.web.vo.PaginationVO;
 
 public interface ProblemService {
-List<ProblemVO> getProblem(String type,String projectKey);
+	/**
+	 * 
+	 * @param type
+	 * @param projectKey
+	 * @param offset 这页总第几条开始
+	 * @param pageSize 这页有几条
+	 * @return
+	 */
+	PaginationVO getProblem(String type,String projectKey,int offset,int pageSize);
 }

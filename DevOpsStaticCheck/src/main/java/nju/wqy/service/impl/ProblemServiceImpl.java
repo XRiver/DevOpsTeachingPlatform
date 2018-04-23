@@ -10,12 +10,22 @@ import net.sf.json.JSONObject;
 import nju.wqy.service.ProblemService;
 import nju.wqy.util.APIManager;
 import nju.wqy.web.vo.IndexVO;
+import nju.wqy.web.vo.PaginationVO;
 import nju.wqy.web.vo.ProblemVO;
 @Service
 public class ProblemServiceImpl implements ProblemService{
+	
+	private List<ProblemVO> pagination(List<ProblemVO> vo,int offset,int pageSize){
+		List<ProblemVO> results=new ArrayList<ProblemVO>();
+		int end=Math.min((offset+pageSize-1), vo.size());//最后一页应该是两者中小的那个
+		for(int i=offset-1;i<end;i++) {
+			results.add(vo.get(i));
+		}
+		return results;
+	}
 
 	@Override
-	public List<ProblemVO> getProblem(String type, String projectKey) {
+	public PaginationVO getProblem(String type, String projectKey ,int offset,int pageSize) {
 		String url="http://localhost:9000/api/issues/search?componentKeys="+projectKey+"&s=FILE_LINE&resolved=false&types="+type+"&ps=100&facets=severities%2Ctypes&additionalFields=_all";
 		List<ProblemVO> problems=new ArrayList<ProblemVO>();
 		String result=APIManager.get(url);
@@ -37,8 +47,11 @@ public class ProblemServiceImpl implements ProblemService{
 				problems.add(vo);
 			}
 		} 
-
-		return problems;
+		PaginationVO paginationVO=new PaginationVO();
+		paginationVO.setTotal(problems.size());
+		problems=pagination(problems,offset,pageSize);
+		paginationVO.setRows(problems);
+		return paginationVO;
 	}
 
 	public static String getValue(Object o,String key) {

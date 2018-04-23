@@ -3,14 +3,14 @@ package nju.wqy.web.vo;
 import java.util.Date;
 
 public class IndexVO {
-	private int healthDegree;
+	private double healthDegree;
 	private double riskIndex;
 	private int unresolvedProblems;
 	private String lastAnalyse;
-	public int getHealthDegree() {
+	public double getHealthDegree() {
 		return healthDegree;
 	}
-	public void setHealthDegree(int healthDegree) {
+	public void setHealthDegree(double healthDegree) {
 		this.healthDegree = healthDegree;
 	}
 	public double getRiskIndex() {
