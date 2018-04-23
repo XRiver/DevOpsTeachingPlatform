@@ -1,51 +1,35 @@
 var express = require('express');
 var rp = require('request-promise');
 var help = require('../api-lib/help');
+var teamApi = require('../api-lib/teamwork');
 
 var router = express.Router();
 router.post('/login', function(req, res, next) {
     var usr = req.body.username;
     var pwd = req.body.password;
-    if(usr && pwd && validateAccount(usr, pwd)) {
+    if(usr && pwd && teamApi.validateAccount(usr, pwd)) {
         var sess = req.session;
         sess.usr = usr;
         sess.logined = true;
         res.send({
-            status:0,
+            status:true,
             redirect:'/index?p=welcome'
         });
     } else {
         res.send({
-            status:1
+            status:false
         });
     }
 });
 
-function validateAccount(usr,pwd) {
-    // if(usr=='123'&&pwd=='456') {
-    //     return true;
-    // } else {
-    //     return false;
-    // }
-    var ret = false;
-    rp({
-        uri:'http://'+help.teamIp+'/identification/login',
-        method:'POST',
-        body:{
-            username:usr,
-            password:pwd
-        },
-        json:true
-    })
-    .then(function(body){
-        if(body.success) {
-            ret = true;
-        }
-    })
-    .catch(function(err){
-        console.log(err);
-    });
-    return ret;
-}
+router.post('modPassword', function(req, res, next) {
+    var usr = req.body.usr, oldPwd = req.body.oldPwd, newPwd = req.body.newPwd;
+    if(usr && oldPwd && newPwd) {
+        var result = teamApi.modPassword(usr,oldPwd,newPwd);
+        res.send(result);
+    }
+});
+
+
 
 module.exports = router;

@@ -59,17 +59,30 @@ router.get('/', function(req, res, next) {
       res.render('index', renderOptions);
     break;
     case "deploy":
-    
+    res.render('deploy', renderOptions);
+    case "ci":
+    res.render('ci', renderOptions);
+    break;
+    case "modUserInfo":
+    res.render('modUserInfo', renderOptions);
+    break;
+    case "modPassword":
+    res.render('modPassword', renderOptions);
+    break;
+    case "teamManage":
+    res.render('teamManage', renderOptions);
+    break;
+    case "projectManage":
+    res.render('projectManage', renderOptions);
     break;
     default:
-
     break;
   }
   return;
 });
 
 router.get('/test', function(req,res,next){
-  res.render('index',{
+  res.render('modPassword',{
     realName:"徐江河",
     activeProjectId: 123421
   });

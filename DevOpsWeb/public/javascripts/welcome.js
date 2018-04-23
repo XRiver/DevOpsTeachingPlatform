@@ -13,7 +13,7 @@ var login = function() {
         password:pwd
     },
     function(data, status){
-        if(status=='success' && data.status==0) {
+        if(status=='success' && data.status==true) {
             window.location.href = data.redirect;
         } else {
             alert('登录失败，请检查密码。');
@@ -47,7 +47,7 @@ var register = function() {
         userId:id
     },
     function(data, status){
-        if(status==success) {
+        if(status=='success') {
             if(data.success) {
                 alert('注册成功！');
             } else {

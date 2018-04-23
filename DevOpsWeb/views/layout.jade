@@ -19,8 +19,8 @@ html
             .dropdown.float-right
                 button.btn.btn-outline-info.btn-sm.dropdown-toggle(type="button",data-toggle="dropdown") 用户设置
                 .dropdown-menu
-                  a.dropdown-item#modInfoBtn(href="#") 修改个人资料
-                  a.dropdown-item#modPassBtn(href="#") 修改密码
+                  a.dropdown-item#modInfoBtn(href="/index?p=modUserInfo") 修改个人资料
+                  a.dropdown-item#modPassBtn(href="/index?p=modPassword") 修改密码
             button.btn.btn-outline-warning.btn-sm.float-right#logoutBtn(type="button") 退出登录
         .container-fluid#teamworkMenu 
           .row
@@ -29,16 +29,11 @@ html
             - } else {
             span 当前未激活项目
             - }
-            button.btn.btn-outline-info.btn-sm.float-left#teamManageBtn(type="button") 团队管理
-            button.btn.btn-outline-info.btn-sm.float-left#projectManageBtn(type="button") 项目管理
+            button.btn.btn-outline-info.btn-sm.float-left#teamManageBtn(type="button",href="/index?p=teamManage") 团队管理
+            button.btn.btn-outline-info.btn-sm.float-left#projectManageBtn(type="button",href="/index?p=projectManage") 项目管理
       .row.container-fluid.px-1.py-2
         .btn-group-vertical.col-2.border.border-primary#menu
-          button.btn.btn-primary.btn-block#jenkinsBtn(type='button', data-toggle='collapse', data-target='.collapse-workboards')
-            | 持续集成
-            i.fa.fa-chevron-down
-          button.btn.btn-secondary.btn-block.collapse.collapse-workboards(type='button') 其一               
-          button.btn.btn-secondary.btn-block.collapse.collapse-workboards(type='button') 其二
-          button.btn.btn-secondary.btn-block.collapse.collapse-workboards(type='button') 其三    
-          button.btn.btn-primary.btn-block#dockerBtn(type='button') Docker部署
+          button.btn.btn-primary.btn-block#jenkinsBtn(type='button',href="/index?p=ci") 持续集成  
+          button.btn.btn-primary.btn-block#dockerBtn(type='button',href="/index?p=deploy") Docker部署
         .col-10#main.border.border-primary
           block content
