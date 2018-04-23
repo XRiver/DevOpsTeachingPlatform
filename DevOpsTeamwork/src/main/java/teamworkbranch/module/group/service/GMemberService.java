@@ -1,5 +1,8 @@
 package teamworkbranch.module.group.service;
 
+import teamworkbranch.exception.ExistedException;
+import teamworkbranch.exception.NotExistedException;
+
 /**
  * Created by caosh on 2018/4/20.
  */
@@ -12,7 +15,7 @@ public interface GMemberService {
      * @param is_manager
      * @return
      */
-    public boolean addMember(int groupId,String userName,int is_manager);
+    public boolean addMember(int groupId,String userName,int is_manager) throws ExistedException;
 
 
     /**
@@ -21,7 +24,7 @@ public interface GMemberService {
      * @param groupId
      * @return
      */
-    public boolean removeMember(int groupId,String userName);
+    public boolean removeMember(int groupId,String userName) throws NotExistedException;
 
     /**
      * 修改团队成员管理权限
@@ -30,5 +33,5 @@ public interface GMemberService {
      * @param is_manager
      * @return
      */
-    public boolean editMember(int groupId,String userName,int is_manager);
+    public boolean editMember(int groupId,String userName,int is_manager) throws NotExistedException;
 }

@@ -3,8 +3,11 @@ package teamworkbranch.module.group.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamworkbranch.exception.ExistedException;
+import teamworkbranch.exception.NotExistedException;
 import teamworkbranch.module.group.dao.GMemberMapper;
 import teamworkbranch.module.group.dao.GroupMapper;
+import teamworkbranch.module.group.model.GMember;
 import teamworkbranch.module.group.service.GMemberService;
 
 /**
@@ -27,8 +30,14 @@ public class GMemberServiceImpl implements GMemberService {
      * @return
      */
     @Override
-    public boolean addMember(int groupId,String userName,int is_manager) {
-        gMemberMapper.insertGMember(groupId,userName,is_manager);
+    public boolean addMember(int groupId,String userName,int is_manager) throws ExistedException {
+        GMember gMember = gMemberMapper.selectById(groupId,userName);
+        if(gMember!=null){
+            throw new ExistedException();
+        } else{
+            gMember = new GMember(groupId,userName,is_manager);
+            gMemberMapper.insertGMember(gMember);
+        }
         return true;
     }
 
@@ -40,8 +49,12 @@ public class GMemberServiceImpl implements GMemberService {
      * @return
      */
     @Override
-    public boolean removeMember(int groupId,String userName) {
-        gMemberMapper.deleteGMember(groupId,userName);
+    public boolean removeMember(int groupId,String userName) throws NotExistedException {
+        GMember gMember = gMemberMapper.selectById(groupId,userName);
+        if(gMember==null) {
+            throw new NotExistedException();
+        } else
+            gMemberMapper.deleteGMember(groupId,userName);
         return true;
     }
 
@@ -53,8 +66,14 @@ public class GMemberServiceImpl implements GMemberService {
      * @return
      */
     @Override
-    public boolean editMember(int groupId,String userName,int is_manager) {
-        gMemberMapper.editGMember(groupId,userName,is_manager);
+    public boolean editMember(int groupId,String userName,int is_manager) throws NotExistedException {
+        GMember gMember = gMemberMapper.selectById(groupId,userName);
+        if(gMember==null) {
+            throw new NotExistedException();
+        } else{
+            gMember.setIs_manager(is_manager);
+            gMemberMapper.editGMember(gMember);
+        }
         return true;
     }
 }

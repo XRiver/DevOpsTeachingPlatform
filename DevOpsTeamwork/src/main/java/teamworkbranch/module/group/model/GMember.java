@@ -15,10 +15,10 @@ public class GMember {
     public GMember() {
     }
 
-    public GMember(int groupId, String member_Name) {
+    public GMember(int groupId, String member_Name,int is_manager) {
         this.groupId = groupId;
         this.member_Name = member_Name;
-        this.is_manager = 0;
+        this.is_manager = is_manager;
     }
 
     public int getgroupId() {

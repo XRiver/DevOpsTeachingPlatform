@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import teamworkbranch.exception.NonprivilegedUserException;
+import teamworkbranch.exception.NotExistedException;
 import teamworkbranch.module.group.dao.GroupMapper;
 import teamworkbranch.module.group.service.GMemberService;
 import teamworkbranch.module.group.service.GroupService;
@@ -32,7 +34,34 @@ public class GroupTests {
     }
 
     @Test
-    public void tesrGet(){
+    public void tesrGet() throws NotExistedException {
         groupService.getGroupInfo(1);
+    }
+
+    @Test
+    public void tesrDelete1() throws NotExistedException, NonprivilegedUserException {
+        groupService.deleteGroup(1,"user1");
+    }
+
+    @Test
+    public void tesrDelete2() throws NotExistedException, NonprivilegedUserException {
+        groupService.deleteGroup(1,"user2");
+    }
+
+    @Test
+    public void testEdit() throws NotExistedException, NonprivilegedUserException {
+        groupService.editGroup("group2","newGroup2",2,"user1");
+    }
+
+    @Test
+    public void testGetMemberList() throws NotExistedException {
+        groupService.getMemberList(1);
+        System.out.println(groupService.getMemberList(1).size());
+    }
+
+    @Test
+    public void testGetMyGroups() throws NotExistedException {
+        groupService.getGroupList("user1");
+        System.out.println(groupService.getGroupList("user1").size());
     }
 }

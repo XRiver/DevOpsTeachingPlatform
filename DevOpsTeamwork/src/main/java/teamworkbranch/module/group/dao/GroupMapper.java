@@ -1,5 +1,6 @@
 package teamworkbranch.module.group.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import teamworkbranch.module.group.model.Group;
 
@@ -19,10 +20,10 @@ public interface GroupMapper {
 
     /**
      * 通过姓名获取所属团队
-     * @param memberName
+     * @param member_Name
      * @return Group
      */
-    List<Group> selectMyGroups(String memberName);
+    List<Group> selectMyGroups(@Param("member_Name") String member_Name);
 
     /**
      * 新增团队
