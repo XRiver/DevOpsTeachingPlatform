@@ -1,5 +1,6 @@
 package teamworkbranch.module.project.service.impl;
 
+import teamworkbranch.exception.NonprivilegedUserException;
 import teamworkbranch.module.entity.VO.ProjectVO;
 import teamworkbranch.module.project.dao.PManagerMapper;
 import teamworkbranch.module.project.dao.ProjectMapper;
@@ -49,17 +50,17 @@ public class ProjectServiceImpl implements ProjectService{
 
 
     @Override
-    public boolean editProject(int projectId, String projectName, String info, String applicant) {
-        return false;
-    }
+    public boolean editProject(int projectId, String projectName, String info, String applicant) throws NonprivilegedUserException {
+        PManager p=pManagerMapper.getPManager(projectId,applicant);
+        if(p==null){
+            throw new NonprivilegedUserException();
+        }
+        Project project=projectMapper.selectById(projectId);
+        project.setName(projectName);
+        project.setInfo(info);
 
-    /**
-     * 项目修改人员
-     * @param userId
-     * @return
-     */
-    public boolean editMember(int userId) {
-        return false;
+        projectMapper.updateProject(project);
+        return true;
     }
 
 
@@ -68,7 +69,14 @@ public class ProjectServiceImpl implements ProjectService{
      * @param projectId
      * @return
      */
-    public ProjectVO getGroupInfo(int projectId) {
-        return null;
+    public Project getProjectInfo(int projectId) {
+        return projectMapper.selectById(projectId);
+    }
+
+
+
+    @Override
+    public List<Project> getProjectsByUser(String username) {
+        return projectMapper.getProjectsByUser(username);
     }
 }

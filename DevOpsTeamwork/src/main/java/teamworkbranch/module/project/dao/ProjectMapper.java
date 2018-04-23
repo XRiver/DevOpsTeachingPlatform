@@ -3,6 +3,8 @@ package teamworkbranch.module.project.dao;
 import teamworkbranch.module.project.model.Project;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 /**
  * Created by liying on 2018/4/13.
@@ -42,5 +44,12 @@ public interface ProjectMapper {
      *
      */
     int selectLastId();
+
+
+    /**
+     * 获得用户参与的所有项目
+     * @return
+     */
+    List<Project> getProjectsByUser(String username);
 
 }

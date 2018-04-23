@@ -20,8 +20,17 @@
     </insert>
 
     <delete id="deletePManager">
-        delete from project_manager where project_id=#{projectid} and manager_name=#{managerName}
+        delete from project_manager where project_id=#{projectId} and manager_name=#{manager}
     </delete>
+
+    <select id="getPManager" resultMap="pManagerMap">
+        select * from project_manager where project_id=#{projectId} and manager_name=#{manager}
+  </select>
+
+    <select id="getPManagerList" resultMap="pManagerMap">
+         select * from project_manager where project_id=#{projectId}
+    </select>
+
 
 
 

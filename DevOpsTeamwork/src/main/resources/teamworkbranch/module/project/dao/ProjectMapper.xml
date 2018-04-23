@@ -11,6 +11,8 @@
         <result column="group_id" property="groupId"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
+        <collection property="managerList" javaType="List" ofType="cteamworkbranch.module.project.model.PManager" column="project_id"
+                    select="teamworkbranch.module.project.dao.PManagerMapper.getPManagerList"/>
 
     </resultMap>
 
@@ -18,13 +20,12 @@
 
     <insert id="insertProject" useGeneratedKeys="true" keyProperty="project_id" parameterType="teamworkbranch.module.project.model.Project">
         insert into project (creator_name,name,info,group_id) values (#{creatorName},#{name},#{info},#{groupId})
-        <selectKey keyProperty="project_id" resultType="int">
+        <selectKey keyProperty="projectId" resultType="int">
             select LAST_INSERT_ID()
-        </selectKey>selectKey
-
+        </selectKey>
     </insert>
 
-    <update id="updateProject" parameterType="int">
+    <update id="updateProject" >
         update project set name=#{name},info=#{info}where project_id=#{projectId}
     </update>
 
@@ -33,7 +34,7 @@
     </delete>
 
     <select id="selectById" parameterType="int" resultMap="projectMap">
-        select * from project left join project_manager on project.project_id=project_manager.project_id where project_id=#{projectId}
+        select * from project where project.project_id=#{id}
     </select>
 
     <insert id="insertManager" >
@@ -45,6 +46,9 @@
         select LAST_INSERT_ID()
     </select>
 
+    <select id="getProjectsByUser" parameterType="String" resultMap="projectMap">
+        select * from project left join `group` on project.group_id=`group`.group_id  left join group_member on group_member.group_id =`group`.group_id where member_name=#{username}
+    </select>
 
 
 </mapper>

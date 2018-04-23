@@ -12,10 +12,9 @@
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.1.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-parent</artifactId>
+		<version>Camden.SR7</version>
 	</parent>
 
 	<properties>
@@ -59,6 +58,10 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.31</version>
 		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.fasterxml.jackson.dataformat</groupId>-->
+			<!--<artifactId>jackson-dataformat-xml</artifactId>-->
+		<!--</dependency>-->
 
 
 	</dependencies>
@@ -69,8 +72,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!-- mybatis generator 自动生成代码插件 -->
-
 		</plugins>
 	</build>
 

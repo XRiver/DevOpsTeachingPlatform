@@ -2,6 +2,7 @@ package teamworkbranch.module.project.model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by liying on 2018/4/13.
@@ -14,7 +15,7 @@ public class Project {
     private int groupId;//项目负责组号
     private Timestamp createTime;//创建日期
     private Timestamp updateTime;//最后修改日期
-    private ArrayList<String> managerList;//管理者用户名
+    private List<PManager> managerList;//管理者用户名
 
     public Project(){
 
@@ -67,5 +68,27 @@ public class Project {
         this.groupId = groupId;
     }
 
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
 
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public List<PManager> getManagerList() {
+        return managerList;
+    }
+
+    public void setManagerList(List<PManager> managerList) {
+        this.managerList = managerList;
+    }
 }

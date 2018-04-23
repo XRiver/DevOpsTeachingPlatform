@@ -1,6 +1,7 @@
 package teamworkbranch.module.project.service;
 
-import teamworkbranch.module.entity.VO.ProjectVO;
+import teamworkbranch.exception.NonprivilegedUserException;
+import teamworkbranch.module.project.model.Project;
 
 import java.util.List;
 
@@ -29,15 +30,8 @@ public interface ProjectService {
      * @param applicant
      * @return
      */
-    boolean editProject(int projectId, String projectName, String info, String applicant);
+    boolean editProject(int projectId, String projectName, String info, String applicant) throws NonprivilegedUserException;
 
-
-    /**
-     * 项目修改人员
-     * @param userId
-     * @return
-     */
-    boolean editMember(int userId);
 
 
     /**
@@ -45,5 +39,12 @@ public interface ProjectService {
      * @param projectId
      * @return
      */
-    ProjectVO getGroupInfo(int projectId);
+    Project getProjectInfo(int projectId);
+
+    /**
+     * 查看用户所属项目
+     * @param username
+     * @return
+     */
+    List<Project> getProjectsByUser(String username);
 }
