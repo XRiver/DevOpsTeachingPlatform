@@ -1,9 +1,8 @@
 package teamworkbranch.module.group.service;
 
-import teamworkbranch.module.entity.VO.UserVO;
+import teamworkbranch.module.group.model.GMember;
 import teamworkbranch.module.group.model.Group;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,7 +55,7 @@ public interface GroupService {
      * @param groupId
      * @return
      */
-    public ArrayList<UserVO> getMemberList(int groupId);
+    public List<GMember> getMemberList(int groupId);
 
 
     /**

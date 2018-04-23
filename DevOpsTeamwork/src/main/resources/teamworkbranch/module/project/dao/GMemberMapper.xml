@@ -20,8 +20,12 @@
     </insert>
 
     <delete id="deleteGMember">
-        delete from group_member where group_id=#{groupid} and member_name=#{member_Name}
+        delete from group_member where group_id=#{groupId} and member_name=#{member_Name}
     </delete>
+
+    <select id="getGMemberByGroup" parameterType="int" resultMap="GMemberMap">
+        select * from group_member WHERE group_id=#{groupId}
+    </select>
 
 
 
