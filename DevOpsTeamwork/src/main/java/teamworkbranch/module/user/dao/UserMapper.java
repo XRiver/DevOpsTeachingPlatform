@@ -17,7 +17,7 @@ public interface UserMapper {
      * @param username
      * @return Project
      */
-    Project selectByUserName(String username);
+    User selectByUserName(String username);
 
     /**
      * 插入用户

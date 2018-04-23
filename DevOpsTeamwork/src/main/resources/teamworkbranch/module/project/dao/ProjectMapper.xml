@@ -11,7 +11,7 @@
         <result column="group_id" property="groupId"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <collection property="managerList" javaType="List" ofType="cteamworkbranch.module.project.model.PManager" column="project_id"
+        <collection property="managerList" javaType="List" ofType="teamworkbranch.module.project.model.PManager" column="project_id"
                     select="teamworkbranch.module.project.dao.PManagerMapper.getPManagerList"/>
 
     </resultMap>
@@ -36,10 +36,6 @@
     <select id="selectById" parameterType="int" resultMap="projectMap">
         select * from project where project.project_id=#{id}
     </select>
-
-    <insert id="insertManager" >
-        insert into project (creator_name,name,info,group_id) values (#{creatorName},#{name},#{info},#{groupId})
-    </insert>
 
     <!--这里可以获得刚插入表格的id，为后面manager的插入提供了projectId字段-->
     <select id="selectLastId" resultType="int">

@@ -14,12 +14,12 @@ public class User {
     private String name;//姓名
     private String userId;//学号/工号
     private String email;
-    private Role role;//学生or教师
+    private int role;//学生or教师
     private Timestamp create_time;//创建时间
     private Timestamp update_time;//更新时间
 
     public User(String username, String password, String name, String userId
-            , String email, Role role,  Timestamp create_time, Timestamp update_time) {
+            , String email, int role,  Timestamp create_time, Timestamp update_time) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -30,6 +30,9 @@ public class User {
         this.update_time = update_time;
     }
 
+    public User(){
+
+    }
     public String getUsername() {
         return username;
     }
@@ -70,11 +73,11 @@ public class User {
         this.email = email;
     }
 
-    public Role getRole() {
+    public int getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(int role) {
         this.role = role;
     }
 
