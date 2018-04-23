@@ -27,6 +27,11 @@
         select * from group_member WHERE group_id=#{groupId}
     </select>
 
+    <select id="selectById" resultMap="GMemberMap">
+        select * from group_member WHERE group_id=#{groupId} and member_name=#{memberName}
+    </select>
+
+
 
 
 </mapper>

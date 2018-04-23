@@ -45,6 +45,14 @@ public interface GMemberMapper {
         */
         List<GMember> getGMemberByGroup(int groupId);
 
+        /**
+        *通过ID获取团队成员信息
+        * @param groupId
+        * @param memberName
+        * @return
+        */
+        GMember selectById(@Param("groupId") int groupId,@Param("memberName") String memberName);
+
 
 
 }
