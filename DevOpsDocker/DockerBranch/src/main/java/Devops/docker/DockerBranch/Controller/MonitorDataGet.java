@@ -48,6 +48,13 @@ public class MonitorDataGet {
 			resultMap.put(ContainerName, tempList);
 		}
 		
+//		Host h = new Host();
+//		h.setIp("119.29.88.207");h.setHostname("ubuntu");h.setPassword("abc8879623");
+//		List<CpuUsageVO> tempList = this.influxdbservice.PerContainerCpuUsageRate("influxsrv"
+//				, TimeScale, "119.29.88.207", 8086
+//				, "root", "root", "cadvisor", "autogen", h);
+//		resultMap.put("influxsrv", tempList);
+		
 		return resultMap;
 	}
 	
@@ -59,7 +66,7 @@ public class MonitorDataGet {
 		
 		List<CpuUsageVO> resultList = this.influxdbservice.AllCpuUsageRate(TimeScale
 				, h.get().getIp(), 8086
-				, "root", "root", "cadvidor", "autogen", h.get());
+				, "root", "root", "cadvisor", "autogen", h.get());
 		
 		return resultList;
 	}
@@ -78,7 +85,7 @@ public class MonitorDataGet {
 			try {
 				List<MemoryUsageVO> tempList = this.influxdbservice.PerContainerMemoryUsageRate(ContainerName
 						, TimeScale, h.get().getIp(), 8086
-						, "root", "root", "cadvidor", "autogen", h.get());
+						, "root", "root", "cadvisor", "autogen", h.get());
 				resultMap.put(ContainerName, tempList);
 			} catch (RemoteOperateException e) {
 				// TODO Auto-generated catch block
@@ -101,7 +108,7 @@ public class MonitorDataGet {
 		try {
 			List<MemoryUsageVO> resultList = this.influxdbservice.AllMemoryUsageRate(TimeScale
 					, h.get().getIp(), 8086
-					, "root", "root", "cadvidor", "autogen", h.get());
+					, "root", "root", "cadvisor", "autogen", h.get());
 			return resultList;
 		} catch (RemoteOperateException e) {
 			// TODO Auto-generated catch block
