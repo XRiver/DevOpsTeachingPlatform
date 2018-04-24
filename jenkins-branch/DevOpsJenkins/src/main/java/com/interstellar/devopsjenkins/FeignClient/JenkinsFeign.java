@@ -33,12 +33,14 @@ public interface JenkinsFeign {
     List<StepVO> pipelineNodeSteps(@Param("name") String name, @Param("number") String number, @Param("nodeId") String nodeId);
 
     @RequestLine("GET /blue/rest/organizations/jenkins/pipelines/{name}/runs/{number}/nodes/{nodeId}/steps/{stepId}")
-    List<StepVO> pipelineStep(@Param("name") String name, @Param("number") String number, @Param("nodeId") String nodeId, @Param("stepId") String stepId);
+    StepVO pipelineStep(@Param("name") String name, @Param("number") String number, @Param("nodeId") String nodeId, @Param("stepId") String stepId);
 
     @RequestLine("GET /job/{name}/{number}")
     BuildInformationVO getBuild(@Param("name") String name, @Param("number") String number);
 
     @RequestLine("GET /blue/rest/organizations/jenkins/pipelines/{name}/runs/{number}/log?start=0")
     @Headers("Context-Type: text/plain; charset=utf-8")
-    String downloadLog(@Param("name") String name, @Param("number") String number);
+    String downloadLog1(@Param("name") String name, @Param("number") String number);
+
+
 }

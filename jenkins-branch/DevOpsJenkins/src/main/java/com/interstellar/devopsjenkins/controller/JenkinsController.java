@@ -2,6 +2,7 @@ package com.interstellar.devopsjenkins.controller;
 
 import com.interstellar.devopsjenkins.FeignClient.JenkinsFeign;
 import com.interstellar.devopsjenkins.FeignClient.JenkinsFeign1;
+import com.interstellar.devopsjenkins.FeignClient.JenkinsFeign2;
 import com.interstellar.devopsjenkins.service.JenkinsService;
 import com.interstellar.devopsjenkins.util.ResultMessage;
 import com.interstellar.devopsjenkins.vo.BuildInformationVO;
@@ -10,6 +11,10 @@ import com.interstellar.devopsjenkins.vo.NodeInformationVO;
 import com.interstellar.devopsjenkins.vo.StepVO;
 import com.offbytwo.jenkins.JenkinsServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +33,10 @@ public class JenkinsController {
     JenkinsService jenkinsService;
     @Autowired
     JenkinsServer jenkinsServer;
-@Autowired
+    @Autowired
     JenkinsFeign1 jenkinsFeign1;
+    @Autowired
+    JenkinsFeign2 jenkinsFeign2;
 
 
     @RequestMapping(value = "/job/{name}", method = RequestMethod.GET)
@@ -135,15 +142,58 @@ public class JenkinsController {
 
     @RequestMapping(value = "/job/{name}/build/{number}/nodes/{nodeId}/steps/{stepId}", method = RequestMethod.GET)
     @ResponseBody
-    public List<StepVO> getStep(@PathVariable("name") String name, @PathVariable("number") String number, @PathVariable("nodeId") String nodeId, @PathVariable("stepId") String stepId) {
+    public StepVO getStep(@PathVariable("name") String name, @PathVariable("number") String number, @PathVariable("nodeId") String nodeId, @PathVariable("stepId") String stepId) {
         return jenkinsFeign.pipelineStep(name, number, nodeId, stepId);
     }
 
 
-    @RequestMapping(value = "/job/{name}/build/{number}/download", method = RequestMethod.GET)
+    @RequestMapping(value = "/job/{name}/build/{number}/log", method = RequestMethod.GET)
     @ResponseBody
-    public String downloadLog(@PathVariable("name") String name, @PathVariable("number") String number) throws IOException {
+    public String getLog(@PathVariable("name") String name, @PathVariable("number") String number) throws IOException {
 
-        return jenkinsFeign1.downloadLog(name,number);
+        return jenkinsFeign1.getLog(name, number);
+    }
+
+    @RequestMapping(value = "/job/{name}/build/{number}/log/download", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> downloadLog(@PathVariable("name") String name, @PathVariable("number") String number) throws IOException {
+        ResponseEntity<byte[]> entity = null;
+        HttpHeaders headers = new HttpHeaders();
+        String fileName = "log.txt";
+        headers.setContentDispositionFormData("attachment", fileName);
+        headers.setContentType(MediaType.TEXT_PLAIN);
+        HttpStatus statusCode = HttpStatus.OK;
+        String result = jenkinsFeign1.downloadLog(name, number);
+        byte[] bytes = result.getBytes();
+        entity = new ResponseEntity<byte[]>(bytes, headers, statusCode);
+        return entity;
+    }
+
+    @RequestMapping(value = "/job/{name}/build/{number}/nodes/{nodeId}/steps/{stepId}/log", method = RequestMethod.GET)
+    @ResponseBody
+    public String getStepLog(@PathVariable("name") String name, @PathVariable("number") String number, @PathVariable("nodeId") String nodeId, @PathVariable("stepId") String stepId) throws IOException {
+
+        return jenkinsFeign1.stepLog(name, number, nodeId, stepId);
+    }
+
+    @RequestMapping(value = "/job/{name}/download", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> downloadArtifact(@PathVariable("name") String name) {
+        ResponseEntity<byte[]> entity = null;
+        HttpHeaders headers = new HttpHeaders();
+        String fileName = "artifact.zip";
+        headers.setContentDispositionFormData("attachment", fileName);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        HttpStatus statusCode = HttpStatus.OK;
+        try {
+            jenkinsServer.getJob(name).getLastSuccessfulBuild();
+            ResponseEntity<byte[]> bytes = jenkinsFeign2.artifact(name);
+            byte[] bytes1 = bytes.getBody();
+            entity = new ResponseEntity<byte[]>(bytes1, headers, statusCode);
+            return entity;
+        } catch (IOException e) {
+            e.getMessage();
+            return entity;
+        }
     }
 }
