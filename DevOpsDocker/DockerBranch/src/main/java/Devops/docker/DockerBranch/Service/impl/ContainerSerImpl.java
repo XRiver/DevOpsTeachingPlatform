@@ -10,6 +10,7 @@ import java.util.List;
 public class ContainerSerImpl implements ContainerService{
     @Override
     public int checkContainerName(String hostId, String containerName) {
+
         return 0;
     }
 
