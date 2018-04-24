@@ -22,7 +22,9 @@ public class APIManager {
 		Map<String,String> params=new HashMap<String,String>();
 		params.put("projectKeys","Student");
 		//String result=APIManager.post(baseUrl+"measures/search",params);
-		String result=APIManager.get("http://localhost:9000/api/measures/search?projectKeys=Student&metricKeys=bugs%2Ccode_smells%2Cduplicated_lines_density%2Cncloc%2Cncloc_language_distribution%2Cvulnerabilities");
+		String result=APIManager.get("http://localhost:9000/api/measures/"
+				+ "search?projectKeys=Student&metricKeys=bugs%2Ccode_smells%2Cduplicated_lines_density%2C"
+				+ "ncloc%2Cncloc_language_distribution%2Cvulnerabilities");
 		if(result!=null){  
 			JSONObject obj=JSONObject.fromObject(result);      
 			result=obj.getString("measures");//得到json格式字符串数组  

@@ -56,7 +56,8 @@ public class MeasureServiceImpl implements MeasureService{
 	public MeasureVO getMeasure(String projectKey) {
 		//得到各种问题的数量
 		String result=APIManager.get("http://localhost:9000/api/measures/component?additionalFields=periods&componentKey="+projectKey+
-				"&metricKeys=bugs%2Cclasses%2Ccode_smells%2Ccomment_lines%2Ccomment_lines_density%2Cvulnerabilities%2Cfunctions%2Cfiles%2Clines%2Cncloc");
+				"&metricKeys=bugs%2Cclasses%2Ccode_smells%2Ccomment_lines%2Ccomment_lines_density%2C"
+				+ "vulnerabilities%2Cfunctions%2Cfiles%2Clines%2Cncloc");
 		MeasureVO vo=null;
 		if(result!=null){  
 			Gson gs = new Gson();  

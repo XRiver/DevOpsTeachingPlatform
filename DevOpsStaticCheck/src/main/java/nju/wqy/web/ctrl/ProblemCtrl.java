@@ -25,9 +25,9 @@ public class ProblemCtrl {
 	 * @param type分为bugs codeSmell vulnerabilities
 	 * @return
 	 */
-	@RequestMapping(value = "{projectKey}/{type}", method = RequestMethod.GET)
-	public PaginationVO getCon(@PathVariable String  projectKey,@PathVariable String type,@RequestParam(value="offset") int offset,
-			@RequestParam(value="pageSize")  int pageSize){
-		return problemService.getProblem(type,projectKey,offset,pageSize);
+	@RequestMapping(value = "{projectKey}", method = RequestMethod.GET)
+	public PaginationVO getCon(@PathVariable String  projectKey,@RequestParam(value="type")  String type,@RequestParam(value="offset") int offset,
+			@RequestParam(value="pageSize")  int pageSize,@RequestParam(value="fileName")  String fileName,@RequestParam(value="severity")  String severity){
+		return problemService.getProblem(type,projectKey,offset,pageSize,fileName,severity);
 	}
 }

@@ -12,5 +12,5 @@ public interface ProblemService {
 	 * @param pageSize 这页有几条
 	 * @return
 	 */
-	PaginationVO getProblem(String type,String projectKey,int offset,int pageSize);
+	PaginationVO getProblem(String type,String projectKey,int offset,int pageSize,String fileName,String severity);
 }
