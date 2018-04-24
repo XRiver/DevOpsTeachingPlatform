@@ -2,9 +2,6 @@ package Devops.docker.DockerBranch.FileOperator;
 
 import java.io.IOException;
 
-import Devops.docker.DockerBranch.Entity.Host;
-import Devops.docker.DockerBranch.Exception.RemoteOperateException;
-import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.SFTPv3Client;
 import ch.ethz.ssh2.SFTPv3FileHandle;
@@ -17,19 +14,10 @@ public class RemoteFileReader extends FileReaderTools{
 	}
 
 	@Override
-	public StringBuilder ReadFile(String Path, String FileName, String FileType,Host host) 
-			throws IOException, RemoteOperateException {
+	public StringBuilder ReadFile(String Path, String FileName, String FileType,Connection connection) 
+			throws IOException {
 		// TODO Auto-generated method stub
 		StringBuilder resultString = new StringBuilder();
-		//这里的填写配置文件相关的读远程linux文件的IP、Port、Username、Password
-		String HostIP = host.getIp();
-		int HostPort = 22;
-		String HostUserName = host.getHostname();
-		String HostPassword = host.getPassword();
-		//这里的填写配置文件相关的读远程linux文件的IP、Port、Username、Password
-		
-		RemoteSignIn sign = new RemoteSignIn(HostIP, HostPort, HostUserName, HostPassword);
-		Connection connection = sign.getConnection(); //通过SignIn方法拿到Connection
 		
 		String file = Path + FileName;
 		if(FileType!=null) {
@@ -37,32 +25,25 @@ public class RemoteFileReader extends FileReaderTools{
 		}
 		
 		try {
-			connection.connect();
-			boolean isAuthed = connection.authenticateWithPassword(sign.getUSER(), sign.getPASSWORD());
-			if(isAuthed) {
-				SFTPv3Client sftpClient = new SFTPv3Client(connection);
-				SFTPv3FileHandle sftpHandle = sftpClient.openFileRO(file);
-				
-				
-				byte[] bs = new byte[1];  
-		        int i = 0;  
-		        long offset = 0;  
-		        while(i!=-1){  
-		        	i = sftpClient.read(sftpHandle, offset, bs, 0, bs.length);  
-		            offset += i;  
-		            if(bs[0] == '\n') {
-		            	resultString.append("\r\n");
-		            }else {
-		                resultString.append(new String(bs));
-		            }
-		        } 
-		        connection.close();
-		        return resultString;
-			}else {
-				System.out.println("认证失败");
-				connection.close();
-				throw new RemoteOperateException("0","认证失败！请检查账户密码是否正确！");
-			}
+			
+			SFTPv3Client sftpClient = new SFTPv3Client(connection);
+			SFTPv3FileHandle sftpHandle = sftpClient.openFileRO(file);
+			
+			
+			byte[] bs = new byte[1];  
+		    int i = 0;  
+		    long offset = 0;  
+		    while(i!=-1){  
+		        i = sftpClient.read(sftpHandle, offset, bs, 0, bs.length);  
+		        offset += i;  
+		        if(bs[0] == '\n') {
+		        	resultString.append("\r\n");
+		        }else {
+		            resultString.append(new String(bs));
+		        }
+		    } 
+		    connection.close();
+		    return resultString;
 		}catch (IOException e) {
 			// TODO: handle exception
 			connection.close();

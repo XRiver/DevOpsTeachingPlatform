@@ -2,9 +2,8 @@ package Devops.docker.DockerBranch.FileOperator;
 
 import java.io.IOException;
 
-import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.FileOperateException;
-import Devops.docker.DockerBranch.Exception.RemoteOperateException;
+import ch.ethz.ssh2.Connection;
 
 /**
  * 
@@ -22,8 +21,8 @@ public abstract class FileDeleteTools {
 	 * 
 	 * @exception FileOperateException 本地文件操作时抛出的错误，errorcode=0:文件不存在,errorcode=1:不是一个文件,errorcode=2:不能操作，被占用,errorcode=3:不是一个目录
 	 * */
-	public abstract boolean DeleteFile(String Path,String FileName,String FileType,Host host) 
-			throws FileOperateException,RemoteOperateException,IOException;
+	public abstract boolean DeleteFile(String Path,String FileName,String FileType,Connection connection) 
+			throws FileOperateException,IOException;
 	
 	/**
 	 * 删除多个文件
@@ -32,8 +31,8 @@ public abstract class FileDeleteTools {
 	 * 
 	 * @exception FileOperateException 本地文件操作时抛出的错误，errorcode=0:文件不存在,errorcode=1:不是一个文件,errorcode=2:不能操作，被占用,errorcode=3:不是一个目录
 	 * */
-	public abstract boolean DeleteFiles(String[] filePaths,Host host) 
-			throws FileOperateException,RemoteOperateException,IOException;
+	public abstract boolean DeleteFiles(String[] filePaths,Connection connection) 
+			throws FileOperateException,IOException;
 	
 	/**
 	 * 删除空的文件夹
@@ -43,7 +42,7 @@ public abstract class FileDeleteTools {
 	 * 
 	 * @exception FileOperateException 本地文件操作时抛出的错误，errorcode=0:文件不存在,errorcode=1:不是一个文件,errorcode=2:不能操作，被占用,errorcode=3:不是一个目录
 	 * */
-	public abstract boolean DeleteRmptyDir(String Path,String DirName,Host host) 
-			throws FileOperateException,RemoteOperateException,IOException;
+	public abstract boolean DeleteRmptyDir(String Path,String DirName,Connection connection) 
+			throws FileOperateException,IOException;
 
 }

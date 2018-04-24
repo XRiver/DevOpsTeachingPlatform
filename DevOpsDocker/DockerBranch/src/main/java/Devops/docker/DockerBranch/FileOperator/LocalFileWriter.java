@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.FileOperateException;
+import ch.ethz.ssh2.Connection;
 
 /**
  * 
@@ -22,7 +22,7 @@ import Devops.docker.DockerBranch.Exception.FileOperateException;
 public class LocalFileWriter extends FileWriterTools{
 
 	@Override
-	public boolean WriteFile(String Path, String FileName, String FileType, StringBuilder containt,Host host) throws IOException, FileOperateException {
+	public boolean WriteFile(String Path, String FileName, String FileType, StringBuilder containt,Connection connection) throws IOException, FileOperateException {
 		// TODO Auto-generated method stub
 		
 		String file = Path + FileName;

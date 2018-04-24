@@ -2,8 +2,6 @@ package Devops.docker.DockerBranch.RemoteConnection;
 
 import java.io.IOException;
 
-import Devops.docker.DockerBranch.Entity.Host;
-import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.SCPClient;
 
@@ -22,45 +20,31 @@ public class FileTransport {
 	private String FileType;
 	private String LocalPath;
 	private String RemotePath;
-	private Host host;
+	private Connection connection;
 	
 	
-	public FileTransport(String fileName, String fileType, String localPath, String remotePath,Host host) {
+	public FileTransport(String fileName, String fileType, String localPath, String remotePath,Connection connection) {
 		super();
 		FileName = fileName;
 		FileType = fileType;
 		LocalPath = localPath;
 		RemotePath = remotePath;
-		this.host = host;
+		this.connection = connection;
 	}
+
 	
-	public RemoteSignIn SignIn() {
-		//前面还有读取文件的操作
-		RemoteSignIn sign = new RemoteSignIn(host.getIp(), 22, host.getHostname(), host.getPassword());
-		return sign;
-	}
-	
-	public void getFile() throws RemoteOperateException, IOException {  //这里的实现还需要再等一等
-		RemoteSignIn sign = SignIn();
-		Connection connection = sign.getConnection(); //通过SignIn方法拿到Connection
+	public void getFile() throws IOException {
 		
 		try {
-			connection.connect();
-			boolean isAuthed = connection.authenticateWithPassword(sign.getUSER(), sign.getPASSWORD());
 			
-			if(isAuthed) {
-				SCPClient scpClient = connection.createSCPClient();
-				String remoteFile = "";
-				if(FileType=="") {
-					remoteFile =RemotePath + FileName;
-				}else {
-					remoteFile =RemotePath + FileName + "." + FileType;
-				}
-				scpClient.get(remoteFile, LocalPath);
+			SCPClient scpClient = connection.createSCPClient();
+			String remoteFile = "";
+			if(FileType=="") {
+				remoteFile =RemotePath + FileName;
 			}else {
-				connection.close();
-				throw new RemoteOperateException("0","认证失败！请检查账户密码是否正确！");
+				remoteFile =RemotePath + FileName + "." + FileType;
 			}
+			scpClient.get(remoteFile, LocalPath);
 		}catch (IOException e) {
 			// TODO: handle exception
 			connection.close();
@@ -69,30 +53,19 @@ public class FileTransport {
 		connection.close();
 	}
 
-	public boolean putFile() throws RemoteOperateException, IOException{
-		RemoteSignIn sign = SignIn();
-		Connection connection = sign.getConnection(); //通过SignIn方法拿到Connection
-		
+	public boolean putFile() throws IOException{
 		
 		try {
-			connection.connect();
-			boolean isAuthed = connection.authenticateWithPassword(sign.getUSER(), sign.getPASSWORD());
 			
-			if(isAuthed) {
-				System.out.println("认证成功");
-				SCPClient scpClient = connection.createSCPClient();
-				String localFile = "";
-				if(FileType=="") {
-					localFile = LocalPath + FileName;
-				}else {
-					localFile = LocalPath + FileName + "." + FileType;
-				}
-				scpClient.put(localFile, RemotePath);
+			SCPClient scpClient = connection.createSCPClient();
+			String localFile = "";
+			if(FileType=="") {
+				localFile = LocalPath + FileName;
 			}else {
-				System.out.println("认证失败");
-				connection.close();
-				throw new RemoteOperateException("0","认证失败！请检查账户密码是否正确！");
+				localFile = LocalPath + FileName + "." + FileType;
 			}
+			scpClient.put(localFile, RemotePath);
+			
 		}catch (IOException e) {
 			// TODO: handle exception
 			connection.close();
@@ -141,12 +114,16 @@ public class FileTransport {
 		RemotePath = remotePath;
 	}
 
-	public Host getHost() {
-		return host;
+
+	public Connection getConnection() {
+		return connection;
 	}
 
-	public void setHost(Host host) {
-		this.host = host;
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
 	}
+
+	
 	
 }
