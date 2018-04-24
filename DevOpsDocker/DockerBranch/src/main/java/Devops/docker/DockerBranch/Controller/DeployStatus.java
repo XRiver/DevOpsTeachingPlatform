@@ -1,5 +1,6 @@
 package Devops.docker.DockerBranch.Controller;
 
+import Devops.docker.DockerBranch.Service.DeployService;
 import Devops.docker.DockerBranch.Service.impl.TestImpl;
 import Devops.docker.DockerBranch.VO.deployHistoryVO;
 import Devops.docker.DockerBranch.VO.deployInfoVO;
@@ -17,13 +18,12 @@ import java.util.List;
 public class DeployStatus {
 
     @Autowired
-    TestImpl test;
+    DeployService deployService;
 
     @RequestMapping("/getHistory")
     public List<deployHistoryVO> getHistory(@RequestParam String taskid){
-        List<deployHistoryVO> list = new ArrayList<>();
-        list.add(test.getHistoryVO());
-        return list;
+
+        return deployService.getHistory(taskid);
     }
 
     /**
@@ -33,17 +33,8 @@ public class DeployStatus {
      */
     @RequestMapping("/getDeployInfo")
     public deployInfoVO getInfo(@RequestParam String taskid){
-        deployInfoVO vo = new deployInfoVO();
-        vo.setTaskId(taskid);
-        vo.setCreator("xiong");
-        vo.setDate("2014:12:12");
-        vo.setDescription("xionga");
-        vo.setLastDate("2016:12:12");
-        vo.setPath("/user/xiong");
-        vo.setSoftware("exam");
-        hostVO host = new hostVO("123","123","1","123:123:123:123","xiong","true","2013:12:12");
-        vo.setHost(host);
-        return vo;
+
+        return deployService.getInfo(taskid);
     }
 
 //    /**
