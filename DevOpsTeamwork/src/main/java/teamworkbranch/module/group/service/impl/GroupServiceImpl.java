@@ -38,7 +38,8 @@ public class GroupServiceImpl implements GroupService {
         groupMapper.insertGroup(group);
         int groupId =  groupMapper.selectLastId();
         for(String member: memberList){
-            GMember gMember = new GMember(groupId,member);
+            GMember gMember = new GMember(groupId,member,0);
+            gMemberMapper.insertGMember(gMember);
         }
 
         return 0;

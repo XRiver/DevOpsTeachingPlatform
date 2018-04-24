@@ -1,6 +1,6 @@
 package teamworkbranch.module.user.service;
 
-import teamworkbranch.module.entity.VO.UserVO;
+import teamworkbranch.module.user.model.User;
 
 /**
  * Created by caosh on 2018/4/9.
@@ -44,15 +44,15 @@ public interface UserService {
      * @param username
      * @return
      */
-    public UserVO getUserInfo(String username);
+    public User getUserInfo(String username);
 
 
     /**
      * 修改个人信息
-     * @param userVO
+     * @param user
      * @return
      */
-    public boolean editInfo(UserVO userVO);
+    public boolean editInfo(User user);
 
 
 }

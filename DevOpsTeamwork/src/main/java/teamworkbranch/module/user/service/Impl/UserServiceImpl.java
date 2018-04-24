@@ -1,6 +1,6 @@
 package teamworkbranch.module.user.service.Impl;
 
-import teamworkbranch.module.entity.VO.UserVO;
+import teamworkbranch.module.user.model.User;
 import teamworkbranch.module.user.service.UserService;
 
 /**
@@ -49,16 +49,16 @@ public class UserServiceImpl implements UserService {
      * @param username
      * @return
      */
-    public UserVO getUserInfo(String username) {
+    public User getUserInfo(String username) {
         return null;
     }
 
     /**
      * 修改个人信息
-     * @param userVO
+     * @param user
      * @return
      */
-    public boolean editInfo(UserVO userVO) {
+    public boolean editInfo(User user) {
         return false;
     }
 }
