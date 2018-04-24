@@ -1,13 +1,15 @@
-package teamworkbranch.module.user.model;
+package teamworkbranch.module.user.vo;
+
+import teamworkbranch.module.user.model.Role;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by caosh on 2018/4/1.
  */
-public class User {
+public class UserVO {
     private String username;//用户名
-    private String password;
     private String name;//姓名
     private String userId;//学号/工号
     private String email;
@@ -15,34 +17,15 @@ public class User {
     private Timestamp createTime;//创建时间
     private Timestamp updateTime;//更新时间
 
-    public User(String username, String password, String name, String userId
-            , String email, int role) {
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.userId = userId;
-        this.email = email;
-        this.role = role;
-
+    public UserVO() {
     }
 
-    public User(){
-
-    }
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getName() {
@@ -81,15 +64,15 @@ public class User {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
+    public void setCreateTime(Timestamp create_time) {
+        this.createTime = create_time;
     }
 
     public Timestamp getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdateTime(Timestamp update_time) {
+        this.updateTime = update_time;
     }
 }

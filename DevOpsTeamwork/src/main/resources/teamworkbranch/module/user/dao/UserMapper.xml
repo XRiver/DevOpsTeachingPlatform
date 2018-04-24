@@ -17,7 +17,7 @@
 
 
     <insert id="insertUser" parameterType="teamworkbranch.module.user.model.User">
-        insert into user (username,name,password,user_id,email) values (#{username},#{name},#{password},#{userId},#{email})
+        insert into user (username,name,password,user_id,email,role) values (#{username},#{name},#{password},#{userId},#{email},#{role})
     </insert>
 
     <update id="updateUser" >

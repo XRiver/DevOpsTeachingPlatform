@@ -12,6 +12,7 @@ import teamworkbranch.module.project.model.PManager;
 import teamworkbranch.module.project.model.Project;
 import teamworkbranch.module.project.service.PManagerService;
 import teamworkbranch.module.project.service.ProjectService;
+import teamworkbranch.module.project.web.ProjectController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,8 @@ public class ProjectTests {
 	ProjectMapper projectMapper;
 	@Autowired
     PManagerService pManagerService;
+	@Autowired
+    ProjectController projectController;
 	@Test
     public void testCreate(){
 		ArrayList<String> list=new ArrayList<>();
@@ -68,6 +71,11 @@ public class ProjectTests {
     }
 	@Test
 	public void contextLoads() {
+	    ArrayList<String> list=new ArrayList<>();
+	    list.add("user3");
+	    list.add("user4");
+        projectController.createWithGroup("newProject","new project",list,1,"user3");
+
 	}
 
 
