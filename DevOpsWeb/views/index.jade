@@ -1,5 +1,8 @@
 extends layout
 
 block content
-  p 激活的项目id为#{activeProjectId}
-  p 这里应该要么让用户选择激活的project，要么显示当前激活的project的详细信息
+  - if (activeProjectId > 0) {
+    h3 已激活项目:#{activeProjectInfo.name}
+  - } else {
+    h3 尚未激活项目，请前往“项目管理”选择项目。
+  - }

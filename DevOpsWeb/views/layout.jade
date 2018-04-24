@@ -10,6 +10,7 @@ html
     script(src='https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
+    script(src="/javascripts/layout.js")
   body
     .container-fluid#frame
       nav.navbar.sticky-top.py-3#headers
@@ -21,7 +22,7 @@ html
                 .dropdown-menu
                   a.dropdown-item#modInfoBtn(href="/index?p=modUserInfo") 修改个人资料
                   a.dropdown-item#modPassBtn(href="/index?p=modPassword") 修改密码
-            button.btn.btn-outline-warning.btn-sm.float-right#logoutBtn(type="button") 退出登录
+            button.btn.btn-outline-warning.btn-sm.float-right#logoutBtn(type="button", onClick="logout()") 退出登录
         .container-fluid#teamworkMenu 
           .row
             - if(activeProjectId!=-1) {
@@ -29,11 +30,13 @@ html
             - } else {
             span 当前未激活项目
             - }
-            button.btn.btn-outline-info.btn-sm.float-left#teamManageBtn(type="button",href="/index?p=teamManage") 团队管理
-            button.btn.btn-outline-info.btn-sm.float-left#projectManageBtn(type="button",href="/index?p=projectManage") 项目管理
+            a(href="/index?p=teamManage")
+              button.btn.btn-outline-info.btn-sm.float-left#teamManageBtn(type="button") 团队管理
+            a(href="/index?p=projectManage")
+              button.btn.btn-outline-info.btn-sm.float-left#projectManageBtn(type="button") 项目管理
       .row.container-fluid.px-1.py-2
         .btn-group-vertical.col-2.border.border-primary#menu
-          button.btn.btn-primary.btn-block#jenkinsBtn(type='button',href="/index?p=ci") 持续集成  
-          button.btn.btn-primary.btn-block#dockerBtn(type='button',href="/index?p=deploy") Docker部署
+          button.btn.btn-primary.btn-block#jenkinsBtn(type='button',onClick="window.location.href='/index?p=ci'") 持续集成  
+          button.btn.btn-primary.btn-block#dockerBtn(type='button',onClick="window.location.href='/index?p=deploy'") Docker部署
         .col-10#main.border.border-primary
           block content

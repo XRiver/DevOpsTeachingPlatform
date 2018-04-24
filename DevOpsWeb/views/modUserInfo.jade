@@ -1,4 +1,13 @@
 extends layout
 
 block content
-    h1 modUserInfo
+    script(src="/javascripts/modUserInfo.js")
+    .container-fluid
+        .form-group
+            label(for='emailInput') 邮箱：
+            input.form-control#emailInput(type='text')
+            label(for='realNameInput') 真实姓名：
+            input.form-control#realNameInput(type='text')
+            label(for='idInput') 学号/工号：
+            input.form-control#idInput(type='text')
+        button.btn.btn-primary.btn-lg.float-right#chPwdBtn(type='button',onClick='modUserInfo()') 确认

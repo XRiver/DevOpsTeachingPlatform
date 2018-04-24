@@ -18,9 +18,7 @@ router.get('/', function(req, res, next) {
     return;
   }
   
-  if (!sess.userInfo) {
-    sess.userInfo = teamAPI.getUserInfo(sess.usr);
-  }
+  sess.userInfo = teamAPI.getUserInfo(sess.usr);
   var userInfo = sess.userInfo;
   
   var activeProjectId = null;
@@ -40,18 +38,10 @@ router.get('/', function(req, res, next) {
     activeProjectInfo = -1;
   }
 
-  var activeButton = null;
-  if (sess.activeButton) {
-    activeButton = sess.activeButton;
-  } else {
-    activeButton = -1;
-  }
-
   var renderOptions = {
     realName: userInfo.name,
     activeProjectId: activeProjectId,
     activeProjectInfo: activeProjectInfo,
-    activeButton: activeButton
   };
 
   switch(req.query.p) {
@@ -70,16 +60,27 @@ router.get('/', function(req, res, next) {
     res.render('modPassword', renderOptions);
     break;
     case "teamManage":
-    res.render('teamManage', renderOptions);
+    renderTeamManage(renderOptions, req, res);
     break;
     case "projectManage":
-    res.render('projectManage', renderOptions);
+    renderProjectManage(renderOptions, req, res);
     break;
     default:
     break;
   }
   return;
 });
+
+var renderTeamManage = function(baseRenderOptions, req, res) {
+  groups = teamAPI.getGroupsByUsr(req.session.usr);
+  baseRenderOptions.myGroups = groups;
+  res.render('teamManage', baseRenderOptions);
+}
+var renderProjectManage = function(baseRenderOptions, req, res) {
+  projects = teamAPI.getProjectList(req.session.usr);
+  baseRenderOptions.myProjects = projects;
+  res.render('projectManage', baseRenderOptions);
+}
 
 router.get('/test', function(req,res,next){
   res.render('modPassword',{

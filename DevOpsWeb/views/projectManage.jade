@@ -1,4 +1,48 @@
 extends layout
 
 block content
-    h1 projectManage
+    script(src="/javascripts/projectManage.js")
+    .col-2
+      ul.mx-auto.nav.nav-tabs.nav-justified.col-8
+        li.nav-item
+            a.nav-link.active(href="#projectViewPane" data-toggle="tab") 我的项目
+        li.nav-item 
+            a.nav-link(href="#projectCreatePane" data-toggle="tab") 创建项目
+    .col-2
+    .col-2
+    .tab-content.container.col-8
+        .tab-pane.container.active.pt-2#projectViewPane
+            table.table.table-hover
+                thead
+                    tr
+                        th 项目编号
+                        th 项目名
+                        th 项目介绍
+                        th 项目创建者
+                        th 项目管理者
+                        th 操作
+                tbody
+                - for(project in myProjects) { 
+                -   var managers = []; for(manager in project.managerList) managers.push(manager.managerName);
+                    tr
+                        td #{project.projectId}
+                        td #{project.name}
+                        td #{project.info}
+                        td #{project.creatorName}
+                        td= managers.join(',')
+                        td
+                            button.btn.btn-outline-success.btn-sm(type="button", onClick="activateProject("+project.projectId+")") 激活项目 
+
+                - }
+        .tab-pane.container.pt-2#projectCreatePane
+            .form-group
+                label(for='projectNameInput') 项目名称：
+                input.form-control#projectNameInput(type='text')
+                label(for='projectInfoInput') 项目简介：
+                input.form-control#projectInfoInput(type='text')
+                label(for="managersInput") 管理者用户名:(每行一个)
+                textarea.form-control#managersInput(rows="5")
+                label(for='groupIdInput') 成员团队ID：
+                input.form-control#groupIdInput(type='text')
+            button.btn.btn-primary.btn-lg.float-right(type='button' onClick='createProject()') 创建
+    .col-2
