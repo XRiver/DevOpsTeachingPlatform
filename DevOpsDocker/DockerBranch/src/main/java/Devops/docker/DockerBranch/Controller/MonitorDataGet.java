@@ -32,7 +32,8 @@ public class MonitorDataGet {
     HostDao host;
 	
 	@RequestMapping("/perContainerCpu")
-	public Map<String,List<CpuUsageVO>> getPerContainerCpuUsageRate(@RequestParam String hostId){
+	public Map<String,List<CpuUsageVO>> getPerContainerCpuUsageRate(@RequestParam String hostId,
+			@RequestParam String TimeScale){
 		
 		List<String> ContainerNames = this.containerService.getContainersInHost(hostId);
 		
@@ -42,7 +43,7 @@ public class MonitorDataGet {
 		
 		for(String ContainerName : ContainerNames) {
 			List<CpuUsageVO> tempList = this.influxdbservice.PerContainerCpuUsageRate(ContainerName
-					, "1m", h.get().getIp(), 8086
+					, TimeScale, h.get().getIp(), 8086
 					, "root", "root", "cadvidor", "autogen", h.get());
 			resultMap.put(ContainerName, tempList);
 		}
@@ -51,11 +52,12 @@ public class MonitorDataGet {
 	}
 	
 	@RequestMapping("/allContainerCpu")
-	public List<CpuUsageVO> getAllCpuUsageRate(@RequestParam String hostId){
+	public List<CpuUsageVO> getAllCpuUsageRate(@RequestParam String hostId,
+			@RequestParam String TimeScale){
 		
 		Optional<Host> h = this.host.findById(Integer.valueOf(hostId));
 		
-		List<CpuUsageVO> resultList = this.influxdbservice.AllCpuUsageRate("1m"
+		List<CpuUsageVO> resultList = this.influxdbservice.AllCpuUsageRate(TimeScale
 				, h.get().getIp(), 8086
 				, "root", "root", "cadvidor", "autogen", h.get());
 		
@@ -63,7 +65,8 @@ public class MonitorDataGet {
 	}
 	
 	@RequestMapping("/perContainerMemory")
-	public Map<String,List<MemoryUsageVO>> getPerContainerMemoryUsageRate(@RequestParam String hostId){
+	public Map<String,List<MemoryUsageVO>> getPerContainerMemoryUsageRate(@RequestParam String hostId,
+			@RequestParam String TimeScale){
 		
 		List<String> ContainerNames = this.containerService.getContainersInHost(hostId);
 		
@@ -74,7 +77,7 @@ public class MonitorDataGet {
 		for(String ContainerName : ContainerNames) {
 			try {
 				List<MemoryUsageVO> tempList = this.influxdbservice.PerContainerMemoryUsageRate(ContainerName
-						, "1m", h.get().getIp(), 8086
+						, TimeScale, h.get().getIp(), 8086
 						, "root", "root", "cadvidor", "autogen", h.get());
 				resultMap.put(ContainerName, tempList);
 			} catch (RemoteOperateException e) {
@@ -90,12 +93,13 @@ public class MonitorDataGet {
 	}
 	
 	@RequestMapping("/allContainerMemory")
-	public List<MemoryUsageVO> getAllMemoryUsageRate(@RequestParam String hostId){
+	public List<MemoryUsageVO> getAllMemoryUsageRate(@RequestParam String hostId,
+			@RequestParam String TimeScale){
 		
 		Optional<Host> h = this.host.findById(Integer.valueOf(hostId));
 		
 		try {
-			List<MemoryUsageVO> resultList = this.influxdbservice.AllMemoryUsageRate("1m"
+			List<MemoryUsageVO> resultList = this.influxdbservice.AllMemoryUsageRate(TimeScale
 					, h.get().getIp(), 8086
 					, "root", "root", "cadvidor", "autogen", h.get());
 			return resultList;
