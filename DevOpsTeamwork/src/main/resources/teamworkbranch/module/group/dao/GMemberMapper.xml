@@ -14,7 +14,7 @@
 
     </resultMap>
 
-    <insert id="insertGMember" >
+    <insert id="insertGMember" parameterType="teamworkbranch.module.group.model.GMember">
         insert into group_member(group_id,member_name,is_manager)
         values (#{groupId},#{member_Name},#{is_manager})
     </insert>
@@ -23,12 +23,16 @@
         delete from group_member where group_id=#{groupId} and member_name=#{member_Name}
     </delete>
 
+    <update id="editGMember" parameterType="teamworkbranch.module.group.model.GMember">
+        update `group` set name=#{name},info=#{info} where group_id=#{groupId}
+    </update>
+
     <select id="getGMemberByGroup" parameterType="int" resultMap="GMemberMap">
         select * from group_member WHERE group_id=#{groupId}
     </select>
 
     <select id="selectById" resultMap="GMemberMap">
-        select * from group_member WHERE group_id=#{groupId} and member_name=#{memberName}
+        select * from group_member WHERE group_id=#{groupId} and member_name=#{member_Name}
     </select>
 
 

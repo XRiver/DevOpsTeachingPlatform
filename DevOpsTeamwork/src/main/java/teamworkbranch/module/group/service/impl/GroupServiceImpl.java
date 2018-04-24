@@ -38,7 +38,8 @@ public class GroupServiceImpl implements GroupService {
         groupMapper.insertGroup(group);
         int groupId =  groupMapper.selectLastId();
         for(String member: memberList){
-            GMember gMember = new GMember(groupId,member);
+            GMember gMember = new GMember(groupId,member,0);
+            gMemberMapper.insertGMember(gMember);
         }
 
         return 0;
@@ -72,13 +73,16 @@ public class GroupServiceImpl implements GroupService {
      */
     public boolean editGroup(String name,String info,int groupId,String memberName) throws NotExistedException, NonprivilegedUserException {
         Group group = groupMapper.selectById(groupId);
+//        System.out.println("aaaaaa");
+        System.out.println(group.getName());
+//        System.out.println(group.getInfo());
         GMember gMember = gMemberMapper.selectById(groupId,memberName);
-        if(gMember==null){
+        if(gMember==null || group==null){
+            System.out.println("不存在");
             throw new NotExistedException();
         }else if(gMember.getIs_manager()==0){
             throw new NonprivilegedUserException();
-        }
-        else {
+        } else {
             group.setName(name);
             group.setInfo(info);
             groupMapper.updateGroup(group);
@@ -87,22 +91,26 @@ public class GroupServiceImpl implements GroupService {
         return true;
     }
 
-    /**
-     * 团队修改人员
-     * @param userId
-     * @return
-     */
-    public boolean editMember(int userId) {
-        return false;
-    }
+//    /**
+//     * 团队修改人员
+//     * @param userId
+//     * @return
+//     */
+//    public boolean editMember(int userId) {
+//        return false;
+//    }
 
     /**
      * 查看团队信息
      * @param groupId
      * @return
      */
-    public Group getGroupInfo(int groupId) {
-        return groupMapper.selectById(groupId);
+    public Group getGroupInfo(int groupId) throws NotExistedException {
+        Group group = groupMapper.selectById(groupId);
+        if(group==null){
+            throw new NotExistedException();
+        }else
+            return group;
     }
 
     /**
@@ -110,8 +118,12 @@ public class GroupServiceImpl implements GroupService {
      * @param groupId
      * @return
      */
-    public List<GMember> getMemberList(int groupId) {
-        return gMemberMapper.getGMemberByGroup(groupId);
+    public List<GMember> getMemberList(int groupId) throws NotExistedException {
+        List<GMember> gMembers = gMemberMapper.getGMemberByGroup(groupId);
+        if (gMembers==null){
+            throw new NotExistedException();
+        } else
+            return gMembers;
     }
 
     /**
@@ -119,8 +131,12 @@ public class GroupServiceImpl implements GroupService {
      * @param memberName
      * @return
      */
-    public List<Group> getGroupList(String memberName) {
-        return groupMapper.selectMyGroups(memberName);
+    public List<Group> getGroupList(String memberName) throws NotExistedException {
+        List<Group> groups = groupMapper.selectMyGroups(memberName);
+        if (groups==null){
+            throw new NotExistedException();
+        }else
+            return groups;
     }
 
 

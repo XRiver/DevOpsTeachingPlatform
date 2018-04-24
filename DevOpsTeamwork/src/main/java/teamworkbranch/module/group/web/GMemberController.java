@@ -9,27 +9,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import teamworkbranch.module.group.service.GMemberService;
 import teamworkbranch.module.group.service.GroupService;
 
-import java.util.List;
-
 /**
- * Created by liying on 2018/4/17.
+ * Created by caosh on 2018/4/24.
  */
 @Controller
-@RequestMapping("/group")
-public class GroupController {
-
+@RequestMapping("/GMember")
+public class GMemberController {
 
     @Autowired
     GroupService groupService;
     @Autowired
     GMemberService gMemberService;
 
-    @RequestMapping(value = "/createGroup", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/addGMember", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String createGroup(String groupName, String info, String creatorName, List<String> memberList) {
+    public String addGMember(int groupId,String userName,int is_manager) {
         JSONObject toReturn = new JSONObject();
         try{
-            groupService.createGroup(groupName, info,creatorName,memberList);
+            gMemberService.addMember(groupId,userName,is_manager);
             toReturn.put("success", true);
             toReturn.put("msg", "success");
         }catch (Exception e){
@@ -40,12 +37,13 @@ public class GroupController {
         return toReturn.toString();
     }
 
-    @RequestMapping(value = "/deleteGroup", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+
+    @RequestMapping(value = "/removeGMember", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String deleteGroup(int groupId,String memberName) {
+    public String removeGMember(int groupId,String userName) {
         JSONObject toReturn = new JSONObject();
         try{
-            groupService.deleteGroup(groupId,memberName);
+            gMemberService.removeMember(groupId,userName);
             toReturn.put("success", true);
             toReturn.put("msg", "success");
         }catch (Exception e){
@@ -56,15 +54,15 @@ public class GroupController {
         return toReturn.toString();
     }
 
-    @RequestMapping(value = "/editGroup", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/editGMember", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String editGroup(String name,String info,int groupId,String memberName) {
+    public String editGMember(int groupId,String userName,int is_manager) {
         JSONObject toReturn = new JSONObject();
-        try {
-            groupService.editGroup(name, info, groupId,memberName);
+        try{
+            gMemberService.editMember(groupId,userName,is_manager);
             toReturn.put("success", true);
             toReturn.put("msg", "success");
-        } catch (Exception e) {
+        }catch (Exception e){
             toReturn.put("success", false);
             toReturn.put("msg", e.getMessage());
 
@@ -72,16 +70,15 @@ public class GroupController {
         return toReturn.toString();
     }
 
-    @RequestMapping(value = "/getGroup", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/getMyGroups", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String getGroup(int groupId) {
+    public String getMyGroups(String memberName) {
         JSONObject toReturn = new JSONObject();
-        try {
-            groupService.getGroupInfo(groupId);
-            groupService.getMemberList(groupId);
+        try{
+            groupService.getGroupList(memberName);
             toReturn.put("success", true);
             toReturn.put("msg", "success");
-        } catch (Exception e) {
+        }catch (Exception e){
             toReturn.put("success", false);
             toReturn.put("msg", e.getMessage());
 

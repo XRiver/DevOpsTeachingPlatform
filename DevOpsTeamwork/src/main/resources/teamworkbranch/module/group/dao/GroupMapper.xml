@@ -16,28 +16,28 @@
 
 
     <insert id="insertGroup" useGeneratedKeys="true" keyProperty="group_id" parameterType="teamworkbranch.module.group.model.Group">
-        insert into group (creator_name,name,info,group_id)
-        values (#{creator_Name},#{name},#{info},#{groupId})
-        <selectKey keyProperty="group_id" resultType="int">
+        insert into `group` (creator_name,name,info)
+        values (#{creator_Name},#{name},#{info})
+        <selectKey keyProperty="groupId" resultType="int">
             select LAST_INSERT_ID()
-        </selectKey>selectKey
+        </selectKey>
 
     </insert>
 
-    <update id="updateGroup">
-        update group set name=#{name},info=#{info} where group_id=#{groupId}
+    <update id="updateGroup" parameterType="teamworkbranch.module.group.model.Group">
+        update `group` set name=#{name},info=#{info} where group_id=#{groupId}
     </update>
 
     <delete id="deleteGroup" parameterType="int">
-        delete from group where group_id=#{groupId}
+        delete from `group` where group_id=#{groupId}
     </delete>
 
     <select id="selectById" parameterType="int" resultMap="groupMap">
-        select * from group left join group_member on group.group_id=group_member.group_id where group_id=#{groupId}
+        select * from `group` where group_id=#{groupId}
     </select>
 
-    <select id="selectMyGroups" parameterType="int" resultMap="groupMap">
-        select * from group left join group_member on group.group_id=group_member.group_id where group_member.member_name=#{memberName}
+    <select id="selectMyGroups" resultMap="groupMap">
+        select * from `group` left join group_member on `group`.group_id=group_member.group_id where group_member.member_name=#{member_Name}
     </select>
 
     <!--<insert id="insertManager" >-->

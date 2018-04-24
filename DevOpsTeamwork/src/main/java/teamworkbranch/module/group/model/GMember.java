@@ -6,8 +6,8 @@ import java.sql.Timestamp;
  * Created by caosh on 2018/4/19.
  */
 public class GMember {
-    private int group_id;//团队编号
-    private String member_name;//成员名称
+    private int groupId;//团队编号
+    private String member_Name;//成员名称
     private int is_manager;
     private Timestamp createTime;//创建日期
     private Timestamp updateTime;//最后修改日期
@@ -15,26 +15,26 @@ public class GMember {
     public GMember() {
     }
 
-    public GMember(int group_id, String member_name) {
-        this.group_id = group_id;
-        this.member_name = member_name;
-        this.is_manager = 0;
+    public GMember(int groupId, String member_Name,int is_manager) {
+        this.groupId = groupId;
+        this.member_Name = member_Name;
+        this.is_manager = is_manager;
     }
 
-    public int getGroup_id() {
-        return group_id;
+    public int getgroupId() {
+        return groupId;
     }
 
-    public void setGroup_id(int group_id) {
-        this.group_id = group_id;
+    public void setgroupId(int groupId) {
+        this.groupId = groupId;
     }
 
-    public String getMember_name() {
-        return member_name;
+    public String getmember_Name() {
+        return member_Name;
     }
 
-    public void setMember_name(String member_name) {
-        this.member_name = member_name;
+    public void setmember_Name(String member_Name) {
+        this.member_Name = member_Name;
     }
 
     public int getIs_manager() {

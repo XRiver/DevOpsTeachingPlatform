@@ -18,8 +18,7 @@ public interface GMemberMapper {
          * 新增团队成员
          *
          */
-        int insertGMember(@Param("groupId") int groupId, @Param("member") String member
-                ,@Param("is_manager") int is_manager);
+        int insertGMember(GMember gMember);
 
         /**
          *
@@ -30,13 +29,10 @@ public interface GMemberMapper {
 
         /**
         * 修改团队成员管理权限
-        * @param groupId
-        * @param member
-        * @param is_manager
+        * @param gMember
         * @return
         */
-        int editGMember(@Param("groupId") int groupId, @Param("member") String member
-                ,@Param("is_manager") int is_manager);
+        int editGMember(GMember gMember);
 
         /**
         * 查看团队成员列表
@@ -48,10 +44,10 @@ public interface GMemberMapper {
         /**
         *通过ID获取团队成员信息
         * @param groupId
-        * @param memberName
+        * @param member_Name
         * @return
         */
-        GMember selectById(@Param("groupId") int groupId,@Param("memberName") String memberName);
+        GMember selectById(@Param("groupId") int groupId,@Param("member_Name") String member_Name);
 
 
 

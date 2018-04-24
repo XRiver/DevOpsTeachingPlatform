@@ -51,7 +51,7 @@ public interface GroupService {
      * @param groupId
      * @return
      */
-    public Group getGroupInfo(int groupId);
+    public Group getGroupInfo(int groupId) throws NotExistedException;
 
 
     /**
@@ -59,7 +59,7 @@ public interface GroupService {
      * @param groupId
      * @return
      */
-    public List<GMember> getMemberList(int groupId);
+    public List<GMember> getMemberList(int groupId) throws NotExistedException;
 
 
     /**
@@ -67,7 +67,7 @@ public interface GroupService {
      * @param memberName
      * @return
      */
-    public List<Group> getGroupList(String memberName);
+    public List<Group> getGroupList(String memberName) throws NotExistedException;
 
 
 
