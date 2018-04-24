@@ -2,9 +2,8 @@ package Devops.docker.DockerBranch.FileOperator;
 
 import java.io.IOException;
 
-import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.FileOperateException;
-import Devops.docker.DockerBranch.Exception.RemoteOperateException;
+import ch.ethz.ssh2.Connection;
 
 /**
  * 
@@ -26,8 +25,8 @@ public abstract class FileWriterTools {
 	 * 
 	 * @exception FileOperateException 本地文件操作时抛出的错误，errorcode=0:文件不存在,errorcode=1:不是一个文件,errorcode=2:不能操作，被占用,errorcode=3:不是一个目录
 	 * */
-	public abstract boolean WriteFile(String Path,String FileName,String FileType,StringBuilder containt,Host host)
-			throws IOException,FileOperateException,RemoteOperateException;
+	public abstract boolean WriteFile(String Path,String FileName,String FileType,StringBuilder containt,Connection connection)
+			throws IOException,FileOperateException;
 
 
 }

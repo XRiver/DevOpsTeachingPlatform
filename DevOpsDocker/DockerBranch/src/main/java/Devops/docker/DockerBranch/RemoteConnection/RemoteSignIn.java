@@ -2,6 +2,7 @@ package Devops.docker.DockerBranch.RemoteConnection;
 
 import java.io.IOException;
 
+import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import ch.ethz.ssh2.Connection;
 
 /**
@@ -33,13 +34,20 @@ public class RemoteSignIn {
 	
 	
 	
-	public boolean isAuth(String user,String password) {
-		try {
-			return connection.authenticateWithPassword(user, password);
-		}catch(IOException e) {
-			e.printStackTrace();
+	public Connection ConnectAndAuth(String user,String password) throws RemoteOperateException, IOException{
+		
+		connection.connect();
+		
+		boolean isAuth = false;
+		
+		isAuth = connection.authenticateWithPassword(user, password);
+		
+		if(isAuth) {
+			return connection;
+		}else {
+			connection.close();
+			throw new RemoteOperateException("0","认证失败！请检查账户密码是否正确！");
 		}
-		return false;
 	}
 	
 	public Connection getConnection() {

@@ -2,12 +2,12 @@ package Devops.docker.DockerBranch.FileOperator;
 
 import java.io.File;
 
-import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.FileOperateException;
+import ch.ethz.ssh2.Connection;
 public class LocalFileDelete extends FileDeleteTools{
 
 	@Override
-	public boolean DeleteFile(String Path, String FileName, String FileType,Host host) throws FileOperateException {
+	public boolean DeleteFile(String Path, String FileName, String FileType,Connection connection) throws FileOperateException {
 		// TODO Auto-generated method stub
 		
 		String file = Path + FileName;
@@ -31,7 +31,7 @@ public class LocalFileDelete extends FileDeleteTools{
 	}
 
 	@Override
-	public boolean DeleteFiles(String[] filePaths,Host host) throws FileOperateException {
+	public boolean DeleteFiles(String[] filePaths,Connection connection) throws FileOperateException {
 		// TODO Auto-generated method stub
 		File file;
 		
@@ -55,7 +55,7 @@ public class LocalFileDelete extends FileDeleteTools{
 	}
 
 	@Override
-	public boolean DeleteRmptyDir(String Path, String DirName,Host host) throws FileOperateException {
+	public boolean DeleteRmptyDir(String Path, String DirName,Connection connection) throws FileOperateException {
 		// TODO Auto-generated method stub
 		
 		File dirFile = new File(Path+DirName);

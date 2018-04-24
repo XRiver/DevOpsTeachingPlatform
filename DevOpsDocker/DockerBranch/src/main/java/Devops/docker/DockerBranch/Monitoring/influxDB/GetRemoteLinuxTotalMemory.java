@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import Devops.docker.DockerBranch.RemoteConnection.RemoteExecuteCommand;
+import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
+import ch.ethz.ssh2.Connection;
 
 /**
  * 
@@ -41,7 +43,21 @@ public class GetRemoteLinuxTotalMemory {
 		
 		RemoteExecuteCommand exe = new RemoteExecuteCommand();
 		
-		result = exe.ExecCommand(command, HostIp, UserName, Password, port);
+		//这里添加Connection  还要考虑放这里是否合适
+		RemoteSignIn sign = new RemoteSignIn(HostIp, 22, UserName, Password);
+		Connection connection = null;
+		try {
+			connection = sign.ConnectAndAuth(sign.getUSER(), sign.getPASSWORD());
+		} catch (RemoteOperateException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//这里添加Connection  还要考虑放这里是否合适
+		
+		result = exe.ExecCommand(command,connection);
 		
 		String[] a = result.toString().split("\\\r\\\n");
 		
@@ -71,5 +87,39 @@ public class GetRemoteLinuxTotalMemory {
 		}
 		return true;
 	}
+
+	public String getUserName() {
+		return UserName;
+	}
+
+	public void setUserName(String userName) {
+		UserName = userName;
+	}
+
+	public String getPassword() {
+		return Password;
+	}
+
+	public void setPassword(String password) {
+		Password = password;
+	}
+
+	public String getHostIp() {
+		return HostIp;
+	}
+
+	public void setHostIp(String hostIp) {
+		HostIp = hostIp;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+	
+	
 
 }
