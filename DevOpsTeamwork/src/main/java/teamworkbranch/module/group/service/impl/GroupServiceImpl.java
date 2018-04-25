@@ -42,7 +42,7 @@ public class GroupServiceImpl implements GroupService {
             gMemberMapper.insertGMember(gMember);
         }
 
-        return 0;
+        return groupId;
     }
 
     /**

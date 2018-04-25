@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import teamworkbranch.exception.NotExistedException;
+import teamworkbranch.module.group.model.Group;
 import teamworkbranch.module.group.service.GMemberService;
 import teamworkbranch.module.group.service.GroupService;
 
@@ -72,21 +74,12 @@ public class GroupController {
         return toReturn.toString();
     }
 
-    @RequestMapping(value = "/getGroup", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/getGroup", method = RequestMethod.GET)
     @ResponseBody
-    public String getGroup(int groupId) {
-        JSONObject toReturn = new JSONObject();
-        try {
-            groupService.getGroupInfo(groupId);
-            groupService.getMemberList(groupId);
-            toReturn.put("success", true);
-            toReturn.put("msg", "success");
-        } catch (Exception e) {
-            toReturn.put("success", false);
-            toReturn.put("msg", e.getMessage());
-
-        }
-        return toReturn.toString();
+    public Group getGroup(int groupId) throws NotExistedException {
+        Group group=groupService.getGroupInfo(groupId);
+//            groupService.getMemberList(groupId);
+        return group;
     }
 
 }
