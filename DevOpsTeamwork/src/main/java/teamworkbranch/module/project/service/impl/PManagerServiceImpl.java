@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamworkbranch.exception.ExistedException;
 import teamworkbranch.exception.NonprivilegedUserException;
-import teamworkbranch.module.entity.VO.UserVO;
 import teamworkbranch.module.project.dao.PManagerMapper;
 import teamworkbranch.module.project.model.PManager;
 import teamworkbranch.module.project.service.PManagerService;
+import teamworkbranch.module.user.model.User;
 
 import java.util.List;
 
@@ -40,8 +40,8 @@ public class PManagerServiceImpl implements PManagerService {
     }
 
     @Override
-    public List<UserVO> getPManagers(int projectId) {
-        return null;
+    public List<PManager> getPManagers(int projectId) {
+        return pManagerMapper.getPManagerList(projectId);
     }
 
     /**

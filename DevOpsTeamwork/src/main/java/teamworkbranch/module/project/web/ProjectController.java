@@ -25,6 +25,9 @@ public class ProjectController {
     @Autowired
     PManagerService pManagerService;
 
+    @Autowired
+    GroupService groupService;
+
     @RequestMapping(value = "/createWithGroup", method = RequestMethod.POST)
     @ResponseBody
     public String createWithGroup(String projectName,String info,List<String> managerList,int groupId,String creatorName) {
@@ -48,7 +51,7 @@ public class ProjectController {
         JSONObject toReturn = new JSONObject();
         try{
             //todo: 调用创建团队的service
-            int groupId=1;
+            int groupId=groupService.createGroup(creatorName+"创建的group",creatorName+"创建的group",creatorName,memberList);
             projectService.createWithGroup(projectName, info, managerList, groupId, creatorName);
             toReturn.put("success", true);
             toReturn.put("msg", "success");

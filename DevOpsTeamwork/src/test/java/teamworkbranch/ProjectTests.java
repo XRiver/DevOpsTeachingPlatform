@@ -8,7 +8,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import teamworkbranch.exception.ExistedException;
 import teamworkbranch.exception.NonprivilegedUserException;
 import teamworkbranch.module.project.dao.ProjectMapper;
-import teamworkbranch.module.project.model.PManager;
 import teamworkbranch.module.project.model.Project;
 import teamworkbranch.module.project.service.PManagerService;
 import teamworkbranch.module.project.service.ProjectService;

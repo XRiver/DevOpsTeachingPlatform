@@ -2,7 +2,8 @@ package teamworkbranch.module.project.service;
 
 import teamworkbranch.exception.ExistedException;
 import teamworkbranch.exception.NonprivilegedUserException;
-import teamworkbranch.module.entity.VO.UserVO;
+import teamworkbranch.module.project.model.PManager;
+import teamworkbranch.module.user.model.User;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface PManagerService {
 
     int deleteManager(int projectId,String user,String applicant) throws NonprivilegedUserException;
 
-    List<UserVO> getPManagers(int projectId);
+    List<PManager> getPManagers(int projectId);
 
 
 

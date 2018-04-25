@@ -1,9 +1,7 @@
 package teamworkbranch.module.user.vo;
 
-import teamworkbranch.module.user.model.Role;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * Created by caosh on 2018/4/1.
