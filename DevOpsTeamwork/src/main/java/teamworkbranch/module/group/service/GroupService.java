@@ -64,10 +64,10 @@ public interface GroupService {
 
     /**
      * 查看所属团队
-     * @param memberName
+     * @param member_Name
      * @return
      */
-    public List<Group> getGroupList(String memberName) throws NotExistedException;
+    public List<Group> getGroupList(String member_Name) throws NotExistedException;
 
 
 

@@ -8,7 +8,7 @@ import teamworkbranch.exception.NonprivilegedUserException;
 import teamworkbranch.module.project.dao.PManagerMapper;
 import teamworkbranch.module.project.model.PManager;
 import teamworkbranch.module.project.service.PManagerService;
-import teamworkbranch.module.user.model.User;
+import teamworkbranch.module.user.vo.UserVO;
 
 import java.util.List;
 
@@ -40,8 +40,8 @@ public class PManagerServiceImpl implements PManagerService {
     }
 
     @Override
-    public List<PManager> getPManagers(int projectId) {
-        return pManagerMapper.getPManagerList(projectId);
+    public List<UserVO> getPManagers(int projectId) {
+        return null;
     }
 
     /**

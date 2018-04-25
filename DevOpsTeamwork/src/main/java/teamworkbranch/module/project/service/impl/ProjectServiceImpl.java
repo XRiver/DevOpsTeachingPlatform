@@ -1,7 +1,6 @@
 package teamworkbranch.module.project.service.impl;
 
 import teamworkbranch.exception.NonprivilegedUserException;
-import teamworkbranch.module.entity.VO.ProjectVO;
 import teamworkbranch.module.project.dao.PManagerMapper;
 import teamworkbranch.module.project.dao.ProjectMapper;
 import teamworkbranch.module.project.model.PManager;

@@ -42,7 +42,7 @@ public class GroupServiceImpl implements GroupService {
             gMemberMapper.insertGMember(gMember);
         }
 
-        return 0;
+        return groupId;
     }
 
     /**
@@ -128,11 +128,11 @@ public class GroupServiceImpl implements GroupService {
 
     /**
      * 查看所属团队
-     * @param memberName
+     * @param member_Name
      * @return
      */
-    public List<Group> getGroupList(String memberName) throws NotExistedException {
-        List<Group> groups = groupMapper.selectMyGroups(memberName);
+    public List<Group> getGroupList(String member_Name) throws NotExistedException {
+        List<Group> groups = groupMapper.selectMyGroups(member_Name);
         if (groups==null){
             throw new NotExistedException();
         }else
