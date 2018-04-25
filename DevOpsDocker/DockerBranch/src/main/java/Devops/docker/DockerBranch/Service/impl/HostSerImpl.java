@@ -2,15 +2,20 @@ package Devops.docker.DockerBranch.Service.impl;
 
 import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
+import Devops.docker.DockerBranch.RemoteConnection.FileTransport;
+import Devops.docker.DockerBranch.RemoteConnection.RemoteExecuteCommand;
+import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
 import Devops.docker.DockerBranch.Service.HostService;
 import Devops.docker.DockerBranch.Service.tools.DateTool;
 import Devops.docker.DockerBranch.VO.hostVO;
 import Devops.docker.DockerBranch.dao.HistoryDao;
 import Devops.docker.DockerBranch.dao.HostDao;
+import ch.ethz.ssh2.Connection;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,9 +84,35 @@ public class HostSerImpl implements HostService{
     }
 
     public int testHost(Host host){
+        Connection connection = null;
+        RemoteSignIn remoteSignIn = new RemoteSignIn(host.getIp(),Integer.parseInt(host.getSshPort()),host.getRoot(),host.getPassword());
+        try{
+            connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
+        }catch (IOException e){
+            return 1;
+        }catch(RemoteOperateException e){
+            if(e.getErrorCode().equals("0"))
+                return 2;
+        }
+        if(host.getAuto_installed().equals("true")){
+            RemoteExecuteCommand remoteExecuteCommand = new RemoteExecuteCommand();
+            StringBuilder version = null;
+            try{
+                version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo docker version"),connection);
+            }catch (IOException e){
+                return 1;
+            }
+            if(version.substring(0,6).equals("client")){
+                return 4;
+            }else{
 
+                if(host.getOpsSystem().equals("centos")){
+                    FileTransport fileTransport = new FileTransport("docker_centos","","","",connection);
+                }else{
 
-
+                }
+            }
+        }
         return 4;
     }
 }
