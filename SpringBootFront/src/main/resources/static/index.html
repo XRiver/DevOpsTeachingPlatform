@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Access-Control-Allow-Origin" content="*" />
+<title>静态代码检查</title>
+<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="assets/css/sonar.css">
+<script type="text/javascript" src="assets/js/jquery-2.1.4.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="assets/css/bootstrap-select.min.css">
+<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="assets/js/defaults-zh_CN.min.js"></script>
+<script type="text/javascript" src="assets/js/script.js"></script>
+
+</head>
+<body>
+	<div id="indexPage" class="boxed-group">
+
+		<div class="panel panel-info">
+			<div class="panel-heading head">学生管理系统</div>
+			<div class="panel-body">
+				<div class="container">
+					<div class="row">
+						<button type="button" class="right-button btn btn-info"
+							data-toggle="modal" data-target="#paramConfig">参数设置</button>
+						<div style="clear: both;"></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3 text-muted">最近分析时间:</div>
+						<div class="col-xs-4 text-info" id="lastTime">March 27, 2018, 6:04 PM</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3 text-muted">总问题个数:</div>
+						<div class="col-xs-4 text-info" id="problemNo" title="bugs、codeSmell和vulnerabilities数之和。">26个</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3 text-muted" title="5*blocker+4*critical+3*major+2*minor+1*info,分数越高代码风险越大。">加权问题指数:</div>
+						<div class="col-xs-4 text-info" id="risk" title="5*blocker+4*critical+3*major+2*minor+1*info,分数越高代码风险越大。">78分</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3 text-muted">加权问题密度:</div>
+						<div class="col-xs-4 text-info" id="health" title="加权问题指数/KLoc（千行代码)">150</div>
+					</div>
+					
+					
+					<div class="row">
+						<button type="button" class="right-button btn btn-primary"
+							onclick="getDetail()">开始检查</button>
+						<div style="clear: both;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="modal fade" id="paramConfig" tabindex="-1" role="dialog"
+			aria-labelledby="paramConfigLabel" data-backdrop="static">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button data-dismiss="modal" class="close" type="button">
+							<span aria-hidden="true">×</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title" id="paramConfigLabel">参数设置</h4>
+					</div>
+					<div class="modal-body">
+						<!-- <div class="config-line inlineDisplay">
+							<div class="inlineDisplay left text-muted">任务名称:</div>
+							<div class="inlineDisplay text-info">
+								<input type="text" class="form-control" placeholder="请输入任务名称"
+									aria-describedby="basic-addon1" style="width:218px" id="projectName">
+							</div>
+						</div> -->
+						<div class="config-line">
+							<div class="inlineDisplay left text-muted">项目语言:</div>
+							<div class="inlineDisplay text-info">
+								<select class="selectpicker" data-style="btn-info" id="langSelec">
+									<option value="JAVA">JAVA</option>
+									<option value="PYTHON">PYTHON</option>
+									<option value="C">C</option>
+									<option value="C++">C++</option>
+								</select>
+							</div>
+						</div>
+						<div class="config-line">
+							<div class="inlineDisplay left text-muted">项目编码格式:</div>
+							<div class="inlineDisplay text-info">
+							<select class="selectpicker" data-style="btn-info" id="encodeSelec">
+									<option value="UTF8">UTF-8</option>
+									<option value="GBK">GBK</option>
+									<option value="UNICODE">UNICODE</option>
+								</select>
+							</div>
+						</div>
+						<!-- <div class="config-line">
+							<div class="inlineDisplay left text-muted">源代码目录:</div>
+							<div class="inlineDisplay text-info">
+								<input type="text" class="form-control" placeholder="src"
+									aria-describedby="basic-addon1" value="src">
+							</div>
+						</div> -->
+						<!-- 
+						<div class="input-group">
+								<span class="input-group-addon" >源代码目录</span> 
+								<input type="text" class="form-control inputLength" placeholder="src"
+										 value="src" >
+							</div>
+						</div> -->
+						<div class="modal-footer">
+							<button data-dismiss="modal" class="btn btn-default"
+								type="button">关闭</button>
+							<button class="btn btn-primary" type="button" id="submitConfig">提交</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+		</div>
+	</div>
+
+	<div class="loading hiding" id="loading">
+		<div class="gif"></div>
+	</div>
+	<div id="toaster" class="toaster">
+</div>
+</body>
+</html>

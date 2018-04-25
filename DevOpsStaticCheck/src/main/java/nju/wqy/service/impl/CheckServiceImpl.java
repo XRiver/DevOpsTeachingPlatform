@@ -36,7 +36,7 @@ public class CheckServiceImpl implements CheckService{
 			throw new NotFoundException("config "+projectKey+" not found");
 		}
 		//生成配置内容
-		//List<String> config=generateConfig(data);		
+		List<String> config=generateConfig(data);		
 		//生成配置文件，规定一个目录
 		//FileManager.writeFile(".", config);
 		//调用shell命令行，这里也需要告诉他目录
@@ -54,7 +54,7 @@ public class CheckServiceImpl implements CheckService{
 		cmd.add("cd "+filePath);
 		//视情况是否需要写全名
 		cmd.add("sonar-scanner");
-		//FileManager.writeFile("sonar-project.properties", cmd);
+		//FileManager.writeFile("startSonar.sh", cmd);
 		//执行shell脚本
 		if(ShellManager.callShellCommand("sh startSonar.sh")) {
 			return true;
