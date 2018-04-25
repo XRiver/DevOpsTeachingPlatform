@@ -61,7 +61,7 @@ public class GroupTests {
 
     @Test
     public void testGetMyGroups() throws NotExistedException {
-        groupService.getGroupList("user1");
+        groupService.getGroupList("user2");
         System.out.println(groupService.getGroupList("user1").size());
     }
 }

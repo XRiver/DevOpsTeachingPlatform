@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamworkbranch.exception.ExistedException;
 import teamworkbranch.exception.NonprivilegedUserException;
-import teamworkbranch.module.entity.VO.UserVO;
 import teamworkbranch.module.project.dao.PManagerMapper;
 import teamworkbranch.module.project.model.PManager;
 import teamworkbranch.module.project.service.PManagerService;
+import teamworkbranch.module.user.vo.UserVO;
 
 import java.util.List;
 

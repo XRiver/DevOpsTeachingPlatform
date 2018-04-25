@@ -2,7 +2,7 @@ package teamworkbranch.module.project.service;
 
 import teamworkbranch.exception.ExistedException;
 import teamworkbranch.exception.NonprivilegedUserException;
-import teamworkbranch.module.entity.VO.UserVO;
+import teamworkbranch.module.user.vo.UserVO;
 
 import java.util.List;
 
