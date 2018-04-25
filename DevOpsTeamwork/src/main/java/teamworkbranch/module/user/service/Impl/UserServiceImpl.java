@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamworkbranch.exception.InvalidUserNameException;
-import teamworkbranch.module.entity.VO.UserVO;
 import teamworkbranch.module.user.dao.UserMapper;
 import teamworkbranch.module.user.model.User;
 import teamworkbranch.module.user.service.UserService;

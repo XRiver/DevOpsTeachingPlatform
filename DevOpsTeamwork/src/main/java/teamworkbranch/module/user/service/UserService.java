@@ -1,7 +1,6 @@
 package teamworkbranch.module.user.service;
 
 import teamworkbranch.exception.InvalidUserNameException;
-import teamworkbranch.module.entity.VO.UserVO;
 import teamworkbranch.module.user.model.User;
 
 /**
