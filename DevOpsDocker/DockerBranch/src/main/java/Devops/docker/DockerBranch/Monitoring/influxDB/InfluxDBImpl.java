@@ -250,7 +250,7 @@ public class InfluxDBImpl implements InfluxDBService{
 //		System.out.println(host.getPassword());
 		
 		GetRemoteLinuxTotalMemory get = new GetRemoteLinuxTotalMemory(
-				host.getHostname(), host.getPassword(), host.getIp(), Integer.parseInt(host.getSshPort()));
+				host.getRoot(), host.getPassword(), host.getIp(), Integer.parseInt(host.getSshPort()));
 		
 		String totalMemory = get.GetMemory();
 		
