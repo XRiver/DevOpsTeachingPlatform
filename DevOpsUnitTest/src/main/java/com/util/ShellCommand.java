@@ -80,7 +80,7 @@ public class ShellCommand {
         if(path.length()<=1){
             return  false;
         }
-        return callSudoCommand("rm -rf"+path);
+        return callSudoCommand("rm -rf "+path);
 
     }
 

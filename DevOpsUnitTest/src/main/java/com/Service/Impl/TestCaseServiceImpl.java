@@ -39,13 +39,17 @@ public class TestCaseServiceImpl implements TestCaseService{
 
     @Override
     public boolean updateTestCase(TestCaseVO testCaseVO) {
-        TestCase testCase=new TestCase(testCaseVO);
+
         if(testCaseVO.getId()==0){
             System.out.println("id 不存在");
             return false;
         }
+        TestCase testCase=testCaseRepo.findById(testCaseVO.getId());
+        testCase.setFile(testCaseVO.getFile());
+        testCase.setName(testCaseVO.getName());
+        testCase.setInfo(testCaseVO.getInfo());
+        testCase.setCaseId(testCaseVO.getCaseId());
 
-        testCase.setId(testCaseVO.getId());
         testCaseRepo.saveAndFlush(testCase);
         return true;
     }

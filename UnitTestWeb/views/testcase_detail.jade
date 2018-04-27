@@ -1,0 +1,27 @@
+extends layout
+block title
+    title test detail #{testcase.id}
+block stylesheet
+block content
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link.active(href="/unittest/test/"+testid) 测试详情
+                li.nav-item
+                    a.nav-link(href="/unittest/"+testid+"/reports") 测试报告
+        hr
+        table.table.table-hover
+            tbody
+                tr
+                    td 用例ID
+                    td #{testcase.caseId}
+                tr
+                    td 名称
+                    td #{testcase.name}
+                tr
+                    td 文件路径
+                    td #{testcase.file}
+                tr
+                    td 说明
+                    td #{testcase.info}

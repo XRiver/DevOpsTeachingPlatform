@@ -17,7 +17,16 @@ public class TestManageController {
     TestService testService;
 
     @RequestMapping(value = "/test/create", method = RequestMethod.POST)
-    public MyResponseData<Boolean> createTest(@RequestBody TestVO testVO){
+    public MyResponseData<Boolean> createTest(@RequestParam("testId") String testId,@RequestParam("name") String name,
+                                              @RequestParam("lan") String lan,@RequestParam("branch") String branch,
+                                              @RequestParam("src") String src,@RequestParam("projectId") String projectId){
+        TestVO testVO=new TestVO();
+        testVO.setProject_id(projectId);
+        testVO.setTestId(testId);
+        testVO.setSrc(src);
+        testVO.setName(name);
+        testVO.setLanguage(lan);
+        testVO.setBranch(branch);
         testService.createTest(testVO);
         return new MyResponseData<Boolean>("succeed", new String[]{"成功创建测试！"}, true);
     }
@@ -29,7 +38,16 @@ public class TestManageController {
     }
 
     @RequestMapping(value = "/test/update", method = RequestMethod.POST)
-    public MyResponseData<Boolean> updateTest(@RequestBody TestVO testVO){
+    public MyResponseData<Boolean> updateTest(@RequestParam("testId") String testId,@RequestParam("name") String name,
+                                              @RequestParam("lan") String lan,@RequestParam("branch") String branch,
+                                              @RequestParam("src") String src,@RequestParam("id") long id){
+        TestVO testVO=new TestVO();
+        testVO.setId(id);
+        testVO.setTestId(testId);
+        testVO.setSrc(src);
+        testVO.setName(name);
+        testVO.setLanguage(lan);
+        testVO.setBranch(branch);
         testService.updateTest(testVO);
         return new MyResponseData<Boolean>("succeed", new String[]{"成功更新测试！"}, true);
     }

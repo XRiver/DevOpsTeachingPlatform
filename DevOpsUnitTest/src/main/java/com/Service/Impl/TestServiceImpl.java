@@ -41,8 +41,12 @@ public class TestServiceImpl implements TestService{
             return false;
         }
 
-        TestEntity input=new TestEntity(testVO);
-        input.setId(testVO.getId());
+        TestEntity input=testRepository.findById(testVO.getId());
+        input.setBranch(testVO.getBranch());
+        input.setLanguage(testVO.getLanguage());
+        input.setName(testVO.getName());
+        input.setSrc(testVO.getSrc());
+        input.setTestId(testVO.getTestId());
         testRepository.saveAndFlush(input);
 
         return true;

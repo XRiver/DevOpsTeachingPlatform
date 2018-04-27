@@ -1,5 +1,6 @@
 package com.Service.Impl;
 
+import com.Common.DefaultPath;
 import com.DataVO.ReportVO;
 import com.Entity.Report;
 import com.Entity.TestEntity;
@@ -22,7 +23,7 @@ public class PipelineServiceImpl implements PipelineService {
 
     @Override
     public ReportVO pipelineReport(String group, String project) {
-        String src="/project/"+group+"/"+project;
+        String src=DefaultPath.getHome()+ "/project/"+group+"/"+project;
         TestEntity test=testRepository.findByProject_id(project).get(0);
         Long testId=test.getId();
         String lan=test.getLanguage();

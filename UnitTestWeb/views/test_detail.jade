@@ -1,0 +1,89 @@
+extends layout
+block title
+    title test detail #{test.id}
+block stylesheet
+    link(rel="stylesheet" href="/stylesheets/bootstrap-directional-buttons.min.css")
+block content
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link.active(href="/unittest/test/"+test.id) 测试详情
+                li.nav-item
+                    a.nav-link(href="/unittest/"+test.id+"/reports") 测试报告
+        hr
+        table.table.table-hover
+            tbody
+                tr
+                    td ID
+                    td #{test.testId}
+                tr
+                    td 名称
+                    td #{test.name}
+                tr
+                    td 语言
+                    td #{test.language}
+                tr
+                    td 所属branch
+                    td #{test.branch}
+                tr
+                    td 路径
+                    td #{test.src}
+                tr
+                    td 执行次数
+                    td #{test.perform_times}
+                tr
+                    td 最近执行时间
+                    td #{test.latest_time}
+                tr
+                    td 最近执行人
+                    td #{test.latest_person}
+                tr
+                    td
+                        form(action="/unittest/test/execute-all/" + test.id,method="post")
+                            input.btn.btn-primary(type='submit', value='执行')
+                    td
+                        a.nav-link.active(href="/unittest/test/execute/"+test.id) 执行部分测试
+
+
+
+        hr
+        h4 测试用例列表
+        table.table.table-hover
+            thead
+                tr
+                    th 用例ID
+                    th 用例名
+                    th 文件路径
+                    th 说明
+                    th 操作
+                    th
+            tbody
+                each testcase in test.test_case
+                    tr
+                        td
+                            b
+                                a(href="/unittest/"+test.id+"/testcase/" + testcase.id)   #{testcase.caseId}
+                        td #{testcase.name}
+                        td #{testcase.file}
+                        td #{testcase.info}
+                        td
+                            button.btn.btn-primary#modCaseBtn(type='button',onClick='modCasePanel('+testcase.id+',"'+testcase.caseId+'","'+testcase.name+'","'+testcase.file+'","'+testcase.info+'")') 修改
+                        td
+                            button.btn.btn-danger#delCaseBtn(type='button',onClick='delTestcase('+testcase.id+')') 删除
+        hr
+        h4#modlabel 新建用例
+        form.form-group
+            label(for='caseId') 用例id：
+            input.form-control#caseId(type='text',required='required')
+            label(for='testname') 用例名：
+            input.form-control#testname(type='text',required='required')
+            label(for='file') 文件路径：
+            input.form-control#file(type='text',required='required')
+            label(for='info') 说明：
+            input.form-control#info(type='text')
+            input.form-control#testId(type='hidden',value=test.id)
+            br
+            button.btn.btn-primary.btn-lg.float-right#newCaseBtn(type='button',onClick='newTestcase()') 创建
+block script
+    script(src="/javascripts/new_testcase.js")

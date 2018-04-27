@@ -1,0 +1,55 @@
+extends layout
+block title
+    title report detail #{report.id}
+block stylesheet
+    link(rel="stylesheet" href="/stylesheets/bootstrap-directional-buttons.min.css")
+block content
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link(href="/unittest/test/"+testid) 测试详情
+                li.nav-item
+                    a.nav-link(href="/unittest/"+testid+"/reports") 测试报告
+
+
+        table.table.table-hover
+            tbody
+                tr
+                    td 用例数
+                    td #{report.case_num}
+                tr
+                    td 成功数
+                    td #{report.sucess_num}
+                tr
+                    td 失败数
+                    td #{report.fail_num}
+                tr
+                    td 通过率
+                    td #{100 * report.sucess_num / report.case_num}%
+                tr
+                    td 执行时刻
+                    td #{report.info}
+                tr
+                    td 出错信息
+                    td #{report.info}
+
+
+        br
+        h4 失败用例信息
+        table.table.table-hover
+            thead
+                tr
+                    th 文件名
+                    th 方法名
+                    th 行数
+                    th 错误类型/说明
+            tbody
+                each fault in report.fault_info
+                    tr
+                        td #{fault.case_name}
+                        td #{fault.func_name}
+                        td #{fault.line}
+                        td #{fault.type}
+        hr
+                

@@ -41,7 +41,7 @@ public class ScriptFileController {
     }
 
 
-    @RequestMapping(value = "/starttest", method = RequestMethod.POST)
+    @RequestMapping(value = "/starttest", method = RequestMethod.GET)
     public ReportVO PipelineTestXml(@RequestParam("group") String group ,@RequestParam("project") String project){
         return pipelineService.pipelineReport(group, project);
 

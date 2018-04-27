@@ -21,8 +21,16 @@ public class BugController {
 
 
     @RequestMapping(value = "/bug/create", method = RequestMethod.POST)
-    public MyResponseData<Boolean> createBug(@RequestBody BugVO bugVO){
-        bugVO.setState(BugState.newbuilt.toString());
+    public MyResponseData<Boolean> createBug(@RequestParam("projectId") String projectId,
+                                             @RequestParam("name") String name,@RequestParam("info") String info,
+                                             @RequestParam("imp") String imp){
+
+        BugVO bugVO=new BugVO();
+        bugVO.setName(name);
+        bugVO.setProject_id(projectId);
+        bugVO.setImportance(imp);
+        bugVO.setInfo(info);
+        bugVO.setState("新建");
         bugService.createBug(bugVO);
         return new MyResponseData<Boolean>("succeed", new String[]{"成功创建缺陷！"}, true);
     }
@@ -34,7 +42,14 @@ public class BugController {
     }
 
     @RequestMapping(value = "/bug/update", method = RequestMethod.POST)
-    public MyResponseData<Boolean> updateBug(@RequestBody BugVO bugVO){
+    public MyResponseData<Boolean> updateBug(@RequestParam("id") long id,
+                                             @RequestParam("name") String name,@RequestParam("info") String info,
+                                             @RequestParam("imp") String imp){
+        BugVO bugVO=new BugVO();
+        bugVO.setId(id);
+        bugVO.setName(name);
+        bugVO.setImportance(imp);
+        bugVO.setInfo(info);
         bugService.updateBug(bugVO);
         return new MyResponseData<Boolean>("succeed", new String[]{"成功更新缺陷！"}, true);
     }
@@ -52,7 +67,12 @@ public class BugController {
     }
 
     @RequestMapping(value = "/bug/change", method = RequestMethod.POST)
-    public MyResponseData<Boolean> changeBug(@RequestParam("id") long bugId, @RequestParam("change")BugChangeVO bugChangeVO){
+    public MyResponseData<Boolean> changeBug(@RequestParam("id") long bugId, @RequestParam("state")String state,
+                                             @RequestParam("info")String info, @RequestParam("manager")String manager){
+        BugChangeVO bugChangeVO=new BugChangeVO();
+        bugChangeVO.setInfo(info);
+        bugChangeVO.setAfter_state(state);
+        bugChangeVO.setManager(manager);
         bugService.createBugChange(bugChangeVO,bugId);
         return new MyResponseData<Boolean>("succeed", new String[]{"成功更改缺陷！"}, true);
     }

@@ -4,13 +4,14 @@ import com.Common.BugImp;
 import com.Common.BugState;
 import com.Common.Language;
 import com.DataVO.*;
-import com.Service.BugService;
-import com.Service.TestCaseService;
-import com.Service.TestExecuteService;
-import com.Service.TestService;
+import com.Service.*;
 import com.util.CloneManager;
+import com.util.ShellCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class Test1 {
@@ -22,6 +23,8 @@ public class Test1 {
     TestExecuteService testExecuteService;
     @Autowired
     BugService bugService;
+    @Autowired
+    ReportService reportService;
 
     @RequestMapping(value = "/test1", method = RequestMethod.GET)
     public MyResponseData<Boolean> createTest(){
@@ -47,11 +50,10 @@ public class Test1 {
     }
 
 
-    @RequestMapping(value = "/execute-all1", method = RequestMethod.POST)
+    @RequestMapping(value = "/executejava-all", method = RequestMethod.POST)
     public ReportVO TestAll(){
         long id=1;
         String username="aaa";
-        String lan=testService.getTestById(id).getLanguage();
         String projectId=testService.getTestById(id).getProject_id();
         String branch=testService.getTestById(id).getBranch();
         String url="https://github.com/terminuskyuu/helloTest.git";
@@ -59,16 +61,32 @@ public class Test1 {
         if(path==null){
             return null;
         }
-        if(lan.equalsIgnoreCase(Language.java.toString())){
-            return testExecuteService.javaTestAll(path,id,username);
 
-        }else if(lan.equalsIgnoreCase(Language.python.toString())){
-            return testExecuteService.pythonTestAll(path,id,username);
-        }else if(lan.equalsIgnoreCase(Language.c.toString())){
-            return testExecuteService.cTestAll(path,id,username);
-        }else{
+            ReportVO reportVO=testExecuteService.javaTestAll(path,id,username);
+            ShellCommand.clearDir(path);
+            return reportVO;
+
+
+
+    }
+
+    @RequestMapping(value = "/executejava-files", method = RequestMethod.POST)
+    public ReportVO TestjavaPart(){
+        long id=1;
+        String username="aaa";
+        String projectId=testService.getTestById(id).getProject_id();
+        String branch=testService.getTestById(id).getBranch();
+        String url="https://github.com/terminuskyuu/helloTest.git";
+        String path= CloneManager.cloneRepo(url,branch);
+        if(path==null){
             return null;
         }
+        List<String> file=new ArrayList<String>();
+        file.add("HelloTest");
+        file.add("Hello3Test");
+
+        return testExecuteService.javaTest(path,file,id,username);
+
 
 
     }
@@ -90,7 +108,6 @@ public class Test1 {
     public ReportVO Testpy(){
         long id=1;
         String username="aaa";
-        String lan=testService.getTestById(id).getLanguage();
         String projectId=testService.getTestById(id).getProject_id();
         String branch=testService.getTestById(id).getBranch();
         String url="https://github.com/terminuskyuu/pyunittest.git";
@@ -98,16 +115,9 @@ public class Test1 {
         if(path==null){
             return null;
         }
-        if(lan.equalsIgnoreCase(Language.java.toString())){
-            return testExecuteService.javaTestAll(path,id,username);
-
-        }else if(lan.equalsIgnoreCase(Language.python.toString())){
-            return testExecuteService.pythonTestAll(path,id,username);
-        }else if(lan.equalsIgnoreCase(Language.c.toString())){
-            return testExecuteService.cTestAll(path,id,username);
-        }else{
-            return null;
-        }
+        ReportVO reportVO=testExecuteService.pythonTestAll(path,id,username);
+        ShellCommand.clearDir(path);
+        return reportVO;
 
 
     }
@@ -127,7 +137,7 @@ public class Test1 {
 
     @RequestMapping(value = "/executec1", method = RequestMethod.POST)
     public ReportVO Testc(){
-        long id=2;
+        long id=1;
         String username="aaa";
         String lan=testService.getTestById(id).getLanguage();
         String projectId=testService.getTestById(id).getProject_id();
@@ -137,16 +147,11 @@ public class Test1 {
         if(path==null){
             return null;
         }
-        if(lan.equalsIgnoreCase(Language.java.toString())){
-            return testExecuteService.javaTestAll(path,id,username);
+        ReportVO reportVO=testExecuteService.cTestAll(path,id,username);
+        ShellCommand.clearDir(path);
+        return reportVO;
 
-        }else if(lan.equalsIgnoreCase(Language.python.toString())){
-            return testExecuteService.pythonTestAll(path,id,username);
-        }else if(lan.equalsIgnoreCase(Language.c.toString())){
-            return testExecuteService.cTestAll(path,id,username);
-        }else{
-            return null;
-        }
+
 
 
     }
@@ -173,6 +178,31 @@ public class Test1 {
         bugChangeVO.setInfo("asdasd");
         bugService.createBugChange(bugChangeVO,id);
         return new MyResponseData<Boolean>("succeed", new String[]{"成功更改缺陷！"}, true);
+    }
+
+    @RequestMapping(value = "/report1", method = RequestMethod.GET)
+    public MyResponseData<Boolean> report(){
+        FaultInfoVO faultInfoVO=new FaultInfoVO();
+        ReportVO reportVO=new ReportVO();
+        reportVO.setCase_num(3);
+        reportVO.setFail_num(2);
+        reportVO.setSucess_num(1);
+        faultInfoVO.setCase_name("assasa");
+        faultInfoVO.setFunc_name("func1");
+        faultInfoVO.setLine(11);
+        faultInfoVO.setType("ssss error");
+        List<FaultInfoVO> list=new ArrayList<FaultInfoVO>();
+        list.add(faultInfoVO);
+        reportVO.setFault_info(list);
+
+        reportService.createReport(reportVO,new Long(1));
+        return new MyResponseData<Boolean>("succeed", new String[]{"成功更改缺陷！"}, true);
+    }
+
+    @RequestMapping(value = "/report1", method = RequestMethod.POST)
+    public ReportVO reportget(){
+
+        return reportService.getReportById(new Long(1));
     }
 
 }

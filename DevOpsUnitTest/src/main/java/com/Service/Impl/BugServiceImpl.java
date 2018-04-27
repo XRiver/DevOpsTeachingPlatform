@@ -26,7 +26,6 @@ public class BugServiceImpl implements BugService{
     @Override
     public boolean createBug(BugVO bugVO) {
         Bug bug=new Bug(bugVO);
-        bug.setState(BugState.newbuilt.toString());
         bugRepository.save(bug);
         return true;
     }
@@ -44,8 +43,10 @@ public class BugServiceImpl implements BugService{
             System.out.println("id 不存在");
             return false;
         }
-        Bug bug=new Bug(bugVO);
-        bug.setId(bugVO.getId());
+        Bug bug=bugRepository.findById(bugVO.getId());
+        bug.setImportance(bugVO.getImportance());
+        bug.setName(bugVO.getName());
+        bug.setInfo(bugVO.getInfo());
         bugRepository.saveAndFlush(bug);
         return true;
     }
@@ -72,18 +73,17 @@ public class BugServiceImpl implements BugService{
 
     @Override
     public boolean createBugChange(BugChangeVO bugChangeVO, Long bugId) {
-        if(bugChangeVO.getAfter_state()==null||bugChangeVO.getAfter_state().equals("")){
-            System.out.println("没有设置状态");
-            return false;
-        }
+        Bug bug=bugRepository.findById(bugId);
 
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        bugChangeVO.setTime(sdf.format(d));
-        BugChange bugChange=new BugChange(bugChangeVO);
-        Bug bug=bugRepository.findById(bugId);
+        BugChange bugChange=new BugChange();
+        bugChange.setTime(sdf.format(d));
         bugChange.setBefore_state(bug.getState());
-        bug.setState(bugChange.getAfter_state());
+        bugChange.setAfter_state(bugChangeVO.getAfter_state());
+        bugChange.setInfo(bugChangeVO.getInfo());
+        bugChange.setManager(bugChangeVO.getManager());
+        bug.setState(bugChangeVO.getAfter_state());
         bug.addBug_change(bugChange);
         bugRepository.saveAndFlush(bug);
 
