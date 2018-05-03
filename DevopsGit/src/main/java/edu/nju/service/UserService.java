@@ -45,6 +45,12 @@ public class UserService {
         return userList;
     }
 
+    public User getUser(String userID){
+        String userresult= Util.get("/users/"+userID,null);
+        User user= JSON.parseObject(userresult,User.class);
+        return  user;
+    }
+
     //TODO
     //修改，删除用户
 

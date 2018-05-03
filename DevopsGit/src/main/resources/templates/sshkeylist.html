@@ -10,13 +10,13 @@
         <td>key_id</td>
         <td>title</td>
         <td>key</td>
-        <td>create_at</td>
+        <td>created_at</td>
     </tr>
     <tr th:each="sshkey:${list}">
         <td th:text="${sshkey.key_id}"></td>
         <td th:text="${sshkey.title}"></td>
         <td th:text="${sshkey.key}"></td>
-        <td th:text="${sshkey.create_at}"></td>
+        <td th:text="${sshkey.created_at}"></td>
     </tr>
 </table>
 </body>

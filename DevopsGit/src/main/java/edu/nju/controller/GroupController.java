@@ -5,10 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import edu.nju.config.LogBean;
 import edu.nju.model.Group;
 import edu.nju.model.GroupMember;
+import edu.nju.model.Project;
 import edu.nju.service.GroupService;
 import edu.nju.service.ProjectService;
 import edu.nju.service.TransferService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +31,7 @@ public class GroupController {
     ProjectService projectService;
 
     @RequestMapping(value = "/group/newgroup" ,method = RequestMethod.POST)
-    public String newGroup(@RequestBody Map<String,String> map) {
+    public String newGroup(@RequestParam Map<String,String> map) {
         String id = map.get("id");
         String name = map.get("name");
         String description = map.get("description");
@@ -39,6 +39,8 @@ public class GroupController {
 
         String result=groupService.addGroup(name,name,description,visibility);
 
+        //TODO
+        //此处成功，return 空  ，待修改
         LogBean.log("增加group result："+result);
         if(result==null){
             LogBean.log("增加group fail, result =  null");
@@ -53,7 +55,7 @@ public class GroupController {
     }
 
         @RequestMapping(value = "/group/newmember" ,method = RequestMethod.POST)
-        public String addGroupMember(@RequestBody Map<String,String> map) {
+        public String addGroupMember(@RequestParam Map<String,String> map) {
             String userid = map.get("userid");
             String groupid = map.get("groupid");
 
@@ -85,7 +87,7 @@ public class GroupController {
         }
 
         @RequestMapping(value = "/project/newproject" , method = RequestMethod.POST)
-        public String  newProject(@RequestBody Map<String,String> map){
+        public String  newProject(@RequestParam Map<String,String> map){
             String groupid=map.get("grouid");
             String projectid=map.get("projectid");
             String name=map.get("name");
@@ -102,5 +104,27 @@ public class GroupController {
             return result;
         }
 
+        @RequestMapping(value = "/project/{projectid}",method = RequestMethod.GET)
+        public String getProject(@PathVariable String projectid){
+
+
+            String projectgitlabid = transferService.getGitlabProjectIDByProjectID(projectid);
+            Project project = projectService.getProject(projectgitlabid);
+            String result = JSON.toJSONString(project);
+            LogBean.log("get project :"+result);
+            return result;
+//            Project project=new Project();
+//            project.setId("-1");
+//            project.setCommit_count(100+"");
+//            project.setDescription("todotodotodo");
+//            project.setHttp_url_to_repo("https://github.com/yhqqq/TestProject3.git");
+//            project.setName("TestProject3");
+//            project.setRepository_size("10000kb");
+//            project.setSsh_url_to_repo("git@github.com:yhqqq/TestProject3.git");
+//            project.setWeb_url("https://github.com/yhqqq/TestProject3.git");
+//            LogBean.log("get projetc info: "+projectid);
+//            return JSON.toJSONString(project);
+
+        }
 
 }

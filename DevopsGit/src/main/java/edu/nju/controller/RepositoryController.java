@@ -48,7 +48,7 @@ public class RepositoryController {
                           @PathVariable("ref") String ref) {
         String gitlabID = transferService.getGitlabProjectIDByProjectID(projectid);
         String result = repositoryService.getFile(gitlabID, file_path, ref);
-        LogBean.log("get raw file.");
+        LogBean.log("get raw file."+result);
         return result;
     }
 
@@ -107,7 +107,7 @@ public class RepositoryController {
     @RequestMapping(value = "file/newfile/{projectid}/{file_path}",method = RequestMethod.PUT)
     public String uploadFile(@PathVariable("projectid") String projectid,
                              @PathVariable("file_path") String file_path,
-                             @RequestBody Map<String,String> map){
+                             @RequestParam Map<String,String> map){
         String gitlabID = transferService.getGitlabProjectIDByProjectID(projectid);
         String content = map.get("content");
         String commit_message=map.get("commit_message");
@@ -122,7 +122,7 @@ public class RepositoryController {
     @RequestMapping(value = "/file/deletefile/{projectid}/{file_path}",method = RequestMethod.DELETE)
     public String deleteFile(@PathVariable("projectid") String projectid,
                              @PathVariable("file_path") String file_path,
-                             @RequestBody Map<String,String> map){
+                             @RequestParam Map<String,String> map){
         String gitlabID = transferService.getGitlabProjectIDByProjectID(projectid);
         String commit_message=map.get("commit_message");
         String branch = map.get("branch");

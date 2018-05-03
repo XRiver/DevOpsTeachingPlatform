@@ -1,0 +1,73 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        title 南京大学软件学院DevOps教学平台
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
+        link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.0.8/css/all.css')
+        script(src='https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js')
+        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
+        script(src="../javascripts/login.js")
+    body
+        .container-fluid#frame
+            include header
+            .row.container-fluid.px-1.py-2
+                include sidebar
+                .col-10#main.border.border-primary
+                    .table-responsive
+                        br
+                        .row
+                            //data-toggle="modal" data-target="#myModal"
+                            .col-10
+                            .col-2
+                                button.btn.btn-primary(data-toggle="modal",data-target="#myModal")  添加密钥
+                                .modal.fade#myModal
+                                    .modal-dialog
+                                        .modal-content
+                                            .modal-header
+                                                button.close(type="button",data-dismiss="modal")    &times;
+                                            .modal-body
+                                                input(type="textfield")
+                                            .mocal-footer
+                                                button.btn.btn-secondary(type="button",data-dismiss="modal")    上传
+                        br
+                        table.table-striped.table-hover.col-12
+                            thead
+                                tr
+                                    th  标题
+                                    th  key
+                                    th  添加时间
+                                    th  操作
+                            tbody
+                                - for(var i =0; i<keys.length; i++)
+                                    tr
+                                        td  #{keys[i].title}
+                                        td  #{keys[i].key}
+                                        td  #{keys[i].created_at}
+                                        td
+                                            button.btn.btn-danger   删除
+                                //tr
+                                //    td  mykey1
+                                //    td  tiisisakeyyyyyy1
+                                //    td  2018-04-23
+                                //    td
+                                //        button.btn.btn-danger   删除
+                                //tr
+                                //    td  mykey2
+                                //    td  tiisisakeyyyyyy2
+                                //    td  2018-04-23
+                                //    td
+                                //        button.btn.btn-danger   删除
+                                //tr
+                                //    td  mykey3
+                                //    td  tiisisakeyyyyyy3
+                                //    td  2018-04-23
+                                //    td
+                                //        button.btn.btn-danger   删除
+
+                    br
+                    br
+
+

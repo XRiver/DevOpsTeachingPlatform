@@ -7,7 +7,7 @@ public class SSHKey {
     int key_id;
     String title;
     String key;
-    String create_at;
+    String created_at;
 
     public SSHKey() {
     }
@@ -36,11 +36,11 @@ public class SSHKey {
         this.key = key;
     }
 
-    public String getCreate_at() {
-        return create_at;
+    public String getCreated_at() {
+        return created_at;
     }
 
-    public void setCreate_at(String create_at) {
-        this.create_at = create_at;
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 }

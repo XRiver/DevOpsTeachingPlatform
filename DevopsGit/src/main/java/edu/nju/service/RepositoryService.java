@@ -34,8 +34,8 @@ public class RepositoryService {
      * @return
      */
     public List<FileNode> getTree(String projectID){
-        String result=Util.get("projects/"+projectID+"/repository/tree",
-                "id="+projectID);
+        String result=Util.get("/projects/"+projectID+"/repository/tree",
+                null);
         List<FileNode> nodeList = JSON.parseArray(result,FileNode.class);
         return nodeList;
     }

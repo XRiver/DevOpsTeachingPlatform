@@ -40,8 +40,17 @@ public class UserController {
 //        return result;
 //    }
 
+    @RequestMapping(value = "/user/{userid}",method = RequestMethod.GET)
+    public String getUser(@PathVariable String userid){
+        String usergitlabid = transferService.getGitlabUserIDByUserID(userid);
+        User user = userService.getUser(usergitlabid);
+        String result = JSON.toJSONString(user);
+        LogBean.log("get user : "+result);
+        return result;
+    }
+
     @RequestMapping(value = "/user/newuser",method = RequestMethod.POST)
-    public String newUser2(@RequestBody Map<String,String> map){
+    public String newUser2(@RequestParam Map<String,String> map){
         String id=map.get("id");
         String name=map.get("name");
         String username=map.get("username");
@@ -66,6 +75,33 @@ public class UserController {
         //String gitlabID=transferService.getGitlabUserIDByUserID(id);
         return JSON.toJSONString(user);
     }
+
+//    @RequestMapping(value = "/user/newuser",method = RequestMethod.POST)
+//    public String newUser2(@RequestBody Map<String,String> map){
+//        String id=map.get("id");
+//        String name=map.get("name");
+//        String username=map.get("username");
+//        String password=map.get("password");
+//        String email=map.get("email");
+//        User user=new User();
+//        user.setPassword(password);
+//        user.setUsername(username);
+//        user.setEmail(email);
+//        user.setName(name);
+//        user.setId(id);
+//        String result=userService.addUser(user);
+//        if(result==null){
+//            LogBean.log("usercontroller adduser: return null");
+//            return null;
+//        }else{
+//            String gitlabID= JSON.parseObject(result,User.class).getId()+"";
+//            transferService.insertUserID(id,gitlabID);
+//            String gitlabIDt=transferService.getGitlabUserIDByUserID(id);
+//            LogBean.log("插入gitlabID ："+gitlabIDt);
+//        }
+//        //String gitlabID=transferService.getGitlabUserIDByUserID(id);
+//        return JSON.toJSONString(user);
+//    }
 
     /**
      *
@@ -94,7 +130,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/sshkey/newsshkey" ,method = RequestMethod.POST)
-    public String addSSHKey(@RequestBody Map<String,String> map){
+    public String addSSHKey(@RequestParam Map<String,String> map){
         String id= map.get("id");
         String title=map.get("title");
         String key=map.get("key");

@@ -37,13 +37,13 @@ public class TransferService {
         return groupMapper.getGitlabID(GroupID);
     }
 
-    public String insertUserID(String userID,String gitlabID){
+    public int insertUserID(String userID,String gitlabID){
         return userMapper.insert(userID,gitlabID);
     }
-    public String insertProjectID(String ProjectID,String gitlabID){
+    public int insertProjectID(String ProjectID,String gitlabID){
         return projectMapper.insert(ProjectID,gitlabID);
     }
-    public String insertGroupID(String GroupID,String gitlabID){
+    public int insertGroupID(String GroupID,String gitlabID){
         return groupMapper.insert(GroupID,gitlabID);
     }
 
