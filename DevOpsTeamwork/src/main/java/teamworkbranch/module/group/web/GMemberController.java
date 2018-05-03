@@ -3,6 +3,7 @@ package teamworkbranch.module.group.web;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,7 +18,7 @@ import java.util.List;
  * Created by caosh on 2018/4/24.
  */
 @Controller
-@RequestMapping("/GMember")
+@RequestMapping("/group")
 public class GMemberController {
 
     @Autowired
@@ -25,9 +26,9 @@ public class GMemberController {
     @Autowired
     GMemberService gMemberService;
 
-    @RequestMapping(value = "/addGMember", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/{groupId}/addGMember", method = RequestMethod.POST)
     @ResponseBody
-    public String addGMember(int groupId,String userName,int is_manager) {
+    public String addGMember(@PathVariable int groupId, String userName, int is_manager) {
         JSONObject toReturn = new JSONObject();
         try{
             gMemberService.addMember(groupId,userName,is_manager);
@@ -42,9 +43,9 @@ public class GMemberController {
     }
 
 
-    @RequestMapping(value = "/removeGMember", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/{groupId}/removeGMember", method = RequestMethod.POST)
     @ResponseBody
-    public String removeGMember(int groupId,String userName) {
+    public String removeGMember(@PathVariable int groupId,String userName) {
         JSONObject toReturn = new JSONObject();
         try{
             gMemberService.removeMember(groupId,userName);
@@ -58,9 +59,9 @@ public class GMemberController {
         return toReturn.toString();
     }
 
-    @RequestMapping(value = "/editGMember", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/{groupId}/editGMember", method = RequestMethod.POST)
     @ResponseBody
-    public String editGMember(int groupId,String userName,int is_manager) {
+    public String editGMember(@PathVariable int groupId,String userName,int is_manager) {
         JSONObject toReturn = new JSONObject();
         try{
             gMemberService.editMember(groupId,userName,is_manager);
@@ -74,9 +75,9 @@ public class GMemberController {
         return toReturn.toString();
     }
 
-    @RequestMapping(value = "/getMyGroups", method = RequestMethod.GET)
+    @RequestMapping(value = "/{memberName}/getMyGroups", method = RequestMethod.GET)
     @ResponseBody
-    public List<Group> getMyGroups(String memberName) throws NotExistedException {
+    public List<Group> getMyGroups(@PathVariable String memberName) throws NotExistedException {
         List<Group> groups = groupService.getGroupList(memberName);
         return groups;
     }

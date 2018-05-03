@@ -3,6 +3,7 @@ package teamworkbranch.module.log.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamworkbranch.exception.NonprivilegedUserException;
 import teamworkbranch.exception.NotExistedException;
 import teamworkbranch.module.log.dao.LogMapper;
 import teamworkbranch.module.log.model.Log;
@@ -29,12 +30,18 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public boolean deleteLog(int logId) throws NotExistedException {
+    public boolean deleteLog(int logId,String username) throws NotExistedException, NonprivilegedUserException {
         Log log = logMapper.selectLogById(logId);
         if(log == null){
             throw new NotExistedException();
-        } else
-            logMapper.deleteLog(logId);
+        } else {
+            if (log.getUsername().equals(username)) {
+//                System.out.println("aaaaa");
+//                System.out.println(log.getLogId());
+                logMapper.deleteLog(logId);
+            } else
+                throw new NonprivilegedUserException();
+        }
         return true;
     }
 

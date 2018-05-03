@@ -16,9 +16,12 @@
 
     <insert id="insertLog" useGeneratedKeys="true" keyProperty="log_id" parameterType="teamworkbranch.module.log.model.Log">
         insert into log (project_id,username,info) values (#{projectId},#{username},#{info})
+        <selectKey keyProperty="logId" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
-    <delete id="deleteProject" parameterType="int">
+    <delete id="deleteLog" parameterType="int">
         delete from log where log_id=#{logId}
     </delete>
 

@@ -3,6 +3,7 @@ package teamworkbranch.module.group.web;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +28,7 @@ public class GroupController {
     @Autowired
     GMemberService gMemberService;
 
-    @RequestMapping(value = "/createGroup", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/createGroup", method = RequestMethod.POST)
     @ResponseBody
     public String createGroup(String groupName, String info, String creatorName, List<String> memberList) {
         JSONObject toReturn = new JSONObject();
@@ -43,9 +44,9 @@ public class GroupController {
         return toReturn.toString();
     }
 
-    @RequestMapping(value = "/deleteGroup", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/{groupId}/deleteGroup", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteGroup(int groupId,String memberName) {
+    public String deleteGroup(@PathVariable int groupId, String memberName) {
         JSONObject toReturn = new JSONObject();
         try{
             groupService.deleteGroup(groupId,memberName);
@@ -59,9 +60,9 @@ public class GroupController {
         return toReturn.toString();
     }
 
-    @RequestMapping(value = "/editGroup", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/{groupId}/editGroup", method = RequestMethod.POST)
     @ResponseBody
-    public String editGroup(String name,String info,int groupId,String memberName) {
+    public String editGroup(String name,String info,@PathVariable int groupId,String memberName) {
         JSONObject toReturn = new JSONObject();
         try {
             groupService.editGroup(name, info, groupId,memberName);
@@ -75,16 +76,16 @@ public class GroupController {
         return toReturn.toString();
     }
 
-    @RequestMapping(value = "/getGroup", method = RequestMethod.GET)
+    @RequestMapping(value = "/{groupId}/getGroup", method = RequestMethod.GET)
     @ResponseBody
-    public Group getGroup(int groupId) throws NotExistedException {
+    public Group getGroup(@PathVariable int groupId) throws NotExistedException {
         Group group=groupService.getGroupInfo(groupId);
         return group;
     }
 
-    @RequestMapping(value = "/getGMembers", method = RequestMethod.GET)
+    @RequestMapping(value = "/{groupId}/getGMembers", method = RequestMethod.GET)
     @ResponseBody
-    public List<GMember> getGMembers(int groupId) throws NotExistedException {
+    public List<GMember> getGMembers(@PathVariable int groupId) throws NotExistedException {
         List<GMember> gMembers = groupService.getMemberList(groupId);
         return gMembers;
     }

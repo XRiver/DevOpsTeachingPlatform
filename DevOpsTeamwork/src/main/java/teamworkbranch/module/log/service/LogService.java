@@ -1,5 +1,6 @@
 package teamworkbranch.module.log.service;
 
+import teamworkbranch.exception.NonprivilegedUserException;
 import teamworkbranch.exception.NotExistedException;
 import teamworkbranch.module.log.model.Log;
 
@@ -22,9 +23,10 @@ public interface LogService {
     /**
      * 删除log
      * @param logId
+     * @param username
      * @return
      */
-    boolean deleteLog(int logId) throws NotExistedException;
+    boolean deleteLog(int logId,String username) throws NotExistedException, NonprivilegedUserException;
 
     /**
      * 获得一个项目的log
