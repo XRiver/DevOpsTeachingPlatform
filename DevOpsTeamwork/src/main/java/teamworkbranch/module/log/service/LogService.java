@@ -1,5 +1,6 @@
 package teamworkbranch.module.log.service;
 
+import teamworkbranch.exception.NotExistedException;
 import teamworkbranch.module.log.model.Log;
 
 import java.util.List;
@@ -11,29 +12,31 @@ public interface LogService {
 
     /**
      *插入log
-     * @param log
+     * @param info
+     * @param username
+     * @param projectId
      * @return
      */
-    boolean addLog(Log log);
+    boolean addLog(String info, String username, String projectId);
 
     /**
      * 删除log
      * @param logId
      * @return
      */
-    boolean deleteLog(int logId);
+    boolean deleteLog(int logId) throws NotExistedException;
 
     /**
      * 获得一个项目的log
      * @param projecrId
      * @return
      */
-    List<Log> getLogByProject(int projecrId);
+    List<Log> getLogByProject(int projecrId) throws NotExistedException;
 
     /**
      * 根据id获得一个log
      * @param logId
      * @return
      */
-    Log getLog(int logId);
+    Log getLog(int logId) throws NotExistedException;
 }

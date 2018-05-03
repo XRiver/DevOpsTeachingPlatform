@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamworkbranch.exception.ExistedException;
 import teamworkbranch.exception.NonprivilegedUserException;
+import teamworkbranch.module.log.service.LogService;
 import teamworkbranch.module.project.dao.PManagerMapper;
 import teamworkbranch.module.project.model.PManager;
 import teamworkbranch.module.project.service.PManagerService;
@@ -21,6 +22,9 @@ public class PManagerServiceImpl implements PManagerService {
 
     @Autowired
     PManagerMapper pManagerMapper;
+    @Autowired
+    LogService logService;
+
     @Override
     public int addManager(int projectId,String user, String applicant) throws NonprivilegedUserException, ExistedException {
         verify(projectId,applicant);
@@ -29,6 +33,7 @@ public class PManagerServiceImpl implements PManagerService {
             throw new ExistedException();
         }
         pManagerMapper.insertPManager(new PManager(projectId,user));
+        logService.addLog("添加管理人员",pManager.getManagerName(),String.valueOf(projectId));
         return 0;
     }
 
@@ -36,6 +41,7 @@ public class PManagerServiceImpl implements PManagerService {
     public int deleteManager(int projectId,String user, String applicant) throws NonprivilegedUserException {
         verify(projectId,applicant);
         pManagerMapper.deletePManager(projectId,user);
+        logService.addLog("删除管理人员",user,String.valueOf(projectId));
         return 0;
     }
 

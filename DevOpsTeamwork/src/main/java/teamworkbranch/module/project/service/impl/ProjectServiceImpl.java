@@ -1,6 +1,7 @@
 package teamworkbranch.module.project.service.impl;
 
 import teamworkbranch.exception.NonprivilegedUserException;
+import teamworkbranch.module.log.service.LogService;
 import teamworkbranch.module.project.dao.PManagerMapper;
 import teamworkbranch.module.project.dao.ProjectMapper;
 import teamworkbranch.module.project.model.PManager;
@@ -23,6 +24,8 @@ public class ProjectServiceImpl implements ProjectService{
     ProjectMapper projectMapper;
     @Autowired
     PManagerMapper pManagerMapper;
+    @Autowired
+    LogService logService;
 
 
     /**
@@ -42,6 +45,7 @@ public class ProjectServiceImpl implements ProjectService{
             PManager pManager=new PManager(projectId,manager);
             pManagerMapper.insertPManager(pManager);
         }
+        logService.addLog("创建团队",creatorName,String.valueOf(projectId));
         return 0;
     }
 
@@ -59,6 +63,7 @@ public class ProjectServiceImpl implements ProjectService{
         project.setInfo(info);
 
         projectMapper.updateProject(project);
+        logService.addLog("编辑团队信息",p.getManagerName(),String.valueOf(projectId));
         return true;
     }
 

@@ -3,6 +3,7 @@ package teamworkbranch.module.log.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamworkbranch.exception.NotExistedException;
 import teamworkbranch.module.log.dao.LogMapper;
 import teamworkbranch.module.log.model.Log;
 import teamworkbranch.module.log.service.LogService;
@@ -21,22 +22,37 @@ public class LogServiceImpl implements LogService {
 
 
     @Override
-    public boolean addLog(Log log) {
-        return false;
+    public boolean addLog(String info, String username, String projectId) {
+        Log log = new Log(info,username,projectId);
+        logMapper.insertLog(log);
+        return true;
     }
 
     @Override
-    public boolean deleteLog(int logId) {
-        return false;
+    public boolean deleteLog(int logId) throws NotExistedException {
+        Log log = logMapper.selectLogById(logId);
+        if(log == null){
+            throw new NotExistedException();
+        } else
+            logMapper.deleteLog(logId);
+        return true;
     }
 
     @Override
-    public List<Log> getLogByProject(int projecrId) {
-        return null;
+    public List<Log> getLogByProject(int projecrId) throws NotExistedException {
+        List<Log> logs = logMapper.selectLogByProject(projecrId);
+        if (logs == null){
+            throw new NotExistedException();
+        } else
+            return logs;
     }
 
     @Override
-    public Log getLog(int logId) {
-        return null;
+    public Log getLog(int logId) throws NotExistedException {
+        Log log = logMapper.selectLogById(logId);
+        if (log==null){
+            throw new NotExistedException();
+        } else
+            return log;
     }
 }
