@@ -6,12 +6,13 @@ var async = require('async');
 var fs = require('fs');
 
 const token = '?private_token=wyU62Tv8Tso1aw5bxfSL';
+const gitlabUrl = 'localhost:7777';
 
 /* GET users listing. */
 router.get('/:group/:project', function(req, res, next) {
     var group = req.params.group;
     var project = req.params.project;
-    request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/files/.gitlab-ci.yml/raw'+token+'&ref=master',
+    request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/files/.gitlab-ci.yml/raw'+token+'&ref=master',
         function (error,response,body) {
             if (!error && response.statusCode == 200) {
                 var yaml_obj = YAML.parse(body);
@@ -38,17 +39,22 @@ router.get('/:group/:project', function(req, res, next) {
 router.get('/:group/:project/init',function (req, res, next) {
     var group = req.params.group;
     var project = req.params.project;
+    var language = 'java';
+    if(req.query.language){
+        language = req.query.language;
+    }
     var initFunc = function() {
-        fs.readFile('public/GitlabCITemplate/java.yml','utf-8',function (err, data) {
+        fs.readFile('public/GitlabCITemplate/'+language+'.yml','utf-8',function (err, data) {
             if(err){
-                res.json({ok:false});
+                res.json({ok:false,message:'getting template content error.'});
             }else{
                 var commitMessage = encodeURIComponent('upload .gitlab-ci.yml file and start pipeline configuration!');
+                data = data.replace(/req_projectid/g,req.query.projectid);
                 var content = encodeURIComponent(data);
-                request.post('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/files/.gitlab-ci.yml'+token+'&branch=master&content='+content+'&commit_message='+commitMessage,
+                request.post(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/files/.gitlab-ci.yml'+token+'&branch=master&content='+content+'&commit_message='+commitMessage,
                     function (error,response,body) {
                         if(error){
-                            res.json({ok:false});
+                            res.json({ok:false,message:'uploading pipeline configuration error.'});
                         }else{
                             res.json({ok:true});
                         }
@@ -70,14 +76,14 @@ router.get('/:group/:project/pipelines',function(req, res, next){
     if(req.query.per_page){
         per_page = req.query.per_page;
     }
-    request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipelines'+token+'&per_page='+per_page+'&page='+page,
+    request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipelines'+token+'&per_page='+per_page+'&page='+page,
         function (error,response,body) {
             if (!error && response.statusCode == 200) {
                 var pipelines = JSON.parse(body);
                 var paraFuncs = [];
                 pipelines.forEach(function (item) {
                     paraFuncs.push(function (callback) {
-                        request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipelines/'+item.id+token,
+                        request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipelines/'+item.id+token,
                             function (error,response,body) {
                                 if (!error && response.statusCode == 200) {
                                     callback(null,JSON.parse(body));
@@ -88,7 +94,7 @@ router.get('/:group/:project/pipelines',function(req, res, next){
                     })
                 });
                 paraFuncs.push(function (callback) {
-                    request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/branches'+token+'&per_page=100',
+                    request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/branches'+token+'&per_page=100',
                         function (error,response,body) {
                             if (!error && response.statusCode == 200) {
                                 callback(null,JSON.parse(body));
@@ -114,7 +120,7 @@ router.get('/:group/:project/pipelines_create',function(req, res, next){
     var group = req.params.group;
     var project = req.params.project;
     var branch = req.query.branch;
-    request.post('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipeline'+token+'&ref='+branch,
+    request.post(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipeline'+token+'&ref='+branch,
         function (error,response,body) {
             if (!error) {
                 res.redirect('/gitlabci/'+group+'/'+project+'/pipelines');
@@ -129,7 +135,7 @@ router.get('/:group/:project/jobs/:job_id',function(req, res, next){
     var project = req.params.project;
     async.parallel({
         detail:function(callback){
-            request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/jobs/'+req.params.job_id+token,
+            request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/jobs/'+req.params.job_id+token,
                 function (error,response,body) {
                     if (!error && response.statusCode == 200) {
                         callback(null,body);
@@ -139,7 +145,7 @@ router.get('/:group/:project/jobs/:job_id',function(req, res, next){
                 });
         },
         log:function (callback) {
-            request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/jobs/'+req.params.job_id+'/trace'+token,
+            request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/jobs/'+req.params.job_id+'/trace'+token,
                 function (error,response,body) {
                     if (!error && response.statusCode == 200) {
                         callback(null,body);
@@ -164,7 +170,7 @@ router.get('/:group/:project/jobs/:job_id',function(req, res, next){
 router.get('/:group/:project/jobs/:job_id/artifacts',function (req, res, next) {
     var group = req.params.group;
     var project = req.params.project;
-    request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/jobs/'+req.params.job_id+'/artifacts'+token).pipe(res);
+    request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/jobs/'+req.params.job_id+'/artifacts'+token).pipe(res);
 });
 
 router.get('/:group/:project/jobs',function(req, res, next){
@@ -178,7 +184,7 @@ router.get('/:group/:project/jobs',function(req, res, next){
     if(req.query.per_page){
         per_page = req.query.per_page;
     }
-    request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/jobs'+token+'&per_page='+per_page+'&page='+page,
+    request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/jobs'+token+'&per_page='+per_page+'&page='+page,
         function (error,response,body) {
             if (!error && response.statusCode == 200) {
                 res.render('jobs',{jobs:JSON.parse(body),page:page,group:group,project:project,page:page});
@@ -192,7 +198,7 @@ router.get('/:group/:project/pipelines/:pipeline_id',function(req, res, next){
     var group = req.params.group;
     var project = req.params.project;
     async.parallel({pipeline:function (callback) {
-        request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipelines/'+req.params.pipeline_id+token,
+        request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipelines/'+req.params.pipeline_id+token,
             function (error,response,body) {
                 if (!error && response.statusCode == 200) {
                     callback(null,JSON.parse(body));
@@ -201,7 +207,7 @@ router.get('/:group/:project/pipelines/:pipeline_id',function(req, res, next){
                 }
             });
     },pipeline_jobs:function (callback) {
-        request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipelines/'+req.params.pipeline_id+'/jobs'+token+'&per_page=100',
+        request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipelines/'+req.params.pipeline_id+'/jobs'+token+'&per_page=100',
             function (error,response,body) {
                 if (!error && response.statusCode == 200) {
                     var obj = JSON.parse(body);
@@ -230,7 +236,7 @@ router.get('/:group/:project/pipelines/:pipeline_id',function(req, res, next){
 router.get('/:group/:project/pipelines/:pipeline_id/jobs',function(req, res, next){
     var group = req.params.group;
     var project = req.params.project;
-    request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipelines/'+req.params.pipeline_id+'/jobs'+token+'&per_page=100',
+    request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipelines/'+req.params.pipeline_id+'/jobs'+token+'&per_page=100',
         function (error,response,body) {
             if (!error && response.statusCode == 200) {
                 var obj = JSON.parse(body);
@@ -250,7 +256,7 @@ router.get('/:group/:project/pipelines/:pipeline_id/jobs',function(req, res, nex
 router.get('/:group/:project/ci-object',function(req, res, next){
     var group = req.params.group;
     var project = req.params.project;
-    request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/files/.gitlab-ci.yml/raw'+token+'&ref=master',
+    request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/files/.gitlab-ci.yml/raw'+token+'&ref=master',
         function (error,response,body) {
             if (!error && response.statusCode == 200) {
                 var yaml_obj = YAML.parse(body);
@@ -275,7 +281,7 @@ router.get('/:group/:project/ci-object',function(req, res, next){
 router.get('/:group/:project/ci-yaml',function(req, res, next){
     var group = req.params.group;
     var project = req.params.project;
-    request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/files/.gitlab-ci.yml/raw'+token+'&ref=master',
+    request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/files/.gitlab-ci.yml/raw'+token+'&ref=master',
         function (error,response,body) {
             if (!error && response.statusCode == 200) {
                 res.render('ci-yaml',{ci_yaml:body,group:group,project:project});
@@ -290,7 +296,7 @@ router.post('/:group/:project/ci-yaml',function(req, res, next){
     var project = req.params.project;
     var commitMessage = encodeURIComponent('update .gitlab-ci.yml file.');
     var content = encodeURIComponent(req.body.content);
-    request.put('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/files/.gitlab-ci.yml'+token+'&branch=master&content='+content+'&commit_message='+commitMessage,
+    request.put(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/files/.gitlab-ci.yml'+token+'&branch=master&content='+content+'&commit_message='+commitMessage,
         function (error,response,body) {
             if (!error) {
                 res.redirect("/gitlabci/"+group+"/"+project);
@@ -303,7 +309,7 @@ router.post('/:group/:project/ci-yaml',function(req, res, next){
 router.get('/:group/:project/runners',function(req, res, next){
     var group = req.params.group;
     var project = req.params.project;
-    request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/runners'+token,
+    request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/runners'+token,
         function (error,response,body) {
             if (!error && response.statusCode == 200) {
                 var parallelFuncs = [];
@@ -311,7 +317,7 @@ router.get('/:group/:project/runners',function(req, res, next){
                 var j,len;
                 for(j = 0,len=runners.length; j < len; j++) {
                     parallelFuncs[j]=function (callback) {
-                        request('https://gitlab.com/api/v4/runners/'+runners.pop().id+token,
+                        request(gitlabUrl+'/api/v4/runners/'+runners.pop().id+token,
                             function (error,response,body) {
                                 if (!error && response.statusCode == 200) {
                                     callback(null,JSON.parse(body));
@@ -334,11 +340,11 @@ router.get('/:group/:project/runners',function(req, res, next){
         });
 });
 
-router.get('/:group/:project/schedules',function(req, res, next){
+router.get('/:group/:project/schedules', function(req, res, next){
     var group = req.params.group;
     var project = req.params.project;
     async.parallel({schedules:function (callback) {
-        request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipeline_schedules'+token,
+        request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipeline_schedules'+token,
             function (error,response,body) {
                 if (!error && response.statusCode == 200) {
                     callback(null,JSON.parse(body));
@@ -347,7 +353,7 @@ router.get('/:group/:project/schedules',function(req, res, next){
                 }
             });
     },branches:function (callback) {
-        request('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/branches'+token+'&per_page=100',
+        request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/branches'+token+'&per_page=100',
             function (error,response,body) {
                 if (!error && response.statusCode == 200) {
                     callback(null,JSON.parse(body));
@@ -367,7 +373,7 @@ router.get('/:group/:project/schedules',function(req, res, next){
 router.post('/:group/:project/schedules',function(req, res, next){
     var group = req.params.group;
     var project = req.params.project;
-    request.post({url:'https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipeline_schedules'+token,
+    request.post({url:gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/pipeline_schedules'+token,
         form:{
             description: req.body.description,
             ref: req.body.branch,
@@ -386,7 +392,7 @@ router.post('/:group/:project/schedules',function(req, res, next){
 router.get('/:group/:project/schedules_active/:schedule_id',function (req, res, next) {
     var group = req.params.group;
     var project = req.params.project;
-    request.put({url:'https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+"/"+project)+'/pipeline_schedules/'+req.params.schedule_id+token,form:{
+    request.put({url:gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+"/"+project)+'/pipeline_schedules/'+req.params.schedule_id+token,form:{
         active: req.query.active
     }},function (error,response,body) {
         if(!error){
@@ -400,7 +406,7 @@ router.get('/:group/:project/schedules_active/:schedule_id',function (req, res, 
 router.get('/:group/:project/schedules_delete/:schedule_id',function (req, res, next) {
     var group = req.params.group;
     var project = req.params.project;
-    request.delete('https://gitlab.com/api/v4/projects/'+encodeURIComponent(group+"/"+project)+'/pipeline_schedules/'+req.params.schedule_id+token,function (error,response,body) {
+    request.delete(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+"/"+project)+'/pipeline_schedules/'+req.params.schedule_id+token,function (error,response,body) {
         if(!error){
             res.redirect('/gitlabci/'+group+'/'+project+'/schedules');
         }else{
