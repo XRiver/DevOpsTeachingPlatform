@@ -37,25 +37,22 @@ public class HelloTest {
 	@RequestMapping("/greeting")
 	public helloVO Hello(@RequestParam(value="name", defaultValue="World") String name) {
 		
-//		RemoteSignIn sign = new RemoteSignIn("119.29.88.207", 22, "ubuntu", "abc8879623");
-//		Connection connection = null;
-//		try {
-//			connection = sign.ConnectAndAuth(sign.getUSER(), sign.getPASSWORD());
-//		} catch (RemoteOperateException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
+		RemoteSignIn sign = new RemoteSignIn("119.29.88.207", 22, "ubuntu", "abc8879623");
+		Connection connection = null;
+		try {
+			connection = sign.ConnectAndAuth(sign.getUSER(), sign.getPASSWORD());
+		} catch (RemoteOperateException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-//		FileTransport F = new FileTransport("start", "sh", "/root/DockerProject/", "/home/ubuntu");
+//		FileTransport F = new FileTransport("test", "txt", "D:\\360Downloads\\", "/home/ubuntu",connection);
 //		try {
-//			F.getFile();
-//		} catch (RemoteOperateException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
+//			F.putFile();
+//		}catch (IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
@@ -104,16 +101,17 @@ public class HelloTest {
 
 		
 //		------------------------------修改后的RemoteExecuteConnman--------------------------
-//		RemoteExecuteCommand t = new RemoteExecuteCommand();
-//		StringBuilder r=null;
-//		try {
-//			r = t.ExecCommand(new StringBuilder("head /proc/meminfo"),connection);
-//		}catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		System.out.println(r.toString());
-//		name = r.toString();
+		RemoteExecuteCommand t = new RemoteExecuteCommand();
+		StringBuilder r=null;
+		try {
+//			r = t.ExecCommand(new StringBuilder("./home/ubuntu/exec/docker_ubuntu.sh"),connection);
+			r = t.ExecShell(new StringBuilder("/home/ubuntu/exec/docker_ubuntu.sh"),connection);
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(r.toString());
+		name = r.toString();
 //		------------------------------修改后的RemoteExecuteConnman--------------------------
 		
 		
