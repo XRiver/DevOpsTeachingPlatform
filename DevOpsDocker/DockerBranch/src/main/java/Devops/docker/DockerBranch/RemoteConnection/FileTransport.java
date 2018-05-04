@@ -64,7 +64,8 @@ public class FileTransport {
 			}else {
 				localFile = LocalPath + FileName + "." + FileType;
 			}
-			scpClient.put(localFile, RemotePath);
+//			scpClient.put(localFile, RemotePath);
+			scpClient.put(localFile, RemotePath, "0700");
 			
 		}catch (IOException e) {
 			// TODO: handle exception
