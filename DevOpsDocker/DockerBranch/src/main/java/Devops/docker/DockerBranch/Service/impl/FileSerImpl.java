@@ -55,7 +55,12 @@ public class FileSerImpl implements FileService {
                 return "登录失败";
         }
         FileTransport fileTransport = new FileTransport(fileName,fileType,localPath+fileName,path,connection);
-
+        try {
+			fileTransport.putFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			return "上传失败";
+		}
 
         return file.getName();
     }

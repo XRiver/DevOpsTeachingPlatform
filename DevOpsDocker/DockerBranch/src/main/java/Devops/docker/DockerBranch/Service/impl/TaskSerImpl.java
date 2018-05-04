@@ -195,9 +195,23 @@ public class TaskSerImpl implements TaskSer{
 
     @Override
     public int startTask(String taskid, String username) {
+    	
+    	StringBuilder shell = new StringBuilder();
+    	
+    	Task t = taskDao.findById(Integer.parseInt(taskid)).get();
+    	
+//    	Host host = 
+    	
+    	List<Container> ContainersOrder = containerDao.findContainersByTaskId(Integer.parseInt(taskid)); //拿到Container的顺序
+    	
+    	for(int i = 0 ; i < ContainersOrder.size(); i++) { //按顺序build和run
+    		Container tempContainer = ContainersOrder.get(i); //拿到Container  新建一个接口
+    	}
 
         SocketServer.sendMessage("","");
         logger.info("成功启动");
+        
+        
         return 0;
     }
 
