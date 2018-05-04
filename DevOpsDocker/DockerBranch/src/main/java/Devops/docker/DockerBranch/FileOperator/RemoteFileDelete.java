@@ -13,7 +13,7 @@ public class RemoteFileDelete extends FileDeleteTools{
 		// TODO Auto-generated method stub
 		
 		String file = Path + FileName;
-		if(FileType!=null) {
+		if(!FileType.equals("")) {
 			file = file + "."+FileType;
 		}
 		

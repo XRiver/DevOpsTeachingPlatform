@@ -14,7 +14,7 @@ public class RemoteFileWriter extends FileWriterTools{
 		// TODO Auto-generated method stub
 		
 		String file = Path + FileName;
-		if(FileType!=null) {
+		if(!FileType.equals("")) {
 			file = file + "."+FileType;
 		}
 		

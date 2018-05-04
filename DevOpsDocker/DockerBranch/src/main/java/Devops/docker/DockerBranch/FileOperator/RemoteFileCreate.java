@@ -36,9 +36,11 @@ public class RemoteFileCreate extends FileCreateTools{
 		// TODO Auto-generated method stub
 		
 		String file = Path + FileName;
-		if(FileType!=null) {
+		if(!FileType.equals("")) {
 			file = file + "."+FileType;
 		}
+		
+		System.out.println(file);
 		
 		try {
 			

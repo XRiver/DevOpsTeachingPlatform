@@ -203,7 +203,7 @@ public class TaskSerImpl implements TaskSer{
     	
     	Task t = taskDao.findById(Integer.parseInt(taskid)).get();
     	
-//    	Host host = 
+    	Host host = hostDao.findById(t.getHostId()).get();  //拿到host
     	
     	List<Container> ContainersOrder = containerDao.findContainersByTaskId(Integer.parseInt(taskid)); //拿到Container的顺序
     	
