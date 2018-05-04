@@ -11,10 +11,7 @@ import Devops.docker.DockerBranch.VO.TaskCreateVO;
 import Devops.docker.DockerBranch.VO.containerVO;
 import Devops.docker.DockerBranch.VO.taskSpecificVO;
 import Devops.docker.DockerBranch.VO.taskVO;
-import Devops.docker.DockerBranch.dao.ContainerDao;
-import Devops.docker.DockerBranch.dao.ContainerLinkDao;
-import Devops.docker.DockerBranch.dao.HostDao;
-import Devops.docker.DockerBranch.dao.TaskDao;
+import Devops.docker.DockerBranch.dao.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -43,6 +40,9 @@ public class TaskSerImpl implements TaskSer{
     @Autowired
     HostDao hostDao;
 
+    @Autowired
+    HistoryDao historyDao;
+
     private static final Logger logger = LoggerFactory.getLogger(TaskSerImpl.class);
 
     @Override
@@ -59,6 +59,7 @@ public class TaskSerImpl implements TaskSer{
         task.setSoftware("待定");//得看jenkins传过来的是啥，另外还得搞清楚是从gitlabci拿还是jenkins拿
         task.setProjectName(vo.getProjectname());
         task.setGroupName(vo.getGroupname());
+        task.setLinkmethod(vo.getLinkmethod());
 
         List<Task> taskList = taskDao.findAllByProjectId(vo.getProjectId());
         if(taskList.size()!=0){
@@ -103,6 +104,7 @@ public class TaskSerImpl implements TaskSer{
         task.setLastDate(DateTool.getTimeNow());
         task.setStatus("ready");
         task.setProjectId(vo.getProjectId());
+        task.setLinkmethod(vo.getLinkmethod());
         Task result = taskDao.save(task);
 
         List<containerVO> list = vo.getContainers();
@@ -172,6 +174,7 @@ public class TaskSerImpl implements TaskSer{
         BeanUtils.copyProperties(task,vo);
         vo.setTaskId(task.getTaskId()+"");
         vo.setHostId(task.getHostId()+"");
+        vo.setLinkmethod(task.getLinkmethod());
         vo.setUserName(task.getCreator());
 
         Host host = hostDao.findById(task.getHostId()).get();

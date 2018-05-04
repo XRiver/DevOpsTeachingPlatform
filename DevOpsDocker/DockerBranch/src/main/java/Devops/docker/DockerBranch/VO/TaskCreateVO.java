@@ -13,9 +13,10 @@ public class TaskCreateVO {
     private String groupname;
     private String projectname;
     private String username;
+    private int linkmethod;
     private List<containerVO> containers;
 
-    public TaskCreateVO(String taskId, String name, String description, String hostId, String projectId, String groupname, String projectname, String username, List<containerVO> containers) {
+    public TaskCreateVO(String taskId, String name, String description, String hostId, String projectId, String groupname, String projectname, String username, int linkmethod, List<containerVO> containers) {
         this.taskId = taskId;
         this.name = name;
         this.description = description;
@@ -24,7 +25,20 @@ public class TaskCreateVO {
         this.groupname = groupname;
         this.projectname = projectname;
         this.username = username;
+        this.linkmethod = linkmethod;
         this.containers = containers;
+    }
+
+    public TaskCreateVO() {
+    }
+
+
+    public int getLinkmethod() {
+        return linkmethod;
+    }
+
+    public void setLinkmethod(int linkmethod) {
+        this.linkmethod = linkmethod;
     }
 
     public String getGroupname() {

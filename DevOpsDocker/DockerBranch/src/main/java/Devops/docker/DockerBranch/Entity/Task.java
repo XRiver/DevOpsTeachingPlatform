@@ -17,6 +17,7 @@ public class Task {
     private String software;
     private String projectName;
     private String groupName;
+    private Integer linkmethod;
 
     @Id
     @Column(name = "task_Id", nullable = false)
@@ -28,6 +29,16 @@ public class Task {
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+    @Basic
+    @Column(name = "linkmethod",nullable = true,length = 10)
+    public Integer getLinkmethod() {
+        return linkmethod;
+    }
+
+    public void setLinkmethod(Integer linkmethod) {
+        this.linkmethod = linkmethod;
     }
 
     @Basic
