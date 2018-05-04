@@ -78,17 +78,17 @@ public class TaskConfig {
         return taskSer.getTaskSpecific(taskId);
     }
 
-//    /**
-//     *
-//     * @param username 启动任务的当前用户的用户名
-//     * @param taskId 任务id
-//     * @return 返回1表示已经启动，暂时还不知道会有啥不良状况，启动后去调用getdeploystatus
-//     */
-//    @RequestMapping(value = "/startTask",method = RequestMethod.GET)
-//    public int startTask(@RequestParam String username,@RequestParam String taskId){
-//        SocketServer.sendMessage("成功连接",taskId);
-//        return 1;
-//    }
+    /**
+     *
+     * @param projectid 项目id，绑定taskid，一一对应
+     * @return 返回1表示已经启动，暂时还不知道会有啥不良状况，启动后去调用getdeploystatus
+     */
+    @RequestMapping(value = "/startTask",method = RequestMethod.GET)
+    public String startTask(@RequestParam String projectid){
+        SocketServer.sendMessage("成功连接",projectid);
+        return null;
+    }
+
 
 
 }

@@ -15,6 +15,8 @@ public class Task {
     private String lastDate;
     private String status;
     private String software;
+    private String projectName;
+    private String groupName;
 
     @Id
     @Column(name = "task_Id", nullable = false)
@@ -26,6 +28,26 @@ public class Task {
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+    @Basic
+    @Column(name = "project_name",nullable = true,length=50)
+    public String getProjectName(){
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    @Basic
+    @Column(name = "group_name",nullable = true,length = 50)
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     @Basic

@@ -10,17 +10,37 @@ public class TaskCreateVO {
     private String description;
     private String hostId;
     private String projectId;
+    private String groupname;
+    private String projectname;
     private String username;
     private List<containerVO> containers;
 
-    public TaskCreateVO(String taskId, String name, String description, String hostId, String projectId, String username, List<containerVO> containers) {
+    public TaskCreateVO(String taskId, String name, String description, String hostId, String projectId, String groupname, String projectname, String username, List<containerVO> containers) {
         this.taskId = taskId;
         this.name = name;
         this.description = description;
         this.hostId = hostId;
         this.projectId = projectId;
+        this.groupname = groupname;
+        this.projectname = projectname;
         this.username = username;
         this.containers = containers;
+    }
+
+    public String getGroupname() {
+        return groupname;
+    }
+
+    public void setGroupname(String groupname) {
+        this.groupname = groupname;
+    }
+
+    public String getProjectname() {
+        return projectname;
+    }
+
+    public void setProjectname(String projectname) {
+        this.projectname = projectname;
     }
 
     public String getTaskId() {

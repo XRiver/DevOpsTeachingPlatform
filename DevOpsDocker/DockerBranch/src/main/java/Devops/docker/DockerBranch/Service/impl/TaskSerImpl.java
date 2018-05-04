@@ -57,6 +57,14 @@ public class TaskSerImpl implements TaskSer{
         task.setStatus("ready");
         task.setProjectId(vo.getProjectId());
         task.setSoftware("待定");//得看jenkins传过来的是啥，另外还得搞清楚是从gitlabci拿还是jenkins拿
+        task.setProjectName(vo.getProjectname());
+        task.setGroupName(vo.getGroupname());
+
+        List<Task> taskList = taskDao.findAllByProjectId(vo.getProjectId());
+        if(taskList.size()!=0){
+            return "该项目下已存在任务，无法创建";
+        }
+
         Task result = taskDao.save(task);
 
         List<containerVO> list = vo.getContainers();
@@ -186,7 +194,9 @@ public class TaskSerImpl implements TaskSer{
     }
 
     @Override
-    public int startTask(String username, String taskId) {
+    public int startTask(String taskid, String username) {
+
+        SocketServer.sendMessage("","");
         logger.info("成功启动");
         return 0;
     }
