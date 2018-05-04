@@ -4,7 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+
+import ch.ethz.ssh2.ChannelCondition;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
@@ -16,6 +21,57 @@ import ch.ethz.ssh2.StreamGobbler;
  * 
  * */
 public class RemoteExecuteCommand {
+	
+	private static final int TIME_OUT = 1000 * 5 * 60;
+	
+	
+	/**
+	 * 远程执行shell脚本并获得执行结果的方法
+	 * @param StringBuilder Command 需要执行的命令
+	 * @param Connection connection 连接类
+	 * @return StringBuilder 返回的结果以StringBuilder返回
+	 * */
+	public StringBuilder ExecShell(StringBuilder Commmand,Connection connection) throws IOException{
+		
+		InputStream stdOut = null;
+		InputStream stdErr = null;
+		
+		String outStr = "";
+		String outErr = "";
+		
+		int ret = -1;
+		
+		Session session = connection.openSession();
+		
+		session.execCommand(Commmand.toString());
+		
+		stdOut = new StreamGobbler(session.getStdout());
+		outStr = processStream(stdOut, Charset.defaultCharset().toString());
+		
+		stdErr = new StreamGobbler(session.getStderr());
+		outErr = processStream(stdErr, Charset.defaultCharset().toString());
+		
+		session.waitForCondition(ChannelCondition.EXIT_STATUS, TIME_OUT);
+		
+		ret = session.getExitStatus();
+		
+		IOUtils.closeQuietly(stdOut);
+		IOUtils.closeQuietly(stdErr);
+		
+		System.out.println(outStr);
+		System.out.println(outErr);
+		
+		return new StringBuilder("sss");
+	}
+	
+	private String processStream(InputStream in,String charset) throws UnsupportedEncodingException, IOException {
+		byte[] buf = new byte[1024];
+		StringBuilder sb = new StringBuilder();
+		while (in.read(buf) != -1) {
+			sb.append(new String(buf, charset));
+		}
+		return sb.toString();
+	}
 	
 	
 	/**
