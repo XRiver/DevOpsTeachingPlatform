@@ -50,7 +50,7 @@ public class FileTransport {
 			connection.close();
 			throw e;
 		}
-		connection.close();
+//		connection.close();
 	}
 
 	public boolean putFile() throws IOException{
@@ -72,7 +72,7 @@ public class FileTransport {
 			connection.close();
 			throw e;
 		}
-		connection.close();
+//		connection.close();
 		return true;
 	}
 

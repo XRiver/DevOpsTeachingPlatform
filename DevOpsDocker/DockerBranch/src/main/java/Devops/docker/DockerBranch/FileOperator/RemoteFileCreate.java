@@ -20,7 +20,7 @@ public class RemoteFileCreate extends FileCreateTools{
 			SFTPv3Client sftpClient = new SFTPv3Client(connection);
 			sftpClient.mkdir(Dir, posixPermissions);
 			
-			connection.close();
+//			connection.close();
 			return true;
 				
 		}catch (IOException e) {
@@ -36,16 +36,19 @@ public class RemoteFileCreate extends FileCreateTools{
 		// TODO Auto-generated method stub
 		
 		String file = Path + FileName;
-		if(FileType!=null) {
+		if(!FileType.equals("")) {
 			file = file + "."+FileType;
 		}
+		
+//		System.out.println(file);
 		
 		try {
 			
 			SFTPv3Client sftpClient = new SFTPv3Client(connection);
 			sftpClient.createFile(file);
 			
-			connection.close();
+			
+//			connection.close();
 			return true;
 			
 		}catch (IOException e) {

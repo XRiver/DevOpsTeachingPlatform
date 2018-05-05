@@ -14,7 +14,7 @@ public class RemoteFileWriter extends FileWriterTools{
 		// TODO Auto-generated method stub
 		
 		String file = Path + FileName;
-		if(FileType!=null) {
+		if(!FileType.equals("")) {
 			file = file + "."+FileType;
 		}
 		
@@ -29,7 +29,7 @@ public class RemoteFileWriter extends FileWriterTools{
 			
 			sftpClient.write(sftpHandle, offset, bs, 0, length);
 			
-			connection.close();
+//			connection.close();
 			return true;
 		}catch (IOException e) {
 			// TODO: handle exception

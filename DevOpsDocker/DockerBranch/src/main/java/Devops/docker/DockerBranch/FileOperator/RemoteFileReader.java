@@ -20,7 +20,7 @@ public class RemoteFileReader extends FileReaderTools{
 		StringBuilder resultString = new StringBuilder();
 		
 		String file = Path + FileName;
-		if(FileType!=null) {
+		if(!FileType.equals("")) {
 			file = file + "."+FileType;
 		}
 		
@@ -42,7 +42,7 @@ public class RemoteFileReader extends FileReaderTools{
 		            resultString.append(new String(bs));
 		        }
 		    } 
-		    connection.close();
+//		    connection.close();
 		    return resultString;
 		}catch (IOException e) {
 			// TODO: handle exception

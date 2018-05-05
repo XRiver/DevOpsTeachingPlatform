@@ -5,6 +5,10 @@ import Devops.docker.DockerBranch.Entity.Container;
 import Devops.docker.DockerBranch.Entity.Containerlink;
 import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Entity.Task;
+import Devops.docker.DockerBranch.Exception.RemoteOperateException;
+import Devops.docker.DockerBranch.GenerateAndConnect.GenerateAndConnecte;
+import Devops.docker.DockerBranch.RemoteConnection.RemoteExecuteCommand;
+import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
 import Devops.docker.DockerBranch.Service.TaskSer;
 import Devops.docker.DockerBranch.Service.tools.DateTool;
 import Devops.docker.DockerBranch.VO.TaskCreateVO;
@@ -12,6 +16,7 @@ import Devops.docker.DockerBranch.VO.containerVO;
 import Devops.docker.DockerBranch.VO.taskSpecificVO;
 import Devops.docker.DockerBranch.VO.taskVO;
 import Devops.docker.DockerBranch.dao.*;
+import ch.ethz.ssh2.Connection;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -21,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -199,23 +205,66 @@ public class TaskSerImpl implements TaskSer{
     @Override
     public int startTask(String taskid, String username) {
     	
-    	StringBuilder shell = new StringBuilder();
+//    	StringBuilder shell = new StringBuilder();
     	
     	Task t = taskDao.findById(Integer.parseInt(taskid)).get();
     	
-//    	Host host = 
+    	Host host = hostDao.findById(t.getHostId()).get();  //拿到host
     	
     	List<Container> ContainersOrder = containerDao.findContainersByTaskId(Integer.parseInt(taskid)); //拿到Container的顺序
+    	GenerateAndConnecte ge = new GenerateAndConnecte();
     	
     	for(int i = 0 ; i < ContainersOrder.size(); i++) { //按顺序build和run
     		Container tempContainer = ContainersOrder.get(i); //拿到Container  新建一个接口
+    		int linkmethod = t.getLinkmethod();
+    		String tempResult = ge.Generate(tempContainer, host, linkmethod);
+    		SocketServer.sendMessage(tempResult,taskid);
+    		logger.info(tempContainer.getContainerName() + "成功启动");
     	}
-
-        SocketServer.sendMessage("","");
+    	
+		RemoteExecuteCommand re = new RemoteExecuteCommand();
+		StringBuilder c1 = new StringBuilder("sudo docker run -d -p 8083:8083 -p 8086:8086 --expose 8090 --expose 8099 --name"
+				+ " influxsrv -e PRE_CREATE_DB=cadvisor tutum/influxdb");
+		
+		Connection monitoring = getConnection(host);
+		
+		try {
+			re.ExecCommand(c1, monitoring);
+			StringBuilder run = new StringBuilder("docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro "
+					+ "--publish=8088:8088 --detach=true --link influxsrv:influxsrv --name=cadvisor google/cadvisor"
+					+ " -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influxsrv:8086");
+			re.ExecCommand(run, monitoring);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "创建Tomacat镜像时，连接断开";
+		}
+		monitoring.close();
+		
+        SocketServer.sendMessage("Docker监控安装成功",taskid);
         logger.info("成功启动");
+        
+//        historyDao.save(history);
         
         
         return 0;
     }
+    
+	private Connection getConnection(Host host) {
+		RemoteSignIn sign = new RemoteSignIn(host.getIp(), Integer.parseInt(host.getSshPort()), host.getRoot(), host.getPassword());
+		Connection connection = null;
+		try {
+			connection = sign.ConnectAndAuth(sign.getUSER(), sign.getPASSWORD());
+		} catch (RemoteOperateException e1) {
+			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+			return null;
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+			return null;
+		}
+		return connection;
+	}
 
 }
