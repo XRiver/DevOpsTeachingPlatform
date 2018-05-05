@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 
 @Service
@@ -27,6 +28,7 @@ public class FileSerImpl implements FileService {
     public String upload(MultipartFile file, String path, String hostId) {
         String fileName = file.getOriginalFilename();
 
+
         String[] array = fileName.split(".");
         int size = array.length;
 
@@ -36,15 +38,20 @@ public class FileSerImpl implements FileService {
         }
         logger.info("上传的文件名为："+fileName);
 
-        String localPath = "F:\\save\\";
+
+        String str = System.getProperty("user.dir");
+
+        String localPath = str+"\\DevOpsDocker\\DockerBranch\\src\\main\\resources\\temp\\";
         Host host = hostDao.findById(Integer.parseInt(hostId)).get();
 
         try{
             FileTools.uploadFile(file.getBytes(),localPath,fileName);
         }catch(Exception e){
-
+            return "上传失败";
         }
+
         Connection connection = null;
+
         RemoteSignIn remoteSignIn = new RemoteSignIn(host.getIp(),Integer.parseInt(host.getSshPort()),host.getRoot(),host.getPassword());
         try{
             connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
@@ -54,7 +61,7 @@ public class FileSerImpl implements FileService {
             if(e.getErrorCode().equals("0"))
                 return "登录失败";
         }
-        FileTransport fileTransport = new FileTransport(fileName,fileType,localPath+fileName,path,connection);
+        FileTransport fileTransport = new FileTransport(fileName,fileType,localPath,path,connection);
         try {
 			fileTransport.putFile();
 		} catch (IOException e) {
@@ -62,6 +69,6 @@ public class FileSerImpl implements FileService {
 			return "上传失败";
 		}
 
-        return file.getName();
+        return fileName;
     }
 }
