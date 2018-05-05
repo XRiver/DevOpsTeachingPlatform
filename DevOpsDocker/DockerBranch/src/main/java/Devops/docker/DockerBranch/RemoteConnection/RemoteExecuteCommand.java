@@ -125,7 +125,7 @@ public class RemoteExecuteCommand {
 			//关闭session
 			sess.close();
 			//关闭connection
-			connection.close();
+//			connection.close();
 			
 			return returnResult;
 		}catch (IOException e) {

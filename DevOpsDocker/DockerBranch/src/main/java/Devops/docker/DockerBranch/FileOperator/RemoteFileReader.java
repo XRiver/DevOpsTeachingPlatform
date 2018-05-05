@@ -42,7 +42,7 @@ public class RemoteFileReader extends FileReaderTools{
 		            resultString.append(new String(bs));
 		        }
 		    } 
-		    connection.close();
+//		    connection.close();
 		    return resultString;
 		}catch (IOException e) {
 			// TODO: handle exception

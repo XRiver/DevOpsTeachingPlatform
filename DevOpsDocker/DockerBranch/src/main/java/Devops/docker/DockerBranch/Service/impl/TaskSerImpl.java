@@ -225,17 +225,22 @@ public class TaskSerImpl implements TaskSer{
 		RemoteExecuteCommand re = new RemoteExecuteCommand();
 		StringBuilder c1 = new StringBuilder("sudo docker run -d -p 8083:8083 -p 8086:8086 --expose 8090 --expose 8099 --name"
 				+ " influxsrv -e PRE_CREATE_DB=cadvisor tutum/influxdb");
+		
+		Connection monitoring = getConnection(host);
+		
 		try {
-			re.ExecCommand(c1, getConnection(host));
+			re.ExecCommand(c1, monitoring);
 			StringBuilder run = new StringBuilder("docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro "
 					+ "--publish=8088:8088 --detach=true --link influxsrv:influxsrv --name=cadvisor google/cadvisor"
 					+ " -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influxsrv:8086");
-			re.ExecCommand(run, getConnection(host));
+			re.ExecCommand(run, monitoring);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //			return "创建Tomacat镜像时，连接断开";
 		}
+		monitoring.close();
+		
         SocketServer.sendMessage("Docker监控安装成功",taskid);
         logger.info("成功启动");
         

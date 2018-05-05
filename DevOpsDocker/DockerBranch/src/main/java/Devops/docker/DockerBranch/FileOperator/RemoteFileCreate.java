@@ -20,7 +20,7 @@ public class RemoteFileCreate extends FileCreateTools{
 			SFTPv3Client sftpClient = new SFTPv3Client(connection);
 			sftpClient.mkdir(Dir, posixPermissions);
 			
-			connection.close();
+//			connection.close();
 			return true;
 				
 		}catch (IOException e) {
@@ -40,7 +40,7 @@ public class RemoteFileCreate extends FileCreateTools{
 			file = file + "."+FileType;
 		}
 		
-		System.out.println(file);
+//		System.out.println(file);
 		
 		try {
 			
@@ -48,7 +48,7 @@ public class RemoteFileCreate extends FileCreateTools{
 			sftpClient.createFile(file);
 			
 			
-			connection.close();
+//			connection.close();
 			return true;
 			
 		}catch (IOException e) {

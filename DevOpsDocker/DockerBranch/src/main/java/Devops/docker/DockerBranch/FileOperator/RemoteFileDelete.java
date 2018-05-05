@@ -21,7 +21,7 @@ public class RemoteFileDelete extends FileDeleteTools{
 			
 			SFTPv3Client sftpClient = new SFTPv3Client(connection);
 			sftpClient.rm(file);
-			connection.close();
+//			connection.close();
 			return true;
 			
 		}catch (IOException e) {
@@ -43,7 +43,7 @@ public class RemoteFileDelete extends FileDeleteTools{
 				sftpClient.rm(filePaths[i]);
 			}
 			
-			connection.close();
+//			connection.close();
 			
 			return true;
 		}catch (IOException e) {
@@ -62,7 +62,7 @@ public class RemoteFileDelete extends FileDeleteTools{
 			SFTPv3Client sftpClient = new SFTPv3Client(connection);
 			sftpClient.rmdir(Path+DirName);
 			
-			connection.close();
+//			connection.close();
 			
 			return true;
 			

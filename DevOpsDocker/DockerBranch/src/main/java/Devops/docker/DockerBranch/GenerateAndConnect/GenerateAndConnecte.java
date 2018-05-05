@@ -35,34 +35,36 @@ public class GenerateAndConnecte {
 		
 		int resultCode = 0;
 		
+		Connection conn = getConnection(host);
+		
 		if(image.equals("mysql")) {
-			resultCode = g.GenerateMysql(con,host);
+			resultCode = g.GenerateMysql(con,host,conn);
 			if(resultCode == 1) {
 				RemoteExecuteCommand re = new RemoteExecuteCommand();
 				StringBuilder c1 = new StringBuilder("sudo docker build -t "+con.getContainerName()+" "+
 						con.getPath());
 				try {
-					re.ExecCommand(c1, getConnection(host));
+					re.ExecCommand(c1, conn);
 					StringBuilder run = ContainerLink(connectedType, con,"3306");
-					re.ExecCommand(run, getConnection(host));
+					re.ExecCommand(run, conn);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 //					e.printStackTrace();
 					return "创建Tomacat镜像时，连接断开";
 				}
 			}else {
-				
+				return "远程主机创建mysql失败";
 			}
 		}else if(image.equals("tomcat")){
-			resultCode = g.GenerateTomcat(con,host);
+			resultCode = g.GenerateTomcat(con,host,conn);
 			if(resultCode == 1) {
 				RemoteExecuteCommand re = new RemoteExecuteCommand();
 				StringBuilder c1 = new StringBuilder("sudo docker build -t "+con.getContainerName()+" "+
 						con.getPath());
 				try {
-					re.ExecCommand(c1, getConnection(host));
+					re.ExecCommand(c1, conn);
 					StringBuilder run = ContainerLink(connectedType, con,"8070");
-					re.ExecCommand(run, getConnection(host));
+					re.ExecCommand(run, conn);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 //					e.printStackTrace();
@@ -71,10 +73,12 @@ public class GenerateAndConnecte {
 				
 			}else if(resultCode == -1) {
 				return "远程主机创建Dockerfile失败";
-			}{
+			}else{
 				return "远程主机写Dockerfile失败";
 			}
 		}
+		
+		conn.close();
 		
 		return "启动容器"+con.getContainerName()+"成功！";
 	}
