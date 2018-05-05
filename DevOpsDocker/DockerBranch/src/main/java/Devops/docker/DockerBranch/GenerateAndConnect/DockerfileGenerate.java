@@ -32,20 +32,20 @@ public class DockerfileGenerate {
 	
 	public StringBuilder getMysqlSetup() {
 		StringBuilder result = new StringBuilder();
-		result.append("set -e\r\n");
-		result.append("#use to check the status of mysql can be deleted\r\n");
-		result.append("echo 'service mysql status'\r\n");
-		result.append("echo '1.starting mysql....'\r\n");
-		result.append("service mysql start\r\n");
-		result.append("sleep 3\r\n");
-		result.append("echo '2.importing the data....'\r\n");
-		result.append("mysql < /mysql/database.sql\r\n");
-		result.append("sleep 3\r\n");
-		result.append("echo '3.changing the password....'\r\n");
-		result.append("# mysql < /mysql/privileges.sql\r\n");
-		result.append("echo '4.password changed....'\r\n");
-		result.append("sleep 3\r\n");
-		result.append("tail -f /dev/null\r\n");
+		result.append("set -e\n");
+		result.append("#use to check the status of mysql can be deleted\n");
+		result.append("echo 'service mysql status'\n");
+		result.append("echo '1.starting mysql....'\n");
+		result.append("service mysql start\n");
+		result.append("sleep 3\n");
+		result.append("echo '2.importing the data....'\n");
+		result.append("mysql < /mysql/database.sql\n");
+		result.append("sleep 3\n");
+		result.append("echo '3.changing the password....'\n");
+		result.append("# mysql < /mysql/privileges.sql\n");
+		result.append("echo '4.password changed....'\n");
+		result.append("sleep 3\n");
+		result.append("tail -f /dev/null");
 		return result;
 	}
 
