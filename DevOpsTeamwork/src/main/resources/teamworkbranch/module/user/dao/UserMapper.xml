@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="teamworkbranch.module.user.dao.UserMapper">
+    <!--<cache flushInterval="300000" size="512" type="org.mybatis.caches.memcached.MemcachedCache"/>-->
+
+    <resultMap id="userMap" type="teamworkbranch.module.user.model.User">
+        <id column="username" property="username"/>
+        <result column="role" property="role"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="password" property="password"/>
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+
+
+    <insert id="insertUser" parameterType="teamworkbranch.module.user.model.User">
+        insert into user (username,name,password,user_id,email,role) values (#{username},#{name},#{password},#{userId},#{email},#{role})
+    </insert>
+
+    <update id="updateUser" >
+        update user set name=#{name},password=#{password},user_id=#{userId},email=#{email} where username=#{username}
+    </update>
+
+    <delete id="deleteUser" parameterType="String">
+        delete from user where username=#{username}
+    </delete>
+
+    <select id="selectByUserName" parameterType="String" resultMap="userMap">
+        select * from user where username=#{username}
+    </select>
+
+
+</mapper>
