@@ -1,5 +1,6 @@
 package Devops.docker.DockerBranch.Service;
 
+import Devops.docker.DockerBranch.Entity.Task;
 import Devops.docker.DockerBranch.VO.TaskCreateVO;
 import Devops.docker.DockerBranch.VO.taskSpecificVO;
 import Devops.docker.DockerBranch.VO.taskVO;
@@ -18,5 +19,7 @@ public interface TaskSer {
     public taskSpecificVO getTaskSpecific(String taskId);
 
     public int startTask(String taskid,String username);
+
+    public void cleanTask(String taskid);
 
 }

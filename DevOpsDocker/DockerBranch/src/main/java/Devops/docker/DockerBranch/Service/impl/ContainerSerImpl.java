@@ -55,6 +55,7 @@ public class ContainerSerImpl implements ContainerService{
             }catch(IOException e){
                 return 3;
             }
+            connection.close();
             if(version.length()==0){
                 return 0;
             }
@@ -101,7 +102,7 @@ public class ContainerSerImpl implements ContainerService{
             StringBuilder version = null;
 
             try {
-                version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo docker ps -a"), connection);
+                version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo docker ps"), connection);
             }catch(IOException e){
                 result.add(new String("连接失败"));
                 return result;
@@ -110,6 +111,7 @@ public class ContainerSerImpl implements ContainerService{
                 result.add(new String("docker未安装"));
                 return result;
             }
+            connection.close();
             String[] infos = version.toString().split("\n");
 
             logger.info(infos[0]);
@@ -167,8 +169,60 @@ public class ContainerSerImpl implements ContainerService{
         }
         Host host = hostDao.findById(Integer.parseInt(hostId)).get();
 
+        Connection connection = null;
+        RemoteSignIn remoteSignIn = new RemoteSignIn(host.getIp(),Integer.parseInt(host.getSshPort()),host.getRoot(),host.getPassword());
+        try {
+            connection = remoteSignIn.ConnectAndAuth(host.getRoot(), host.getPassword());
+            RemoteExecuteCommand remoteExecuteCommand = new RemoteExecuteCommand();
+            StringBuilder version = null;
+
+            try {
+                version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo docker ps"), connection);
+            } catch (IOException e) {
+
+                return result;
+            }
+            connection.close();
+            String[] infos = version.toString().split("\n");
+
+            logger.info(infos[0]);
+            if(infos.length==1){
+                return result;
+            }else{
+                for(int i=1;i<infos.length;i++){
+                    String container = infos[i];
+                    String[] split = container.split("\\s+");
+                    int length = split.length;
+                    if(split[length-1].equals(containerName)){
+                        result.setContainerName(containerName);
+                        result.setContainerId("");
+                        result.setContainerList(null);
+                        result.setPath("");
+                        result.setImage(split[1]);
+                        result.setFilename("");
+                        result.setCreator("");
+                        if(split.length<=10){
+                            result.setPort("");
+                        }else{
+                            result.setPort(split[length-2]);
+                        }
+
+                    }
+                }
+                return result;
+            }
 
 
-        return null;
+        }catch (IOException e){
+            return result;
+        }catch(RemoteOperateException e){
+            if(e.getErrorCode().equals("0")){
+                return result;
+            }
+        }
+
+
+
+        return result;
     }
 }

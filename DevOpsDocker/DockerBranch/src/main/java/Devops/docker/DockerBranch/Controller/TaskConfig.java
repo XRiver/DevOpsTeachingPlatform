@@ -1,7 +1,9 @@
 package Devops.docker.DockerBranch.Controller;
 
+import Devops.docker.DockerBranch.Entity.Task;
 import Devops.docker.DockerBranch.Service.TaskSer;
 import Devops.docker.DockerBranch.VO.*;
+import Devops.docker.DockerBranch.dao.TaskDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ public class TaskConfig {
 
     @Autowired
     TaskSer taskSer;
+
+    @Autowired
+    TaskDao taskDao;
 
     /**
      *
@@ -85,8 +90,22 @@ public class TaskConfig {
      */
     @RequestMapping(value = "/startTask",method = RequestMethod.GET)
     public String startTask(@RequestParam String projectid){
-        SocketServer.sendMessage("成功连接",projectid);
-        return null;
+        Task task = taskDao.findAllByProjectId(projectid).get(0);
+        taskSer.cleanTask(task.getTaskId()+"");
+        int result = taskSer.startTask(task.getTaskId()+""," ");
+        if(result==0){
+            return "Failed!";
+        }else if(result==1){
+            return "Failed to link the remote end!";
+        }else if(result==2){
+            return "Failed to generate related script!";
+        }else if(result==3){
+            return "Failed when deploying in the remote!";
+        }else if(result==4){
+            return "Deployed successfully!";
+        }else{
+            return "Unknown errors";
+        }
     }
 
 

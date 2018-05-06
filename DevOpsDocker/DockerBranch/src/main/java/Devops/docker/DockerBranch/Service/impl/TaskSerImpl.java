@@ -102,6 +102,7 @@ public class TaskSerImpl implements TaskSer{
 
     @Override
     public String configTask(TaskCreateVO vo){
+        this.cleanTask(vo.getTaskId());
         Task task = taskDao.findById(Integer.parseInt(vo.getTaskId())).get();
         task.setName(vo.getName());
         task.setCreator(vo.getUsername());
@@ -249,8 +250,38 @@ public class TaskSerImpl implements TaskSer{
         
         return 0;
     }
-    
-	private Connection getConnection(Host host) {
+
+    @Override
+    public void cleanTask(String taskid) {
+
+        Task task = taskDao.findById(Integer.parseInt(taskid)).get();
+        int hostid = task.getHostId();
+        Host host = hostDao.findById(hostid).get();
+        List<Container> list = containerDao.findContainersByTaskId(Integer.parseInt(taskid));
+
+        Connection connection = getConnection(host);
+        RemoteExecuteCommand re = new RemoteExecuteCommand();
+        int length = list.size();
+
+        for(int i=0;i<length;i++){
+            Container container = list.get(i);
+            String containername = container.getContainerName();
+            StringBuilder stop = new StringBuilder("sudo docker stop "+containername);
+            StringBuilder rm = new StringBuilder("sudo docker rm "+containername);
+            StringBuilder rmi = new StringBuilder("sudo docker rmi "+containername);
+            try {
+                re.ExecCommand(stop,connection);
+                re.ExecCommand(rm,connection);
+                re.ExecCommand(rmi,connection);
+            } catch (IOException e) {
+                logger.info("what the fuck");
+                e.printStackTrace();
+            }
+        }
+        connection.close();
+    }
+
+    private Connection getConnection(Host host) {
 		RemoteSignIn sign = new RemoteSignIn(host.getIp(), Integer.parseInt(host.getSshPort()), host.getRoot(), host.getPassword());
 		Connection connection = null;
 		try {

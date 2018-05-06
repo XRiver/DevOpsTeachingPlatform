@@ -31,6 +31,7 @@ public class SocketServer {
         sessionPool.put(userid,session);
         sessionIds.put(session.getId(),userid);
         TaskSer taskSer = new TaskSerImpl();
+        taskSer.cleanTask(userid);
         taskSer.startTask(userid,username);
         logger.info("连接成功");
     }
