@@ -1,0 +1,59 @@
+extends layout
+
+block title
+    title project #{group}/#{project} pipeline defination
+
+block stylesheet
+    link(rel="stylesheet" href="/stylesheets/bootstrap-directional-buttons.min.css")
+
+block content
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link(href="/gitlabci/" + group + "/" + project + "/pipelines") pipelines
+                li.nav-item
+                    a.nav-link(href="/gitlabci/" + group + "/" + project + "/jobs") jobs
+                li.nav-item
+                    a.nav-link(href="/gitlabci/" + group + "/" + project + "/runners") runners
+                li.nav-item
+                    a.nav-link(href="/gitlabci/" + group + "/" + project + "/schedules") schedules
+        hr
+        - if(err)
+            div.row
+                p #{err}
+        - else
+            div
+                h3.text-muted 流水线定义
+                div.row
+                    each stage_jobs,stage_name in yaml_obj.stages
+                        div.card.col-lg-3(style="margin:10px")
+                            div.btn.btn-primary.btn-arrow-right #{stage_name}
+                            div.card-body
+                                each job in stage_jobs
+                                    span name:&nbsp;
+                                        b #{job.name}
+                                    br
+                                    span branch:&nbsp
+                                        - if(job.only)
+                                            b #{job.only}
+                                        - else
+                                            b all
+                                    br
+                                    span runner_tags:&nbsp
+                                        - if(job.tags)
+                                            b #{job.tags}
+                                        - else
+                                            b anyone
+                                    - if(job.artifacts)
+                                        br
+                                        span artifacts:&nbsp;
+                                            b #{job.artifacts.paths}
+                                    hr
+            hr
+            div
+                h3.text-muted 流水线脚本
+                form(action="/gitlabci/"+group+"/"+project+"/ci-yaml",method="post")
+                    textarea.bg-light(name="content",cols="100",rows="30") #{yaml_str}
+                    br
+                    input.btn.btn-primary(type="submit", value="修改")

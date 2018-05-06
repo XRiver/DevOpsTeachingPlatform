@@ -1,0 +1,67 @@
+extends layout
+block title
+    title project #{group}/#{project} schedules
+block content
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/pipelines") pipelines
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/jobs") jobs
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/runners") runners
+                li.nav-item
+                    a.nav-link.active(href="/gitlabci/"+group+"/"+project+"/schedules") schedules
+        hr
+        - if(err)
+            div.row
+                p #{err}
+        - else
+            div.row
+                div.col-lg-8
+                    table.table.table-hover
+                        thead
+                            tr
+                                th id
+                                th 描述
+                                th cron表达
+                                th 分支
+                                th 下次执行
+                                th 禁用/启用
+                                th 删除
+                        tbody
+                            each schedule in schedules
+                                tr
+                                    td #{schedule.id}
+                                    td #{schedule.description}
+                                    td #{schedule.cron}
+                                    td #{schedule.ref}
+                                    - var date = schedule.next_run_at;
+                                    - date = date.replace(/T/g,' ');
+                                    - date = date.substring(0,19);
+                                    td #{date}
+                                    td
+                                        - if(schedule.active)
+                                            a.btn.btn-warning(href="/gitlabci/"+group+"/"+project+"/schedules_active/"+schedule.id+"?active=false") 禁用
+                                        - else
+                                            a.btn.btn-success(href="/gitlabci/"+group+"/"+project+"/schedules_active/"+schedule.id+"?active=true") 启用
+                                    td
+                                        a.btn.btn-danger(href="/gitlabci/"+group+"/"+project+"/schedules_delete/"+schedule.id) 删除
+
+                div.col-lg-3
+                    h5.text-muted 新增schedule
+                    hr
+                    form(action="/gitlabci/"+group+"/"+project+"/schedules",method="post")
+                        div.form-group
+                            label(for="description") 描述
+                            textarea#description.form-control(rows="5",name="description")
+                        div.form-group
+                            label(for="cron") cron表达式
+                            input#cron.form-control(type="text",name="cron",placeholder="eg:0 0 * * *为每小时执行一次")
+                        div.form-group
+                            label(for="branch") 分支
+                            select#branch.form-control(name="branch")
+                                each branch in branches
+                                    option(value=branch.name) #{branch.name}
+                        input.btn.btn-primary(type="submit",value="提交")
