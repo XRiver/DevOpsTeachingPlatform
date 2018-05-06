@@ -3,6 +3,7 @@ package Devops.docker.DockerBranch.Service.impl;
 import Devops.docker.DockerBranch.Controller.SocketServer;
 import Devops.docker.DockerBranch.Entity.Container;
 import Devops.docker.DockerBranch.Entity.Containerlink;
+import Devops.docker.DockerBranch.Entity.History;
 import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Entity.Task;
 import Devops.docker.DockerBranch.Exception.RemoteOperateException;
@@ -208,6 +209,8 @@ public class TaskSerImpl implements TaskSer{
     	
 //    	StringBuilder shell = new StringBuilder();
     	
+    	JSONObject dvo = null;
+    	
     	Task t = taskDao.findById(Integer.parseInt(taskid)).get();
     	
     	Host host = hostDao.findById(t.getHostId()).get();  //拿到host
@@ -215,12 +218,34 @@ public class TaskSerImpl implements TaskSer{
     	List<Container> ContainersOrder = containerDao.findContainersByTaskId(Integer.parseInt(taskid)); //拿到Container的顺序
     	GenerateAndConnecte ge = new GenerateAndConnecte();
     	
+    	Connection cono = getConnection(host);
+    	if(cono == null) {
+    		dvo = getDvo(taskid, "1", "连接引擎失败");
+    		SocketServer.sendMessage(dvo.toString(),taskid);
+    		historyDao.save(getHistory(taskid, username,"连接失败，任务结束"));
+    		return 1;
+    	}
+    	dvo = getDvo(taskid, "2", "准备部署");
+    	SocketServer.sendMessage(dvo.toString(),taskid);
+    	
+		dvo = getDvo(taskid, "3", "正在部署容器");
+		SocketServer.sendMessage(dvo.toString(),taskid);
+    	
     	for(int i = 0 ; i < ContainersOrder.size(); i++) { //按顺序build和run
     		Container tempContainer = ContainersOrder.get(i); //拿到Container  新建一个接口
     		int linkmethod = t.getLinkmethod();
     		String tempResult = ge.Generate(tempContainer, host, linkmethod);
-    		SocketServer.sendMessage(tempResult,taskid);
-    		logger.info(tempContainer.getContainerName() + "成功启动");
+    		if(tempResult.contains("失败")||tempResult.contains("断开")) {
+    			dvo = getDvo(taskid, "3", tempResult);
+    			SocketServer.sendMessage(dvo.toString(),taskid);
+    			logger.info(tempContainer.getContainerName() + "启动失败");
+    			historyDao.save(getHistory(taskid, username,"创建容器"+tempContainer.getContainerName()+"，任务结束"));
+    			return 3;
+    		}else {
+    			dvo = getDvo(taskid, "3", tempResult);
+    			SocketServer.sendMessage(dvo.toString(),taskid);
+    			logger.info(tempContainer.getContainerName() + "启动成功");
+    		}
     	}
     	
 		RemoteExecuteCommand re = new RemoteExecuteCommand();
@@ -231,24 +256,51 @@ public class TaskSerImpl implements TaskSer{
 		
 		try {
 			re.ExecCommand(c1, monitoring);
-			StringBuilder run = new StringBuilder("docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro "
+			StringBuilder run = new StringBuilder("sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro "
 					+ "--publish=8088:8088 --detach=true --link influxsrv:influxsrv --name=cadvisor google/cadvisor"
 					+ " -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influxsrv:8086");
 			re.ExecCommand(run, monitoring);
+			dvo = getDvo(taskid, "3", "Docker监控部署成功");
+	        SocketServer.sendMessage(dvo.toString(),taskid);
+	        logger.info("监控成功启动");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			return "创建Tomacat镜像时，连接断开";
+			dvo = getDvo(taskid, "3", "Docker监控部署失败");
+	        SocketServer.sendMessage(dvo.toString(),taskid);
+	        logger.info("监控启动失败");
+	        historyDao.save(getHistory(taskid, username,"监控容器创建失败，任务结束"));
+	        monitoring.close();
+	        return 3;
 		}
 		monitoring.close();
 		
-        SocketServer.sendMessage("Docker监控安装成功",taskid);
-        logger.info("成功启动");
+		dvo = getDvo(taskid, "4", "项目部署成功");
+		SocketServer.sendMessage(dvo.toString(),taskid);
+	    logger.info("项目部署成功");
         
-//        historyDao.save(history);
+
+	    historyDao.save(getHistory(taskid, username,"项目部署成功"));
         
         
-        return 0;
+        return 4;
+    }
+    
+    private History getHistory(String taskid,String username,String status){
+    	History history = new History();
+		history.setDate(DateTool.getTodayDate());
+		history.setOperatorName(username);
+		history.setTaskId(Integer.parseInt(taskid));
+		history.setTime(DateTool.getTimeNow());
+		history.setStatus(status);
+    	return history;
+    }
+    
+    private JSONObject getDvo(String taskid,String status ,String log) {
+    	JSONObject temp = new JSONObject();
+    	temp.put("taskid", taskid);
+    	temp.put("status", status);
+    	temp.put("log", log);
+    	return temp;
     }
 
     @Override
