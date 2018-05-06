@@ -94,10 +94,14 @@ public class HostSerImpl implements HostService{
             connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
         }catch (IOException e){
             logger.info("fuck1");
+            connection.close();
             return 1;
         }catch(RemoteOperateException e){
-            if(e.getErrorCode().equals("0"))
+            if(e.getErrorCode().equals("0")){
+                connection.close();
                 return 2;
+            }
+
         }
         if(host.getAuto_installed().equals("true")){
             RemoteExecuteCommand remoteExecuteCommand = new RemoteExecuteCommand();
@@ -106,38 +110,23 @@ public class HostSerImpl implements HostService{
             try {
                 version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo docker version"), connection);
             }catch(IOException e){
+                connection.close();
                 return 3;
             }
             if(version.length()!=0){
                 logger.info("Docker have been installed!");
+                connection.close();
                 return 4;
             }else{
                 //每次执行远程操作，connection都要重新创建，一个connnection仅维持一次远程操作
-                try{
-                    connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
-                }catch (IOException e){
-                    logger.info("fuck2");
-                    return 1;
-                }catch(RemoteOperateException e){
-                    if(e.getErrorCode().equals("0"))
-                        return 2;
-                }
 
                 try {
                     version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo mkdir /home/admin/docker"), connection);
                 }catch(IOException e){
+                    connection.close();
                     return 3;
                 }
 
-                try{
-                    connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
-                }catch (IOException e){
-                    logger.info("fuck3");
-                    return 1;
-                }catch(RemoteOperateException e){
-                    if(e.getErrorCode().equals("0"))
-                        return 2;
-                }
 
                 String str = System.getProperty("user.dir");
 
@@ -149,6 +138,7 @@ public class HostSerImpl implements HostService{
                         fileTransport.putFile();
 
                     }catch(IOException e){
+                        connection.close();
                         return 3;
                     }
 
@@ -169,20 +159,12 @@ public class HostSerImpl implements HostService{
 //                        return 3;
 //                    }
 
-                    try{
-                        connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
-                    }catch (IOException e){
-                        logger.info("fuck4");
-                        return 1;
-                    }catch(RemoteOperateException e){
-                        if(e.getErrorCode().equals("0"))
-                            return 2;
-                    }
 
                     try {
                         version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo bash /home/admin/docker/docker_centos.sh"), connection);
                     }catch(IOException e){
                         logger.info(version.toString()+"012");
+                        connection.close();
                         return 3;
                     }
 
@@ -194,6 +176,7 @@ public class HostSerImpl implements HostService{
                         fileTransport.putFile();
 
                     }catch(IOException e){
+                        connection.close();
                         return 3;
                     }
 
@@ -216,20 +199,12 @@ public class HostSerImpl implements HostService{
 
 
 
-                    try{
-                        connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
-                    }catch (IOException e){
-                        logger.info("fuck6");
-                        return 1;
-                    }catch(RemoteOperateException e){
-                        if(e.getErrorCode().equals("0"))
-                            return 2;
-                    }
 
                     try {
                         version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo bash /home/admin/docker/docker_ubuntu.sh"), connection);
                         logger.info(version.toString()+"123");
                     }catch(IOException e){
+                        connection.close();
                         return 3;
                     }
 
@@ -252,7 +227,7 @@ public class HostSerImpl implements HostService{
                 }
             }
         }
-
+        connection.close();
         return 4;
     }
 }
