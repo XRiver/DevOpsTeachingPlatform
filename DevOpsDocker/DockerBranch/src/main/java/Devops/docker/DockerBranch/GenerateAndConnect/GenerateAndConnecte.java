@@ -50,7 +50,7 @@ public class GenerateAndConnecte {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 //					e.printStackTrace();
-					return "创建Tomacat镜像时，连接断开";
+					return "创建mysql镜像时，连接断开";
 				}
 			}else {
 				return "远程主机创建mysql失败";
