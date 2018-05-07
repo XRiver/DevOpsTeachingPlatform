@@ -250,14 +250,14 @@ public class TaskSerImpl implements TaskSer{
     	
 		RemoteExecuteCommand re = new RemoteExecuteCommand();
 		StringBuilder c1 = new StringBuilder("sudo docker run -d -p 8083:8083 -p 8086:8086 --expose 8090 --expose 8099 --name"
-				+ " influxsrv -e PRE_CREATE_DB=cadvisor tutum/influxdb");
+				+ " influxsrv -e PRE_CREATE_DB=cadvisor tutum/influxdb:0.13");
 		
 		Connection monitoring = getConnection(host);
 		
 		try {
 			re.ExecCommand(c1, monitoring);
 			StringBuilder run = new StringBuilder("sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro "
-					+ "--publish=8088:8088 --detach=true --link influxsrv:influxsrv --name=cadvisor google/cadvisor"
+					+ " --publish=9994:8080 --detach=true --link influxsrv:influxsrv --name=cadvisor google/cadvisor:v0.24.1"
 					+ " -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influxsrv:8086");
 			re.ExecCommand(run, monitoring);
 			dvo = getDvo(taskid, "3", "Docker监控部署成功");
