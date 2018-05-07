@@ -158,8 +158,8 @@ public class ContainerSerImpl implements ContainerService{
                 if(list.get(j).getContainerName().equals(containerName)){
                     Container container = list.get(j);
                     BeanUtils.copyProperties(container,result);
-                    result.setContainerId(list.get(i).getContainerId()+"");
-                    int id = list.get(i).getContainerId();
+                    result.setContainerId(container.getContainerId()+"");
+                    int id = container.getContainerId();
                     List<String> linkedlist = containerLinkDao.getLinkedidByMasterid(id);
                     result.setContainerList(linkedlist);
                     return result;

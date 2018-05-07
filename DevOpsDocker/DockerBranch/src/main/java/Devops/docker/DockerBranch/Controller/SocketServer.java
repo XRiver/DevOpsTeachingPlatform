@@ -2,9 +2,11 @@ package Devops.docker.DockerBranch.Controller;
 
 import Devops.docker.DockerBranch.Service.TaskSer;
 import Devops.docker.DockerBranch.Service.impl.TaskSerImpl;
+import Devops.docker.DockerBranch.dao.TaskDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,6 +21,9 @@ import java.util.Map;
 @Component
 public class SocketServer {
 
+    @Autowired
+    TaskSer taskSer;
+
     private Session session;
     private static Map<String,Session> sessionPool = new HashMap<>();
     private static Map<String,String> sessionIds = new HashMap<>();
@@ -30,7 +35,8 @@ public class SocketServer {
         this.session = session;
         sessionPool.put(userid,session);
         sessionIds.put(session.getId(),userid);
-        TaskSer taskSer = new TaskSerImpl();
+        ApplicationContext act = ApplicationContextRegister.getApplicationContext();
+        taskSer = act.getBean(TaskSer.class);
         taskSer.cleanTask(userid);
         taskSer.startTask(userid,username);
         logger.info("连接成功");

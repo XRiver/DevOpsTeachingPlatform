@@ -40,6 +40,7 @@ public class HostSerImpl implements HostService{
             hostVO vo = new hostVO();
             Host host = list.get(i);
             BeanUtils.copyProperties(host,vo);
+            vo.setHostId(host.getHostId()+"");
             result.add(vo);
         }
         return result;

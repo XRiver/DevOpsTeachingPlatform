@@ -19,6 +19,24 @@ public class Task {
     private String groupName;
     private Integer linkmethod;
 
+    public Task() {
+    }
+
+    public Task(int taskId, String name, String description, Integer hostId, String projectId, String creator, String lastDate, String status, String software, String projectName, String groupName, Integer linkmethod) {
+        this.taskId = taskId;
+        this.name = name;
+        this.description = description;
+        this.hostId = hostId;
+        this.projectId = projectId;
+        this.creator = creator;
+        this.lastDate = lastDate;
+        this.status = status;
+        this.software = software;
+        this.projectName = projectName;
+        this.groupName = groupName;
+        this.linkmethod = linkmethod;
+    }
+
     @Id
     @Column(name = "task_Id", nullable = false)
     @GeneratedValue(strategy=GenerationType.TABLE,generator="tableGenerator")

@@ -83,7 +83,6 @@ public class TaskSerImpl implements TaskSer{
             BeanUtils.copyProperties(list.get(i),tmp);
             tmp.setDate(DateTool.getTodayDate());
             tmp.setTaskId(result.getTaskId());
-            tmp.setContainerId(Integer.parseInt(list.get(i).getContainerId()));
             Container container = containerDao.save(tmp);
 
             List<String> list1 = list.get(i).getContainerList();
@@ -292,6 +291,7 @@ public class TaskSerImpl implements TaskSer{
 		history.setTaskId(Integer.parseInt(taskid));
 		history.setTime(DateTool.getTimeNow());
 		history.setStatus(status);
+		history.setHistoryId(0);
     	return history;
     }
     
@@ -306,7 +306,14 @@ public class TaskSerImpl implements TaskSer{
     @Override
     public void cleanTask(String taskid) {
 
+        logger.info(Integer.parseInt(taskid)+12+"");
+
+        if(taskDao==null){
+            logger.info("what?");
+
+        }
         Task task = taskDao.findById(Integer.parseInt(taskid)).get();
+
         int hostid = task.getHostId();
         Host host = hostDao.findById(hostid).get();
         List<Container> list = containerDao.findContainersByTaskId(Integer.parseInt(taskid));
