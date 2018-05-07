@@ -11,6 +11,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
+DevOpsDocker/DockerBranch/src/main/resources/application.properties
 .idea
 *.iws
 *.iml
