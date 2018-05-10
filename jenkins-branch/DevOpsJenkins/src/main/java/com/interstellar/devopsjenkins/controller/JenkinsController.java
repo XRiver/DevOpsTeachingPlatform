@@ -5,11 +5,11 @@ import com.interstellar.devopsjenkins.FeignClient.JenkinsFeign1;
 import com.interstellar.devopsjenkins.FeignClient.JenkinsFeign2;
 import com.interstellar.devopsjenkins.service.JenkinsService;
 import com.interstellar.devopsjenkins.util.ResultMessage;
-import com.interstellar.devopsjenkins.vo.BuildInformationVO;
-import com.interstellar.devopsjenkins.vo.JobInformationVO;
-import com.interstellar.devopsjenkins.vo.NodeInformationVO;
-import com.interstellar.devopsjenkins.vo.StepVO;
+import com.interstellar.devopsjenkins.util.jenkinsURL;
+import com.interstellar.devopsjenkins.vo.*;
 import com.offbytwo.jenkins.JenkinsServer;
+import com.offbytwo.jenkins.client.JenkinsHttpClient;
+import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/jj")
+@RequestMapping("/jenkins")
 public class JenkinsController {
     @Autowired
     JenkinsFeign jenkinsFeign;
@@ -70,6 +72,27 @@ public class JenkinsController {
             e.printStackTrace();
         }
         return new ResultMessage(false, "构建失败", null);
+    }
+
+    @RequestMapping(value = "/job/{name}/create", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMessage createJob1(@PathVariable("name") String name, String description, String url, String branch, String jenkinsFilePath) {
+        StringBuffer sb = new StringBuffer();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(new File("/home/bastilashan/config.xml")));
+            String result = "";
+            while ((result = br.readLine()) != null) {
+                sb.append(result);
+
+            }
+            ;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        jenkinsFeign2.createItem(sb.toString().getBytes(), name);
+        return new ResultMessage(false, "创建失败", null);
     }
 
     @RequestMapping(value = "/job/{name}", method = RequestMethod.POST)
@@ -195,5 +218,22 @@ public class JenkinsController {
             e.getMessage();
             return entity;
         }
+    }
+
+    @RequestMapping(value = "/computers", method = RequestMethod.GET)
+    @ResponseBody
+    public List<ComputerVO> getComputer() throws IOException {
+        return jenkinsService.getComputers();
+    }
+
+    @RequestMapping(value = "/createCredentials", method = RequestMethod.POST)
+    @ResponseBody
+    public void createCre(String id, String username, String privateKey) throws URISyntaxException, IOException {
+        JenkinsHttpClient client = new JenkinsHttpClient(new URI(jenkinsURL.getJenkins()), jenkinsURL.getName(), jenkinsURL.getPassword());
+        
+        String json = "json={\"\":\"0\",\"credentials\":{\"scope\":\"GLOBAL\",\"id\":\"" + id + "\",\"username\":\"" + username + "\",\"password\":\"\",\"privateKeySource\":{\"stapler-class\":\"com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$DirectEntryPrivateKeySource\",\"privateKey\":\"" + privateKey + "\",},\"description\":\"\",\"stapler-class\":\"com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey\"}}";
+        String req = "json={\"\":\"0\",\"credentials\":{\"scope\":\"GLOBAL\",\"username\":\"" + username + "\",\"password\":\"\",\"id\":\"" + id + "\",\"description\":\"\",\"$class\":\"com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl\"}}";
+        //client.post_text("credentials/store/system/domain/_/createCredentials",req, ContentType.APPLICATION_FORM_URLENCODED,true);
+        client.post_text("credentials/store/system/domain/_/createCredentials", json, ContentType.APPLICATION_FORM_URLENCODED, false);
     }
 }

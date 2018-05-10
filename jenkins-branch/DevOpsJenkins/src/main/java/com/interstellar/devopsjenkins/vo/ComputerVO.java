@@ -2,13 +2,20 @@ package com.interstellar.devopsjenkins.vo;
 
 public class ComputerVO {
     private String displayName;
-    private int executors;
-    private boolean offline;
 
-    public ComputerVO(String displayName, int executors, boolean offline) {
+    private int numExecutors;
+    private boolean offline;
+    private String offlineCauseReason;
+
+    public ComputerVO() {
+    }
+
+    public ComputerVO(String displayName, int numExecutors, boolean offline, String offlineCauseReason) {
         this.displayName = displayName;
-        this.executors = executors;
+
+        this.numExecutors = numExecutors;
         this.offline = offline;
+        this.offlineCauseReason = offlineCauseReason;
     }
 
     public String getDisplayName() {
@@ -19,12 +26,14 @@ public class ComputerVO {
         this.displayName = displayName;
     }
 
-    public int getExecutors() {
-        return executors;
+
+
+    public int getNumExecutors() {
+        return numExecutors;
     }
 
-    public void setExecutors(int executors) {
-        this.executors = executors;
+    public void setNumExecutors(int numExecutors) {
+        this.numExecutors = numExecutors;
     }
 
     public boolean isOffline() {
@@ -33,5 +42,13 @@ public class ComputerVO {
 
     public void setOffline(boolean offline) {
         this.offline = offline;
+    }
+
+    public String getOfflineCauseReason() {
+        return offlineCauseReason;
+    }
+
+    public void setOfflineCauseReason(String offlineCauseReason) {
+        this.offlineCauseReason = offlineCauseReason;
     }
 }

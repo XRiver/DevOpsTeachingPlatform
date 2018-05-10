@@ -13,9 +13,7 @@ import java.util.List;
 
 @FeignClient(configuration = FeignMultipartSupportConfig.class)
 public interface JenkinsFeign {
-    @RequestLine("POST /createItem?name={name}")
-    @Headers("Context-Type: application/xml")
-    void createItem(@RequestBody byte[] file, @Param("name") String name);
+
 
     @RequestLine(value = "GET /api/xml")
     String api();
@@ -42,5 +40,7 @@ public interface JenkinsFeign {
     @Headers("Context-Type: text/plain; charset=utf-8")
     String downloadLog1(@Param("name") String name, @Param("number") String number);
 
-
+    @RequestLine("POST /credentials/store/system/domain/_/createCredentials")
+    @Headers("Context-Type: application/json")
+    String createCredentials(String data);
 }

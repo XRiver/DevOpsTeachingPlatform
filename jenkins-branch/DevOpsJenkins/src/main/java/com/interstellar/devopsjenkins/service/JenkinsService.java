@@ -2,9 +2,11 @@ package com.interstellar.devopsjenkins.service;
 
 import com.interstellar.devopsjenkins.util.ResultMessage;
 import com.interstellar.devopsjenkins.vo.BuildInformationVO;
+import com.interstellar.devopsjenkins.vo.ComputerVO;
 import com.interstellar.devopsjenkins.vo.JobInformationVO;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface JenkinsService {
     /**
@@ -58,4 +60,8 @@ public interface JenkinsService {
     ResultMessage deleteJob(String name) throws IOException;
 
     BuildInformationVO getBuild(String name,String number)throws IOException;
+
+    List<ComputerVO> getComputers() throws IOException;
+
+    ResultMessage initJenkinsJob(String groupName,String projectName,String name, String description) throws IOException;
 }

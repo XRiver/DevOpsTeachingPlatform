@@ -48,5 +48,6 @@ public class JenkinsTest {
             e.printStackTrace();
         }*/
         jenkinsService.periodJob("sasa", 3);
+
     }
 }

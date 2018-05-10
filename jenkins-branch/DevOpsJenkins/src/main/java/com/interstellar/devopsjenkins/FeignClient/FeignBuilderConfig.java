@@ -23,17 +23,17 @@ public class FeignBuilderConfig {
 
     @Bean
     public JenkinsFeign getJenkinsFeign() {
-        return Feign.builder().encoder(new JacksonEncoder()).decoder(new JacksonDecoder()).target(JenkinsFeign.class, "http://localhost:8080");
+        return Feign.builder().encoder(new JacksonEncoder()).decoder(new JacksonDecoder()).target(JenkinsFeign.class, "http://admin:qwe1996222@localhost:8080");
     }
 
     @Bean
     public JenkinsFeign1 getJenkinsFeign1() {
-        return Feign.builder().target(JenkinsFeign1.class, "http://localhost:8080");
+        return Feign.builder().target(JenkinsFeign1.class, "http://admin:qwe1996222@localhost:8080");
     }
 
     @Bean
     public JenkinsFeign2 getJenkinsFeign2() {
-        return Feign.builder().decoder(new ResponseEntityDecoder(new SpringDecoder(this.messageConverters))).target(JenkinsFeign2.class, "http://localhost:8080");
+        return Feign.builder().decoder(new ResponseEntityDecoder(new SpringDecoder(this.messageConverters))).target(JenkinsFeign2.class, "http://admin:qwe1996222@localhost:8080");
     }
 
 

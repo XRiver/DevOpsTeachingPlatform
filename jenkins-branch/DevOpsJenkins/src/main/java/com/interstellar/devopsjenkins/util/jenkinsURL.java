@@ -4,7 +4,7 @@ public class jenkinsURL {
     private static String jenkins = "http://localhost:8080";
 
     private static String name = "admin";
-    private static String password = "4c33e952ce104b89b301b8dce14912f1";
+    private static String password = "qwe1996222";
 
 
     public static String getHome() {

@@ -5,12 +5,11 @@ import com.interstellar.devopsjenkins.service.JenkinsService;
 import com.interstellar.devopsjenkins.util.ResultMessage;
 import com.interstellar.devopsjenkins.vo.BuildInformationVO;
 import com.interstellar.devopsjenkins.vo.BuildVO;
+import com.interstellar.devopsjenkins.vo.ComputerVO;
 import com.interstellar.devopsjenkins.vo.JobInformationVO;
 import com.offbytwo.jenkins.JenkinsServer;
-import com.offbytwo.jenkins.model.Build;
-import com.offbytwo.jenkins.model.BuildWithDetails;
-import com.offbytwo.jenkins.model.Job;
-import com.offbytwo.jenkins.model.JobWithDetails;
+import com.offbytwo.jenkins.model.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -29,7 +28,9 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class JenkinsServiceImpl implements JenkinsService {
@@ -65,7 +66,7 @@ public class JenkinsServiceImpl implements JenkinsService {
             // 从XML文档中获取DOM文档实例
             DocumentBuilder db = dbf.newDocumentBuilder();
             // 获取Document对象
-            Document xmldoc = db.parse("C:/Jenkins/jobs/config.xml");
+            Document xmldoc = db.parse("/home/bastilashan/config.xml");
 
             // 获取根节点
             Element root = xmldoc.getDocumentElement();
@@ -82,36 +83,47 @@ public class JenkinsServiceImpl implements JenkinsService {
             // 保存
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer former = factory.newTransformer();
-            former.transform(new DOMSource(xmldoc), new StreamResult(new File("C:/Jenkins/jobs/config-" + name + "-.xml")));
+            former.transform(new DOMSource(xmldoc), new StreamResult(new File("/home/bastilashan/config-" + name + "-.xml")));
         } catch (Exception e) {
             e.printStackTrace();
         }
         StringBuilder build = new StringBuilder();
         try {
-            InputStream in = new FileInputStream("C:/Jenkins/jobs/config-" + name + "-.xml");
+            InputStream in = new FileInputStream("/home/bastilashan/config-" + name + "-.xml");
             InputStreamReader read = new InputStreamReader(in);
             BufferedReader bufferedReader = new BufferedReader(read);
             String lineTxt = null;
             while ((lineTxt = bufferedReader.readLine()) != null) {
                 build.append(lineTxt);
             }
-            //String jobname = "oopsa";
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println(build.toString());
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            jenkinsServer.createJob(name, build.toString());
+
+            jenkinsServer.createJob(name, build.toString(),false);
             return new ResultMessage(true, "创建成功", getJob(name));
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultMessage(true, "创建失败", null);
+            return new ResultMessage(false, "创建失败", null);
         }
 
+        /*String []cmds = {"curl","-i","-H","Content-Type:application/xml","-X","POST","admin:qwe1996222@localhost:8080/createItem?name="+name,"--data-binary","@/home/bastilashan/config-"+name+"-.xml"};
+        ProcessBuilder pb=new ProcessBuilder(cmds);
+        pb.redirectErrorStream(true);
+        Process p;
+        try {
+            p = pb.start();
+            BufferedReader br=null;
+            String line=null;
+            StringBuffer sb=new StringBuffer("");
+            br=new BufferedReader(new InputStreamReader(p.getInputStream()));
+            while((line=br.readLine())!=null){
+                sb.append(line);
+            }
+            br.close();
+            return new ResultMessage(true,"创建成功",sb.toString());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+            return new ResultMessage(false,"创建失败",null);*/
     }
 
     @Override
@@ -179,7 +191,7 @@ public class JenkinsServiceImpl implements JenkinsService {
             // 从XML文档中获取DOM文档实例
             DocumentBuilder db = dbf.newDocumentBuilder();
             // 获取Document对象
-            Document xmldoc = db.parse("C:/Jenkins/jobs/" + name + "/config.xml");
+            Document xmldoc = db.parse("/home/bastilashan/.jenkins/jobs/" + name + "/config.xml");
 
             // 获取根节点
             Element root = xmldoc.getDocumentElement();
@@ -196,13 +208,13 @@ public class JenkinsServiceImpl implements JenkinsService {
             // 保存
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer former = factory.newTransformer();
-            former.transform(new DOMSource(xmldoc), new StreamResult(new File("C:/Jenkins/jobs/config-" + name + "-.xml")));
+            former.transform(new DOMSource(xmldoc), new StreamResult(new File("/home/bastilashan/config-" + name + "-.xml")));
         } catch (Exception e) {
             e.printStackTrace();
         }
         StringBuilder build = new StringBuilder();
         try {
-            InputStream in = new FileInputStream("C:/Jenkins/jobs/config-" + name + "-.xml");
+            InputStream in = new FileInputStream("/home/bastilashan/config-" + name + "-.xml");
             InputStreamReader read = new InputStreamReader(in);
             BufferedReader bufferedReader = new BufferedReader(read);
             String lineTxt = null;
@@ -210,12 +222,12 @@ public class JenkinsServiceImpl implements JenkinsService {
                 build.append(lineTxt);
             }
 
-            System.out.println(build.toString());
+            //System.out.println(build.toString());
             jenkinsServer.updateJob(name, build.toString());
             return new ResultMessage(true, "更新成功", getJob(name));
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultMessage(true, "更新成功", null);
+            return new ResultMessage(false, "更新失败", null);
         }
 
     }
@@ -235,7 +247,7 @@ public class JenkinsServiceImpl implements JenkinsService {
             // 从XML文档中获取DOM文档实例
             DocumentBuilder db = dbf.newDocumentBuilder();
             // 获取Document对象
-            Document xmldoc = db.parse("C:/Jenkins/jobs/" + name + "/config.xml");
+            Document xmldoc = db.parse("/home/bastilashan/.jenkins/jobs/" + name + "/config.xml");
 
             // 获取根节点
             Element root = xmldoc.getDocumentElement();
@@ -248,13 +260,13 @@ public class JenkinsServiceImpl implements JenkinsService {
             // 保存
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer former = factory.newTransformer();
-            former.transform(new DOMSource(xmldoc), new StreamResult(new File("C:/Jenkins/jobs/config-" + name + "-.xml")));
+            former.transform(new DOMSource(xmldoc), new StreamResult(new File("/home/bastilashan/config-" + name + "-.xml")));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         StringBuilder build = new StringBuilder();
         try {
-            InputStream in = new FileInputStream("C:/Jenkins/jobs/config-" + name + "-.xml");
+            InputStream in = new FileInputStream("/home/bastilashan/config-" + name + "-.xml");
             InputStreamReader read = new InputStreamReader(in);
             BufferedReader bufferedReader = new BufferedReader(read);
             String lineTxt = null;
@@ -262,12 +274,12 @@ public class JenkinsServiceImpl implements JenkinsService {
                 build.append(lineTxt);
             }
             //String jobname = "oopsa";
-            System.out.println(build.toString());
+            //System.out.println(build.toString());
             jenkinsServer.updateJob(name, build.toString());
             return new ResultMessage(true, "触发周期更新成功", period);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultMessage(true, "触发周期更新失败", null);
+            return new ResultMessage(false, "触发周期更新失败", null);
         }
     }
 
@@ -291,6 +303,24 @@ public class JenkinsServiceImpl implements JenkinsService {
         BuildWithDetails build = jenkinsServer.getJob(name).getBuildByNumber(Integer.valueOf(number)).details();
 
         return new BuildInformationVO(build.isBuilding(), build.getDescription(), build.getDisplayName(), build.getDuration(), build.getEstimatedDuration(), build.getFullDisplayName(), build.getId(), build.getNumber(), build.getQueueId(), build.getResult().toString(), build.getTimestamp(), build.getUrl());
+    }
+
+    @Override
+    public List<ComputerVO> getComputers() throws IOException {
+        Map<String, com.offbytwo.jenkins.model.Computer> maps = jenkinsServer.getComputers();
+        Collection<com.offbytwo.jenkins.model.Computer> computers = maps.values();
+        List<ComputerVO> result = new ArrayList<>();
+        for (Computer computer : computers) {
+            ComputerVO vo = new ComputerVO(computer.getDisplayName(), computer.details().getNumExecutors(), computer.details().getOffline(), computer.details().getOfflineCauseReason());
+            result.add(vo);
+        }
+        return result;
+    }
+
+    @Override
+    public ResultMessage initJenkinsJob(String groupName, String projectName, String name, String description) throws IOException {
+        createJob(groupName + "-" + projectName, description, "", "*/master", "Jenkinsfile");
+        return null;
     }
 
 
