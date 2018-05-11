@@ -37,14 +37,14 @@ public class MonitorDataGet {
 		
 		List<String> ContainerNames = this.containerService.getContainersInHost(hostId);
 		
-		Optional<Host> h = this.host.findById(Integer.valueOf(hostId));
+		Host h = this.host.findById(Integer.valueOf(hostId)).get();
 		
 		Map<String,List<CpuUsageVO>> resultMap = new HashMap<String,List<CpuUsageVO>>();
 		
 		for(String ContainerName : ContainerNames) {
 			List<CpuUsageVO> tempList = this.influxdbservice.PerContainerCpuUsageRate(ContainerName
-					, TimeScale, h.get().getIp(), 8086
-					, "root", "root", "cadvidor", "autogen", h.get());
+					, TimeScale, h.getIp(), 8086
+					, "root", "root", "cadvidor", "autogen", h);
 			resultMap.put(ContainerName, tempList);
 		}
 		
