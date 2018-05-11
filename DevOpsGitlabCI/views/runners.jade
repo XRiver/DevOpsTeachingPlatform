@@ -1,0 +1,69 @@
+extends layout
+
+block title
+    title project #{group}/#{project} runners
+block content
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/pipelines") pipelines
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/jobs") jobs
+                li.nav-item
+                    a.nav-link.active.disabled(href="/gitlabci/"+group+"/"+project+"/runners") runners
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/schedules") schedules
+        hr
+        div.row
+          p 想要注册自己的私有runner，让job在自己的runner上执行吗？windows,linux,macos都可以，请遵循以下步骤：
+          ol
+            li 如果是windows,下载gitlab-runner的binary文件，将其放到某文件夹下，重命名为gitlab-runner.exe：
+              a(href="https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-windows-386.exe") x86
+              span 或
+              a(href="https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-windows-amd64.exe") amd64
+            li linux，下载binary文件，将其放到某文件夹下，并为其添加可执行权限——“sudo chmod +x ./gitlab-runner”：
+              a(href="https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64") linux x86-64
+              span 或
+              a(href="https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-386") linux x86
+              span 或
+              a(href="https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-arm") linux arm
+            li macos，下载binary文件，并为其添加可执行权限——“sudo chmod +x ./gitlab-runner”：
+              a(href="https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-darwin-amd64\n") gitlab-runner for macos
+            li sudo gitlab-runner register(./gitlab-runner.exe register)
+            li Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.com )
+            li Please enter the gitlab-ci token for this runner（token可从
+              a(href="https://gitlab.com/"+group+"/"+project+"/settings/ci_cd#registration_token") https://gitlab.com/#{group}/#{project}/settings/ci_cd#registration_token
+              span 获得,用devops平台的账号密码登陆）
+            li Please enter the gitlab-ci description for this runner
+            li Please enter the gitlab-ci tags for this runner (comma separated):(例如java,mvn,shell,tomcat)
+            li Whether to run untagged jobs [true/false]:（默认false）
+            li Whether to lock Runner to current project [true/false]:(默认true)
+            li Please enter the executor: ssh, docker+machine, docker-ssh+machine, kubernetes, docker, parallels, virtualbox, docker-ssh, shell:(建议shell，其他可从gitlab官网上学习）
+            li sudo gitlab-runner run(./gitlab-runner.exe run)
+            li 编写.gitlab-ci.yml文件，自定义job，在job的tags中填入刚才输入的tag（不同的tag代表runner具有不同的能力，通过自定义的tag可以把私有runner与公用runner区分开来）
+        hr
+        - if(err)
+          div.row
+            h3.text-muted #{err}
+        - else
+          div.row
+            each runner in runners
+              div.card.bg-light.text-dark.col-lg-3(style="margin:5px",id="runner-"+runner.id)
+                div.card-header
+                  - if(runner.online&&runner.status==='online')
+                    span.badge.badge-success 可用
+                  - else
+                    span.badge.badge-secondary 不可用
+                  span &nbsp;
+                  - if(runner.is_shared)
+                    span.badge.badge-dark 公用
+                  - else
+                    span.badge.badge-info 私有
+                  span &nbsp;&nbsp;##{runner.id}-#{runner.name}
+                div.card-body
+                  p #{runner.description}
+                  p #{runner.platform},#{runner.architecture}
+                div.card-footer
+                  each tag in runner.tag_list
+                    span.badge.badge-primary(style="margin:3px") #{tag}

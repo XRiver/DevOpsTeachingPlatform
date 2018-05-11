@@ -1,0 +1,34 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        title 南京大学软件学院DevOps教学平台
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
+        link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.0.8/css/all.css')
+        script(src='https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js')
+        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
+        script(src="../javascripts/login.js")
+    body
+        .container-fluid#frame
+            include header
+            .row.container-fluid.px-1.py-2
+                include sidebar
+                .col-10#main.border.border-primary
+                    .table-responsive
+                        table.table-striped.table-hover.col-12
+                            thead
+                                tr
+                                    th  title
+                                    th  上传者
+                                    th  上传时间
+                            tbody
+                                - for(var i =0; i< commits.length;i++)
+                                    tr
+                                        td #{commits[i].title}
+                                        td #{commits[i].committer_name}
+                                        td #{commits[i].created_at}
+
+                    br
+                    br

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Access-Control-Allow-Origin" content="*" />
+<title>静态代码检查</title>
+<link rel="stylesheet" type="text/css"
+	href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="assets/css/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="assets/css/select2.min.css">
+<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="assets/css/sonar.css">
+<link rel="stylesheet" type="text/css"
+	href="assets/css/bootstrap-select.min.css">
+<script type="text/javascript" src="assets/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="assets/js/echarts.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap-table.min.js"></script>
+<script type="text/javascript"
+	src="assets/js/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="assets/js/detail.js"></script>
+</head>
+<body>
+	<ul id="myTab" class="nav nav-tabs">
+		<li class="active"><a href="#general" data-toggle="tab"> 问题概览
+		</a></li>
+		<li><a href="#source" data-toggle="tab">源码问题</a></li>
+	</ul>
+	<div id="myTabContent" class="tab-content">
+		<div class="tab-pane fade in active" id="general">
+			<div class="panel panel-info panel-area">
+				<div class="panel-heading head">数据概览</div>
+				<div class="panel-body">
+					<span class="text-muted">该项目共有</span><span class="highlightText"
+						id="classes">41</span> <span class="text-muted">个类(Class)，</span>
+					<span class="highlightText" id="functions">220</span> <span
+						class="text-muted">个方法(Function),</span> <span
+						class="highlightText" id="loc">7</span> <span class="text-muted">行代码(LOC)，</span><span
+						class="highlightText" id="comment">1399</span><span
+						class="text-muted">行注释，注释代码比</span> <span class="highlightText"
+						id="commentRate">6.4</span> <span class="text-muted">%。</span><br />
+					<span class="text-muted">问题构成如下图：</span>
+					<div>
+						<div class="panel-info">
+
+							<div class="panel-body">
+								<div class="chart-div" id="chart-area"
+									style="width: 700px; height: 430px;"></div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-info panel-area">
+				<div class="panel-heading head">可靠性－－Bugs</div>
+				<div class="panel-body">
+					<div class="text-muted">Bugs track code that is demonstrably
+						wrong or highly likely to yield unexpected behavior.</div>
+					<div class="chart-div" id="chart-bug"
+						style="width: 700px; height: 430px;"></div>
+				</div>
+			</div>
+			<div class="panel panel-info panel-area">
+				<div class="panel-heading head">可维护性－－Code Smells</div>
+				<div class="panel-body">
+					<div class="text-muted">Code Smells will confuse maintainers
+						or give them pause. They are measured primarily in terms of the
+						time they will take to fix.</div>
+					<div class="chart-div" id="chart-codeSmell"
+						style="width: 700px; height: 430px;"></div>
+				</div>
+			</div>
+			<div class="panel panel-info panel-area">
+				<div class="panel-heading head">安全性－－Vulnerabilitis</div>
+				<div class="panel-body">
+					<div class="text-muted">Vulnerabilities are raised on code
+						that is potentially vulnerable to exploitation by hackers.</div>
+					<div class="chart-div" id="chart-vulnerabilities"
+						style="width: 700px; height: 430px;"></div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane fade" id="source">
+			<!-- 			<div class="text-muted head tableTitle">问题详情</div> -->
+			<div>
+				<select class="selectpicker tableTitle" id="type">
+					<option value="VULNERABILITY">VULNERABILITY</option>
+					<option value="CODE_SMELL">CODE_SMELL</option>
+					<option value="BUG">BUG</option>
+				</select> <select class="selectpicker tableTitle" id="severity">
+					<option value="ALL">ALL</option>
+					<option value="BLOCKER">BLOCKER</option>
+					<option value="CRITICAL">CRITICAL</option>
+					<option value="MAJOR">MAJOR</option>
+					<option value="MINOR">MINOR</option>
+					<option value="INFO">INFO</option>
+				</select> <input type="text" placeholder="请输入文件名" class="inputText"
+					id="fileName">
+				<button id="filterButton" type="button"
+					class="btn btn-info filterButton">过滤</button>
+			</div>
+			<div style="margin: 0 20px">
+				<table id="codeCheckTable">
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade text-center" id="detailProblem" tabindex="-1"
+		role="dialog" aria-labelledby="detailProblemLabel"
+		data-backdrop="static">
+		<div class="modal-dialog" style="display: inline-block; width: auto;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button data-dismiss="modal" class="close" type="button">
+						<span aria-hidden="true">×</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="detailProblemLabel">问题详情</h4>
+				</div>
+				<div class="modal-body">
+					<div id="codeArea" class="code text-left"></div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+	</div>
+
+</body>
+</html>

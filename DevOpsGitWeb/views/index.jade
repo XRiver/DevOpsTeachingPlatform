@@ -1,0 +1,75 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title 南京大学软件学院DevOps教学平台
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.0.8/css/all.css')
+    script(src='https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
+    script(src="../javascripts/login.js")
+  body
+    .container-fluid#frame
+      include header
+      .row.container-fluid.px-1.py-2
+        include sidebar
+        .col-10#main.border.border-primary
+            h1= project.name
+            p= '项目描述: '+project.description
+            hr
+            .row
+              .col-2
+                p='web_url:'+project.web_url
+                p='http_url:'+project.http_url_to_repo
+                p='ssh_url:'+project.ssh_url_to_repo
+            hr
+            .row
+              .col-2
+                .btn-group
+                  button.btn.btn-primary(type=button) 提交次数
+                  button.btn.btn-secondary(type=button,) #{project.commit_count}
+              .col-2
+                .btn-group
+                  button.btn.btn-primary(type=button) 仓库大小
+                  button.btn.btn-secondary(type=button,) #{project.repository_size}
+              .col-2
+              .col-2
+
+            hr
+            .row
+                .col-2
+                    //<div class="dropdown">
+                    //<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    .dropdown
+                        button.btn.btn-primary.dropdown-toggle(type="button",data-toggle="dropdown")    master
+                        .dropdown-menu
+                            a.dropdown-item(href="#") branch1
+                .col-2
+                .col-2
+                .col-2
+                .col-2
+                    button.btn.btn-primary(type=button) 上传
+                .col-2
+                    button.btn.btn-primary(type=button) 下载
+            //.row
+            //  .col-8.offset-md-2
+            .table-responsive
+                table.table-striped.table-hover.col-12
+                  thead
+                    tr
+                      th  名称
+                      th  类型
+                  tbody
+                      -for(var i =0 ; i<trees.length; i++)
+                          tr
+                            td
+                                a(href='/trees/'+i) #{trees[i].name}
+
+                             - if(trees[i].type=="tree")
+                                td 文件夹
+                             -   else
+                                td 文件
+            br
+            br
