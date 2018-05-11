@@ -5,6 +5,9 @@ var request = require('request');
 router.post('/test/execute-all/:testId',function(req, res, next){
     var id = req.params.testId;
     var username="example";
+    if(req.session.username!=null){
+        username=req.session.username;
+    }
     request.post({url:'http://localhost:8701/test/execute-all',
             form:{
                 id:id,

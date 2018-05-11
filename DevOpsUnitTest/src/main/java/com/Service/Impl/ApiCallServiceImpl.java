@@ -19,6 +19,7 @@ public class ApiCallServiceImpl implements ApiCallService {
 
     @Override
     public String getUrl(String projectId) {
+        //String url="https://github.com/terminuskyuu/helloTest.git";
         String url=ApiRequest.get(gitUrl+"/repository/"+projectId,null);
         return url;
     }

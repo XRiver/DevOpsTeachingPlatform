@@ -19,7 +19,6 @@ block content
             table.table.table-hover
                 thead
                     tr
-                        th ID
                         th 名称
                         th 重要程度
                         th 状态
@@ -30,8 +29,7 @@ block content
                         tr
                             td
                                 b
-                                    a(href="/unittest/bug/" + bug.id)   #{bug.id}
-                            td #{bug.name}
+                                    a(href="/unittest/bug/" + bug.id)   #{bug.name}
                             td #{bug.importance}
                             td #{bug.state}
                             td

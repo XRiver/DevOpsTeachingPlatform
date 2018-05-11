@@ -19,13 +19,14 @@ router.get('/:testid/reports',function (req, res, next) {
 });
 
 
-router.get('/report/:id',function (req, res, next) {
+router.get('/:testid/report/:id',function (req, res, next) {
     var id=req.params.id;
+    var testid=req.params.testid;
     request('http://localhost:8701/report/get?id='+id,
         function (error,response,body) {
             if (!error&& response.statusCode == 200) {
                 var report = JSON.parse(body);
-                res.render('report_detail',{report:report,testid:id});
+                res.render('report_detail',{report:report,testid:testid});
             }else{
                 res.render('report_detail',{err:error});
             }

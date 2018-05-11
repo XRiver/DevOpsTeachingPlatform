@@ -28,7 +28,7 @@ public class ScriptGenerate{
     public static String pythonsh(List<String> file){
         String out="#!/bin/sh \n py.test ";
         for(String s:file){
-            out=out+s+" ";
+            out=out+s+".py"+" ";
         }
         out+=" --junitxml="+"./log.xml";
         return out;
@@ -42,7 +42,7 @@ public class ScriptGenerate{
         String content="IINC=-I/usr/local/include/CUnit\n" +
                 "LIB=-L/usr/local/lib/\n\n"+"all: ";
         for(String str:file){
-            content+=str+" ";
+            content+=str+".c"+" ";
         }
         content=content+"\n"+"\tgcc $^ -o test $(INC) $(LIB) -lcunit -static ";
         return content;

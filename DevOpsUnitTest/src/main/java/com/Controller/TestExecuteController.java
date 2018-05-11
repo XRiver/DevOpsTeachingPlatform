@@ -63,12 +63,27 @@ public class TestExecuteController {
     @RequestMapping(value = "/test/execute", method = RequestMethod.POST)
     public ReportVO executeTest(@RequestParam("id") long id,@RequestParam("file") String file,@RequestParam ("username") String username){
         List<String> files=new ArrayList<String>();
+        System.out.println(file);
+        Object json = new JSONTokener(file).nextValue();
+        if(json instanceof JSONArray){
+            JSONArray jsonArray = (JSONArray)json;
+            for(int i=0;i<jsonArray.length();i++){
+                String temp=(String) jsonArray.get(i);
+                files.add(temp);
+                System.out.println(temp);
+            }
+        }else{
+            files.add(file);
+            System.out.println(file);
+        }
+        /**
         JSONArray jsonArray=new JSONArray(file);
         for(int i=0;i<jsonArray.length();i++){
             String temp=(String) jsonArray.get(i);
             files.add(temp);
             System.out.println(temp);
         }
+         */
         String lan=testService.getTestById(id).getLanguage();
         String projectId=testService.getTestById(id).getProject_id();
         String branch=testService.getTestById(id).getBranch();
