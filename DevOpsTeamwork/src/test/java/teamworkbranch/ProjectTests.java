@@ -31,7 +31,8 @@ public class ProjectTests {
     public void testCreate(){
 		ArrayList<String> list=new ArrayList<>();
 		list.add("user2");
-		projectService.createWithGroup("project2","this is a project",list,2,"user2");
+		projectService.createWithGroup("project3","this is a project",list,2,"user2","jenkins");
+
 	}
 
 	@Test
@@ -73,7 +74,7 @@ public class ProjectTests {
 	    ArrayList<String> list=new ArrayList<>();
 	    list.add("user3");
 	    list.add("user4");
-        projectController.createWithGroup("newProject","new project",list,1,"user3");
+        projectController.createWithGroup("newProject","new project",list,1,"user3","gitlabci");
 
 	}
 

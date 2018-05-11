@@ -30,10 +30,10 @@ public class ProjectController {
 
     @RequestMapping(value = "/createWithGroup", method = RequestMethod.POST)
     @ResponseBody
-    public String createWithGroup(String projectName,String info,List<String> managerList,int groupId,String creatorName) {
+    public String createWithGroup(String projectName,String info,List<String> managerList,int groupId,String creatorName,String tool) {
         JSONObject toReturn = new JSONObject();
         try{
-            projectService.createWithGroup(projectName, info, managerList, groupId, creatorName);
+            projectService.createWithGroup(projectName, info, managerList, groupId, creatorName,tool);
             toReturn.put("success", true);
             toReturn.put("msg", "success");
         }catch (Exception e){
@@ -47,12 +47,11 @@ public class ProjectController {
 
     @RequestMapping(value = "/createWithoutGroup", method = RequestMethod.POST)
     @ResponseBody
-    public String createWithoutGroup(String projectName,String info,List<String> managerList,List<String> memberList,String creatorName) {
+    public String createWithoutGroup(String projectName,String info,List<String> managerList,List<String> memberList,String creatorName,String tool) {
         JSONObject toReturn = new JSONObject();
         try{
-            //todo: 调用创建团队的service
             int groupId=groupService.createGroup(creatorName+"创建的group",creatorName+"创建的group",creatorName,memberList);
-            projectService.createWithGroup(projectName, info, managerList, groupId, creatorName);
+            projectService.createWithGroup(projectName, info, managerList, groupId, creatorName,tool);
             toReturn.put("success", true);
             toReturn.put("msg", "success");
         }catch (Exception e){

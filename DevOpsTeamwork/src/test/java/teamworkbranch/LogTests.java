@@ -38,7 +38,7 @@ public class LogTests {
     public void testCreate(){
         ArrayList<String> list=new ArrayList<>();
         list.add("user2");
-        projectService.createWithGroup("project2","this is a project",list,2,"user2");
+        projectService.createWithGroup("project2","this is a project",list,2,"user2","jenkins");
     }
 
     @Test

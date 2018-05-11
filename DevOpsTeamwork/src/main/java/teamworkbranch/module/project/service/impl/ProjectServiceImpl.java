@@ -37,8 +37,8 @@ public class ProjectServiceImpl implements ProjectService{
      * @return
      */
     @Override
-    public int createWithGroup(String projectName, String info, List<String> managerList, int groupId,String creatorName) {
-        Project project = new Project(creatorName,projectName,info,groupId);
+    public int createWithGroup(String projectName, String info, List<String> managerList, int groupId,String creatorName,String tool) {
+        Project project = new Project(creatorName,projectName,info,groupId,tool);
         projectMapper.insertProject(project);
         int projectId=projectMapper.selectLastId();
         for(String manager:managerList){
