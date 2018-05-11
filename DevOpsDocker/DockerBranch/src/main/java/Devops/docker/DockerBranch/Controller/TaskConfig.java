@@ -1,14 +1,25 @@
 package Devops.docker.DockerBranch.Controller;
 
+import Devops.docker.DockerBranch.Entity.Container;
+import Devops.docker.DockerBranch.Entity.Host;
 import Devops.docker.DockerBranch.Entity.Task;
+import Devops.docker.DockerBranch.Exception.RemoteOperateException;
+import Devops.docker.DockerBranch.RemoteConnection.FileTransport;
+import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
 import Devops.docker.DockerBranch.Service.TaskSer;
 import Devops.docker.DockerBranch.VO.*;
+import Devops.docker.DockerBranch.dao.ContainerDao;
+import Devops.docker.DockerBranch.dao.HostDao;
 import Devops.docker.DockerBranch.dao.TaskDao;
+import ch.ethz.ssh2.Connection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,6 +30,12 @@ public class TaskConfig {
 
     @Autowired
     TaskDao taskDao;
+
+    @Autowired
+    HostDao hostDao;
+
+    @Autowired
+    ContainerDao containerDao;
 
     /**
      *
@@ -91,6 +108,75 @@ public class TaskConfig {
     @RequestMapping(value = "/startTask",method = RequestMethod.GET)
     public String startTask(@RequestParam String projectid){
         Task task = taskDao.findAllByProjectId(projectid).get(0);
+
+        int hostid = task.getHostId();
+        //获得指定主机
+        Host host = hostDao.findById(hostid).get();
+        //获得容器
+        int taskid = task.getTaskId();
+        List<Container> list = containerDao.findContainersByTaskId(taskid);
+        Container container = null;
+        //获得文件
+        String localPath = "/home/xujianghe/projects/"+task.getGroupName()+"/"+task.getProjectName()+"/target/";
+        File file = new File(localPath);
+        File[] fileList = file.listFiles();
+
+        List<File> wjList = new ArrayList<File>();//新建一个文件集合
+        for (int i = 0; i < fileList.length; i++) {
+            if (fileList[i].isFile()) {//判断是否为文件
+                wjList.add(fileList[i]);
+            }
+        }
+
+        if(wjList.size()==0){
+            return "目标文件夹下没有文件";
+        }
+        //获取文件名
+        File one = wjList.get(0);
+        String fileName = one.getName();
+        String[] array = fileName.split(".");
+        int size1 = array.length;
+
+        String fileType = "";
+        if(size1>=1){
+            fileType = array[size1-1];
+        }
+
+        //确认对应容器
+        int size = list.size();
+        for(int i=0;i<size;i++){
+            if(list.get(i).getFilename().equals(projectid)||list.get(i).getFilename().equals(fileName)){
+                container = list.get(i);
+            }
+        }
+        if(container==null){
+            return "未找到文件部署位置";
+        }
+        //上传文件到指定位置
+        Connection connection = null;
+
+        RemoteSignIn remoteSignIn = new RemoteSignIn(host.getIp(),Integer.parseInt(host.getSshPort()),host.getRoot(),host.getPassword());
+        try{
+            connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
+        }catch (IOException e){
+            connection.close();
+            return "连接失败";
+        }catch(RemoteOperateException e){
+            if(e.getErrorCode().equals("0")){
+                connection.close();
+                return "登录失败";
+            }
+
+        }
+        FileTransport fileTransport = new FileTransport(fileName,fileType,localPath,container.getPath(),connection);
+        try {
+            fileTransport.putFile();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            return "上传失败";
+        }
+        connection.close();
+
         taskSer.cleanTask(task.getTaskId()+"");
         int result = taskSer.startTask(task.getTaskId()+""," ");
         if(result==0){

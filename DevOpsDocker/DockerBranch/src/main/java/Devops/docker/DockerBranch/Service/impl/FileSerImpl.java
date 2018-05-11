@@ -56,10 +56,14 @@ public class FileSerImpl implements FileService {
         try{
             connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
         }catch (IOException e){
+            connection.close();
             return "连接失败";
         }catch(RemoteOperateException e){
-            if(e.getErrorCode().equals("0"))
+            if(e.getErrorCode().equals("0")){
+                connection.close();
                 return "登录失败";
+            }
+
         }
         FileTransport fileTransport = new FileTransport(fileName,fileType,localPath,path,connection);
         try {
@@ -68,7 +72,7 @@ public class FileSerImpl implements FileService {
 			// TODO Auto-generated catch block
 			return "上传失败";
 		}
-
+        connection.close();
         return fileName;
     }
 }
