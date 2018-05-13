@@ -12,9 +12,10 @@ public class taskSpecificVO {
     private String projectId;
     private String userName;
     private int linkmethod;
+    private String branchname;
     private List<containerVO> containers;
 
-    public taskSpecificVO(String taskId, String name, String description, String hostId, String hostIp, String projectId, String userName, int linkmethod, List<containerVO> containers) {
+    public taskSpecificVO(String taskId, String name, String description, String hostId, String hostIp, String projectId, String userName, int linkmethod, String branchname, List<containerVO> containers) {
         this.taskId = taskId;
         this.name = name;
         this.description = description;
@@ -23,10 +24,19 @@ public class taskSpecificVO {
         this.projectId = projectId;
         this.userName = userName;
         this.linkmethod = linkmethod;
+        this.branchname = branchname;
         this.containers = containers;
     }
 
     public taskSpecificVO() {
+    }
+
+    public String getBranchname() {
+        return branchname;
+    }
+
+    public void setBranchname(String branchname) {
+        this.branchname = branchname;
     }
 
     public int getLinkmethod() {

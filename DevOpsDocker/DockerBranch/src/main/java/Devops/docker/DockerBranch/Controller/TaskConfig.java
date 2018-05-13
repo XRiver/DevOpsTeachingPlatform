@@ -106,8 +106,21 @@ public class TaskConfig {
      * @return 返回1表示已经启动，暂时还不知道会有啥不良状况，启动后去调用getdeploystatus
      */
     @RequestMapping(value = "/startTask",method = RequestMethod.GET)
-    public String startTask(@RequestParam String projectid){
-        Task task = taskDao.findAllByProjectId(projectid).get(0);
+    public String startTask(@RequestParam String projectid,@RequestParam String branchname){
+        List<Task> tasks = taskDao.findAllByProjectId(projectid);
+
+        int tasksize = tasks.size();
+
+        Task task = null;
+        for(int i=0;i<tasksize;i++){
+            Task one = tasks.get(i);
+            if(one.getBranchName().equals(branchname)){
+                task = one;
+            }
+        }
+        if(task==null){
+            return "该分支对应容器尚未创建";
+        }
 
         int hostid = task.getHostId();
         //获得指定主机
@@ -117,7 +130,7 @@ public class TaskConfig {
         List<Container> list = containerDao.findContainersByTaskId(taskid);
         Container container = null;
         //获得文件
-        String localPath = "/home/xujianghe/projects/"+task.getGroupName()+"/"+task.getProjectName()+"/target/";
+        String localPath = "/home/xujianghe/projects/"+task.getGroupName()+"/"+task.getProjectName()+"/"+branchname+"/target/";
         File file = new File(localPath);
         File[] fileList = file.listFiles();
 
@@ -145,7 +158,7 @@ public class TaskConfig {
         //确认对应容器
         int size = list.size();
         for(int i=0;i<size;i++){
-            if(list.get(i).getFilename().equals(projectid)||list.get(i).getFilename().equals(fileName)){
+            if(list.get(i).getFilename().equals(branchname)||list.get(i).getFilename().equals(fileName)){
                 container = list.get(i);
             }
         }
@@ -176,6 +189,9 @@ public class TaskConfig {
             return "上传失败";
         }
         connection.close();
+
+        container.setFilename(fileName);
+        containerDao.save(container);
 
         taskSer.cleanTask(task.getTaskId()+"");
         int result = taskSer.startTask(task.getTaskId()+""," ");

@@ -17,12 +17,13 @@ public class Task {
     private String software;
     private String projectName;
     private String groupName;
+    private String branchName;
     private Integer linkmethod;
 
     public Task() {
     }
 
-    public Task(int taskId, String name, String description, Integer hostId, String projectId, String creator, String lastDate, String status, String software, String projectName, String groupName, Integer linkmethod) {
+    public Task(int taskId, String name, String description, Integer hostId, String projectId, String creator, String lastDate, String status, String software, String projectName, String groupName, String branchName, Integer linkmethod) {
         this.taskId = taskId;
         this.name = name;
         this.description = description;
@@ -34,6 +35,7 @@ public class Task {
         this.software = software;
         this.projectName = projectName;
         this.groupName = groupName;
+        this.branchName = branchName;
         this.linkmethod = linkmethod;
     }
 
@@ -47,6 +49,17 @@ public class Task {
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+
+    @Basic
+    @Column(name = "branchname",nullable = true,length = 50)
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
     }
 
     @Basic

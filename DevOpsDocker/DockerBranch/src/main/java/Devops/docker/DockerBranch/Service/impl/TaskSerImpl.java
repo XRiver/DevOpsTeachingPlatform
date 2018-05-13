@@ -66,12 +66,22 @@ public class TaskSerImpl implements TaskSer{
         task.setSoftware("待定");//得看jenkins传过来的是啥，另外还得搞清楚是从gitlabci拿还是jenkins拿
         task.setProjectName(vo.getProjectname());
         task.setGroupName(vo.getGroupname());
+        task.setBranchName(vo.getBranchname());
         task.setLinkmethod(vo.getLinkmethod());
 
         List<Task> taskList = taskDao.findAllByProjectId(vo.getProjectId());
-        if(taskList.size()!=0){
-            return "该项目下已存在任务，无法创建";
+
+        int tasksize = taskList.size();
+
+        for(int i=0;i<tasksize;i++){
+            if(taskList.get(i).getBranchName().equals(vo.getBranchname())){
+                return "同分支任务已经创建，无法继续创建";
+            }
         }
+//
+//        if(taskList.size()!=0){
+//            return "该项目下已存在任务，无法创建";
+//        }
 
         Task result = taskDao.save(task);
 
@@ -112,6 +122,7 @@ public class TaskSerImpl implements TaskSer{
         task.setStatus("ready");
         task.setProjectId(vo.getProjectId());
         task.setLinkmethod(vo.getLinkmethod());
+        task.setBranchName(vo.getBranchname());
         Task result = taskDao.save(task);
 
         List<containerVO> list = vo.getContainers();
@@ -168,6 +179,7 @@ public class TaskSerImpl implements TaskSer{
             BeanUtils.copyProperties(list.get(i),vo);
             vo.setTaskId(list.get(i).getTaskId()+"");
             vo.setTaskName(list.get(i).getName());
+            vo.setBranchname(list.get(i).getBranchName());
             result.add(vo);
         }
         return result;
@@ -183,6 +195,7 @@ public class TaskSerImpl implements TaskSer{
         vo.setHostId(task.getHostId()+"");
         vo.setLinkmethod(task.getLinkmethod());
         vo.setUserName(task.getCreator());
+        vo.setBranchname(task.getBranchName());
 
         Host host = hostDao.findById(task.getHostId()).get();
         vo.setHostIp(host.getIp());

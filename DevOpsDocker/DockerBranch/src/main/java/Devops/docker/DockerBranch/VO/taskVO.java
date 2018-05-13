@@ -6,13 +6,15 @@ public class taskVO {
     private String lastDate;//上一次部署日期
     private String status;//部署成功或部署失败
     private String creator;//创建者姓名
+    private String branchname;//对应分支名
 
-    public taskVO(String taskId, String taskName, String time, String status, String creator) {
+    public taskVO(String taskId, String taskName, String lastDate, String status, String creator, String branchname) {
         this.taskId = taskId;
         this.taskName = taskName;
-        this.lastDate = time;
+        this.lastDate = lastDate;
         this.status = status;
         this.creator = creator;
+        this.branchname = branchname;
     }
 
     public taskVO() {
@@ -24,6 +26,14 @@ public class taskVO {
 
     public void setTaskId(String taskId) {
         this.taskId = taskId;
+    }
+
+    public String getBranchname() {
+        return branchname;
+    }
+
+    public void setBranchname(String branchname) {
+        this.branchname = branchname;
     }
 
     public String getTaskName() {
