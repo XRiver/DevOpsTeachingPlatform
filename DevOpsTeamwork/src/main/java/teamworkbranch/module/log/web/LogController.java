@@ -23,14 +23,14 @@ public class LogController {
 
     @RequestMapping(value = "{projectId}/getLogs", method = RequestMethod.GET)
     @ResponseBody
-    public List<Log> getLogs(@PathVariable int projectId) throws NotExistedException {
+    public List<Log> getLogs(@PathVariable Integer projectId) throws NotExistedException {
         List<Log> logs = logService.getLogByProject(projectId);
         return logs;
     }
 
     @RequestMapping(value = "{projectId}/deleteLog", method = RequestMethod.POST)
     @ResponseBody
-    public String  deleteLog(@PathVariable int projectId,int logId,String username) throws NotExistedException {
+    public String  deleteLog(@PathVariable Integer projectId,int logId,String username) throws NotExistedException {
         JSONObject toReturn = new JSONObject();
         try {
             logService.deleteLog(logId,username);

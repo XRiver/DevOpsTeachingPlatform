@@ -28,7 +28,7 @@ public class GMemberController {
 
     @RequestMapping(value = "/{groupId}/addGMember", method = RequestMethod.POST)
     @ResponseBody
-    public String addGMember(@PathVariable int groupId, String userName, int is_manager) {
+    public String addGMember(@PathVariable Integer groupId, String userName, Integer is_manager) {
         JSONObject toReturn = new JSONObject();
         try{
             gMemberService.addMember(groupId,userName,is_manager);
@@ -45,7 +45,7 @@ public class GMemberController {
 
     @RequestMapping(value = "/{groupId}/removeGMember", method = RequestMethod.POST)
     @ResponseBody
-    public String removeGMember(@PathVariable int groupId,String userName) {
+    public String removeGMember(@PathVariable Integer groupId,String userName) {
         JSONObject toReturn = new JSONObject();
         try{
             gMemberService.removeMember(groupId,userName);
@@ -61,7 +61,7 @@ public class GMemberController {
 
     @RequestMapping(value = "/{groupId}/editGMember", method = RequestMethod.POST)
     @ResponseBody
-    public String editGMember(@PathVariable int groupId,String userName,int is_manager) {
+    public String editGMember(@PathVariable Integer groupId,String userName,Integer is_manager) {
         JSONObject toReturn = new JSONObject();
         try{
             gMemberService.editMember(groupId,userName,is_manager);
