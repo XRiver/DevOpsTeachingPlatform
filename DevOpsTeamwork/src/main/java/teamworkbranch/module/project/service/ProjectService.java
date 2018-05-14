@@ -17,10 +17,11 @@ public interface ProjectService {
      * @param info
      * @param managerList
      * @param groupId
+     * @param tool
      * @return
      */
     int createWithGroup(String projectName, String info, List<String> managerList,
-                        int groupId, String creatorName);
+                        int groupId, String creatorName,String tool);
 
     /**
      *
