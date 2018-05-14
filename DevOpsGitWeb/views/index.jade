@@ -64,12 +64,12 @@ html
                   tbody
                       -for(var i =0 ; i<trees.length; i++)
                           tr
-                            td
-                                a(href='/trees/'+i) #{trees[i].name}
-
-                             - if(trees[i].type=="tree")
+                            - if(trees[i].type=="tree")
+                                td
+                                    a(href='/repository/trees?path=' + trees[i].path) #{trees[i].name}
                                 td 文件夹
-                             -   else
+                            -  if(trees[i].type!="tree")
+                                td #{trees[i].name}
                                 td 文件
             br
             br
