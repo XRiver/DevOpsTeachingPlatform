@@ -30,7 +30,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/createWithGroup", method = RequestMethod.POST)
     @ResponseBody
-    public String createWithGroup(String projectName,String info,List<String> managerList,int groupId,String creatorName,String tool) {
+    public String createWithGroup(String projectName,String info,List<String> managerList,Integer groupId,String creatorName,String tool) {
         JSONObject toReturn = new JSONObject();
         try{
             projectService.createWithGroup(projectName, info, managerList, groupId, creatorName,tool);
@@ -64,7 +64,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/{projectId}/modify", method = RequestMethod.POST)
     @ResponseBody
-    public String modify(@PathVariable int projectId,String projectName, String info, String applicant) {
+    public String modify(@PathVariable Integer projectId,String projectName, String info, String applicant) {
         JSONObject toReturn = new JSONObject();
         try {
             projectService.editProject(projectId, projectName, info, applicant);
@@ -81,7 +81,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/{projectId}/getInfo", method = RequestMethod.GET)
     @ResponseBody
-    public Project getInfo(@PathVariable int projectId) {
+    public Project getInfo(@PathVariable Integer projectId) {
         Project project=projectService.getProjectInfo(projectId);
 
         return project;
@@ -97,7 +97,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/{projectId}/addPManager", method = RequestMethod.POST)
     @ResponseBody
-    public String addManager(@PathVariable int projectId,String username,String applicant) {
+    public String addManager(@PathVariable Integer projectId,String username,String applicant) {
         JSONObject toReturn = new JSONObject();
         try {
             pManagerService.addManager(projectId,username,applicant);
@@ -114,7 +114,7 @@ public class ProjectController {
     }
     @RequestMapping(value = "/{projectId}/deletePManager", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteManager(@PathVariable int projectId,String username,String applicant) {
+    public String deleteManager(@PathVariable Integer projectId,String username,String applicant) {
         JSONObject toReturn = new JSONObject();
         try {
             pManagerService.deleteManager(projectId,username,applicant);
