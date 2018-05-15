@@ -1,6 +1,7 @@
 package teamworkbranch.module.group.service;
 
 import teamworkbranch.exception.ExistedException;
+import teamworkbranch.exception.NonprivilegedUserException;
 import teamworkbranch.exception.NotExistedException;
 
 /**
@@ -15,7 +16,7 @@ public interface GMemberService {
      * @param is_manager
      * @return
      */
-    public boolean addMember(int groupId,String userName,int is_manager) throws ExistedException;
+    public boolean addMember(int groupId,String userName,int is_manager,String memberName) throws ExistedException, NonprivilegedUserException;
 
 
     /**
@@ -24,7 +25,7 @@ public interface GMemberService {
      * @param groupId
      * @return
      */
-    public boolean removeMember(int groupId,String userName) throws NotExistedException;
+    public boolean removeMember(int groupId,String userName,String memberName) throws NotExistedException, NonprivilegedUserException;
 
     /**
      * 修改团队成员管理权限
@@ -33,5 +34,14 @@ public interface GMemberService {
      * @param is_manager
      * @return
      */
-    public boolean editMember(int groupId,String userName,int is_manager) throws NotExistedException;
+    public boolean editMember(int groupId,String userName,int is_manager,String memberName) throws NotExistedException, NonprivilegedUserException;
+
+
+    /**
+     * 修改团队成员管理权限
+     * @param groupId
+     * @param userName
+     * @return
+     */
+    public boolean leaveGroup(int groupId,String userName) throws  NotExistedException;
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamworkbranch.exception.ExistedException;
+import teamworkbranch.exception.NonprivilegedUserException;
 import teamworkbranch.exception.NotExistedException;
 import teamworkbranch.module.group.dao.GMemberMapper;
 import teamworkbranch.module.group.dao.GroupMapper;
@@ -30,13 +31,18 @@ public class GMemberServiceImpl implements GMemberService {
      * @return
      */
     @Override
-    public boolean addMember(int groupId,String userName,int is_manager) throws ExistedException {
-        GMember gMember = gMemberMapper.selectById(groupId,userName);
-        if(gMember!=null){
+    public boolean addMember(int groupId,String userName,int is_manager,String memberName) throws ExistedException, NonprivilegedUserException {
+        GMember gMember1 = gMemberMapper.selectById(groupId,userName);
+        GMember gMember2 = gMemberMapper.selectById(groupId,memberName);
+        if(gMember1!=null){
             throw new ExistedException();
         } else{
-            gMember = new GMember(groupId,userName,is_manager);
-            gMemberMapper.insertGMember(gMember);
+            if(gMember2.getIs_manager()!=1){
+                throw new NonprivilegedUserException();
+            } else {
+                gMember1 = new GMember(groupId, userName, is_manager);
+                gMemberMapper.insertGMember(gMember1);
+            }
         }
         return true;
     }
@@ -49,12 +55,18 @@ public class GMemberServiceImpl implements GMemberService {
      * @return
      */
     @Override
-    public boolean removeMember(int groupId,String userName) throws NotExistedException {
-        GMember gMember = gMemberMapper.selectById(groupId,userName);
-        if(gMember==null) {
+    public boolean removeMember(int groupId,String userName,String memberName) throws NotExistedException, NonprivilegedUserException {
+        GMember gMember1 = gMemberMapper.selectById(groupId,userName);
+        GMember gMember2 = gMemberMapper.selectById(groupId,memberName);
+        if(gMember1==null) {
             throw new NotExistedException();
-        } else
-            gMemberMapper.deleteGMember(groupId,userName);
+        } else {
+            if (gMember2.getIs_manager() != 1) {
+                throw new NonprivilegedUserException();
+            } else {
+                gMemberMapper.deleteGMember(groupId, userName);
+            }
+        }
         return true;
     }
 
@@ -66,13 +78,35 @@ public class GMemberServiceImpl implements GMemberService {
      * @return
      */
     @Override
-    public boolean editMember(int groupId,String userName,int is_manager) throws NotExistedException {
+    public boolean editMember(int groupId,String userName,int is_manager,String memberName) throws NotExistedException, NonprivilegedUserException {
+        GMember gMember1 = gMemberMapper.selectById(groupId,userName);
+        GMember gMember2 = gMemberMapper.selectById(groupId,memberName);
+        if(gMember1==null) {
+            throw new NotExistedException();
+        } else {
+            if (gMember2.getIs_manager() != 1) {
+                throw new NonprivilegedUserException();
+            } else {
+                gMemberMapper.editGMember(gMember1);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 成员退出团队
+     * @param groupId
+     * @param userName
+     * @return
+     * @throws NotExistedException
+     */
+    @Override
+    public boolean leaveGroup(int groupId, String userName) throws NotExistedException {
         GMember gMember = gMemberMapper.selectById(groupId,userName);
         if(gMember==null) {
             throw new NotExistedException();
         } else{
-            gMember.setIs_manager(is_manager);
-            gMemberMapper.editGMember(gMember);
+            gMemberMapper.deleteGMember(groupId,userName);
         }
         return true;
     }
