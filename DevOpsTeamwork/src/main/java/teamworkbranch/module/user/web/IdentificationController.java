@@ -57,7 +57,7 @@ public class IdentificationController {
 
     @RequestMapping(value = "/signUp", method = RequestMethod.POST)
     @ResponseBody
-    public String signUp(String username,String password,int role,String email,String name,String userId) {
+    public String signUp(String username,String password,Integer role,String email,String name,String userId) {
         JSONObject toReturn = new JSONObject();
         String changedPwd=DigestUtils.md5DigestAsHex((username + password).getBytes());
         User user=new User(username,changedPwd,name,userId,email,role);

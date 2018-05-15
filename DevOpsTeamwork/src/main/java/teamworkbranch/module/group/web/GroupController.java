@@ -46,7 +46,7 @@ public class GroupController {
 
     @RequestMapping(value = "/{groupId}/deleteGroup", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteGroup(@PathVariable int groupId, String memberName) {
+    public String deleteGroup(@PathVariable Integer groupId, String memberName) {
         JSONObject toReturn = new JSONObject();
         try{
             groupService.deleteGroup(groupId,memberName);
@@ -62,7 +62,7 @@ public class GroupController {
 
     @RequestMapping(value = "/{groupId}/editGroup", method = RequestMethod.POST)
     @ResponseBody
-    public String editGroup(String name,String info,@PathVariable int groupId,String memberName) {
+    public String editGroup(String name,String info,@PathVariable Integer groupId,String memberName) {
         JSONObject toReturn = new JSONObject();
         try {
             groupService.editGroup(name, info, groupId,memberName);
@@ -78,14 +78,14 @@ public class GroupController {
 
     @RequestMapping(value = "/{groupId}/getGroup", method = RequestMethod.GET)
     @ResponseBody
-    public Group getGroup(@PathVariable int groupId) throws NotExistedException {
+    public Group getGroup(@PathVariable Integer groupId) throws NotExistedException {
         Group group=groupService.getGroupInfo(groupId);
         return group;
     }
 
     @RequestMapping(value = "/{groupId}/getGMembers", method = RequestMethod.GET)
     @ResponseBody
-    public List<GMember> getGMembers(@PathVariable int groupId) throws NotExistedException {
+    public List<GMember> getGMembers(@PathVariable Integer groupId) throws NotExistedException {
         List<GMember> gMembers = groupService.getMemberList(groupId);
         return gMembers;
     }
