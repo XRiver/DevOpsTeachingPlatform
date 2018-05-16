@@ -1,0 +1,151 @@
+.filterButton {
+	position: relative;
+	top: 30px;
+	height: 36px;
+}
+
+.inputText {
+	position: relative;
+	top: 30px;
+	height: 36px;
+	width: 220px;
+}
+
+body {
+	color: #333333;
+	background: url("/assets/img/Bg.gif");
+}
+
+.highlightText {
+	font-size: 200%;
+	color: darkred;
+}
+
+.panel-area {
+	margin: 20px 20px;
+}
+
+.inlineDisplay {
+	display: inline-block
+}
+
+.left {
+	margin-right: 20px;
+	width: 150px;
+}
+
+.config-line {
+	margin-bottom: 20px;
+}
+
+.rule-area {
+	margin-left: 20px;
+	background-color: #e8e8e8;
+}
+
+.problem-line {
+	background-color: #f8cfd0;
+}
+
+.issue.selected {
+	box-shadow: 0 0 0 1px #dd4040;
+}
+
+.source-meta {
+	vertical-align: top;
+	width: 1px;
+	background-clip: padding-box;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.w-source-line-number {
+	min-width: 18px;
+	padding: 0 10px;
+	color: #777;
+	text-align: right;
+}
+
+.source-line-number {
+	min-width: 18px;
+	padding: 0 10px;
+	background-color: #f3f3f3;
+	color: #777;
+	text-align: right;
+}
+
+.code {
+	white-space: pre;
+}
+
+.code .a {
+	color: olive
+}
+
+.code .c {
+	color: #660e80;
+	font-style: normal;
+	font-weight: 700
+}
+
+.code .j {
+	color: #666;
+	font-style: normal
+}
+
+.code .cd, .code .cppd {
+	color: #666;
+	font-style: italic
+}
+
+.code .k {
+	color: #0071ba;
+	font-weight: 600
+}
+
+.code .s {
+	color: #277b31;
+	font-weight: 400
+}
+
+.code .h {
+	color: navy;
+	font-weight: 400
+}
+
+.code .p {
+	color: #347235;
+	font-weight: 400
+}
+
+.sym {
+	cursor: hand;
+	cursor: pointer
+}
+
+.highlighted {
+	background-color: #b3d4ff;
+	animation: highlightedFadeIn .3s forwards
+}
+
+@
+keyframes highlightedFadeIn { 0% {
+	background-color: transparent
+}
+
+to {
+	background-color: #b3d4ff
+}
+
+}
+.clearfix:after, .clearfix:before {
+	display: table;
+	content: "";
+	line-height: 0
+}
+
+.clearfix:after {
+	clear: both
+}
