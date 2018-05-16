@@ -39,7 +39,7 @@ function delTest(id){
         return;
     }
     $.ajax({
-        url : 'http://localhost:8701/test/delete',
+        url : '/unittest/test/delete',
         data : {
             id:id
         },
@@ -88,7 +88,7 @@ function modTest(id){
 
 
     $.ajax({
-        url : 'http://localhost:8701/test/update',
+        url : '/unittest/test/update',
         data : {
             id:id,
             testId:testId,

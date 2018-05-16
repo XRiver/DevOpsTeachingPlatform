@@ -25,6 +25,8 @@ public class Test1 {
     BugService bugService;
     @Autowired
     ReportService reportService;
+    @Autowired
+    ApiCallService apiCallService;
 
     @RequestMapping(value = "/test1", method = RequestMethod.GET)
     public MyResponseData<Boolean> createTest(){
@@ -203,6 +205,12 @@ public class Test1 {
     public ReportVO reportget(){
 
         return reportService.getReportById(new Long(1));
+    }
+
+    @RequestMapping(value = "/url1", method = RequestMethod.GET)
+    public String urlget(){
+
+        return apiCallService.getUrl("1");
     }
 
 }

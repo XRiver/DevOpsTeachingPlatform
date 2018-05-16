@@ -8,12 +8,11 @@ function BugChange(){
         return;
     }
     $.ajax({
-        url : 'http://localhost:8701/bug/change',
+        url : '/unittest/bug/change',
         data : {
             id:id,
             info:info,
             state:state,
-            manager:manager
         },
         dataType : 'json',
         type : 'post',

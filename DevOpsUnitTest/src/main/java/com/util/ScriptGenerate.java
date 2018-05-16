@@ -57,8 +57,8 @@ public class ScriptGenerate{
 
     @Value("${local.url}")
     static String localUrl;
-    @Value("${dtd,path}")
-    static String dtdPath;
+
+    static String dtdPath="/usr/local/share/CUnit/CUnit-Run.dtd";
 
     public static String javashPipeline(String group,String project){
         String out="cp -a ./ /project/"+group+"/"+project+"\n";

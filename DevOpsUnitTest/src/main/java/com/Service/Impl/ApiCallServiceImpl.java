@@ -1,7 +1,9 @@
 package com.Service.Impl;
 
+import com.Common.DefaultPath;
 import com.Service.ApiCallService;
 import com.util.ApiRequest;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +16,16 @@ import java.util.Map;
  */
 @Service
 public class ApiCallServiceImpl implements ApiCallService {
-    @Value("${git.url}")
-    private static String gitUrl;
+    private String gitUrl=DefaultPath.getGit();
 
     @Override
     public String getUrl(String projectId) {
         //String url="https://github.com/terminuskyuu/helloTest.git";
-        String url=ApiRequest.get(gitUrl+"/repository/"+projectId,null);
+        System.out.println(gitUrl+"/project/1");
+        String json=ApiRequest.get(gitUrl+"/project/"+projectId,null);
+        JSONObject project=new JSONObject(json);
+        String url=(String) project.get("http_url_to_repo");
+
         return url;
     }
 

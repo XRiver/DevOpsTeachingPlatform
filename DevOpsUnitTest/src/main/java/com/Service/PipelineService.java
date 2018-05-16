@@ -1,5 +1,6 @@
 package com.Service;
 
+import com.DataVO.MyResponseData;
 import com.DataVO.ReportVO;
 import com.Entity.Report;
 
@@ -10,5 +11,5 @@ public interface PipelineService {
 
     public Report cReport(String src);
 
-    public ReportVO pipelineReport(String group,String project);
+    public MyResponseData<ReportVO> pipelineReport(String path, String projectId);
 }

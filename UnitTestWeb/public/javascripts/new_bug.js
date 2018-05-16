@@ -8,7 +8,7 @@ function newBug(){
         return;
     }
     $.ajax({
-        url : 'http://localhost:8701/bug/create',
+        url : '/unittest/'+projectId+'/createbug',
         data : {
             projectId:projectId,
             name:name,
@@ -32,7 +32,7 @@ function delBug(id){
         return;
     }
     $.ajax({
-        url : 'http://localhost:8701/bug/delete',
+        url : '/unittest/bug/delete',
         data : {
             id:id
         },
@@ -75,7 +75,7 @@ function modBug(id){
         return;
     }
     $.ajax({
-        url : 'http://localhost:8701/bug/update',
+        url : '/unittest/bug/update',
         data : {
             id:id,
             name:name,

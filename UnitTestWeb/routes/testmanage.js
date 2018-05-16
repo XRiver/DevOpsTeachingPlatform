@@ -55,7 +55,40 @@ router.post('/:project/createtest',function(req, res, next){
         });
 });
 
+router.post('/test/update',function(req, res, next){
+    var project = req.params.project;
+    request.post({url:'http://localhost:8701/test/update',
+            form:{
+                id:req.body.id,
+                testId:req.body.testId,
+                name:req.body.name,
+                lan:req.body.lan,
+                branch:req.body.branch,
+                src:req.body.src
+            }},
+        function (error,response,body) {
+            if(!error){
+                res.redirect('/unittest/'+project+'/tests');
+            }else{
+                res.render('error',{err:error});
+            }
+        });
+});
 
+router.post('/test/delete',function(req, res, next){
+    var project = req.params.project;
+    request.post({url:'http://localhost:8701/test/delete',
+            form:{
+                id:req.body.id,
+            }},
+        function (error,response,body) {
+            if(!error){
+                res.redirect('/unittest/'+project+'/tests');
+            }else{
+                res.render('error',{err:error});
+            }
+        });
+});
 
 
 module.exports = router;

@@ -1,5 +1,6 @@
 package com.Controller;
 
+import com.DataVO.MyResponseData;
 import com.DataVO.ReportVO;
 import com.Entity.TestEntity;
 import com.Service.ApiCallService;
@@ -42,8 +43,9 @@ public class ScriptFileController {
 
 
     @RequestMapping(value = "/starttest", method = RequestMethod.GET)
-    public ReportVO PipelineTestXml(@RequestParam("group") String group ,@RequestParam("project") String project){
-        return pipelineService.pipelineReport(group, project);
+    public MyResponseData<ReportVO> PipelineTestXml(@RequestParam("group") String group , @RequestParam("project") String project, @RequestParam("projectid") String projectid, @RequestParam("branch") String branch){
+        String path="/projects/"+group+"/"+project+"/"+branch;
+        return pipelineService.pipelineReport(path,projectid);
 
     }
 

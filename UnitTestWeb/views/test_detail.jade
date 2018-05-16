@@ -70,7 +70,7 @@ block content
                         td
                             button.btn.btn-primary#modCaseBtn(type='button',onClick='modCasePanel('+testcase.id+',"'+testcase.caseId+'","'+testcase.name+'","'+testcase.file+'","'+testcase.info+'")') 修改
                         td
-                            button.btn.btn-danger#delCaseBtn(type='button',onClick='delTestcase('+testcase.id+')') 删除
+                            button.btn.btn-danger#delCaseBtn(type='button',onClick='delTestcase('+testcase.id+','+test.id+')') 删除
         hr
         h4#modlabel 新建用例
         form.form-group

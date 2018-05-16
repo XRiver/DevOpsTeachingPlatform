@@ -33,6 +33,79 @@ router.get('/bug/:id',function (req, res, next) {
 
 });
 
+router.post('/:project/createbug',function(req, res, next){
+    var project = req.params.project;
+    request.post({url:'http://localhost:8701/bug/create',
+            form:{
+                projectId:req.body.projectId,
+                name:req.body.name,
+                info:req.body.info,
+                imp:req.body.imp
+            }},
+        function (error,response,body) {
+            if(!error){
+                res.redirect('/unittest/'+project+'/bugs');
+            }else{
+                res.render('error',{err:error});
+            }
+        });
+});
 
+router.post('/bug/update',function(req, res, next){
+    var project = req.params.project;
+    request.post({url:'http://localhost:8701/bug/update',
+            form:{
+                id:req.body.id,
+                name:req.body.name,
+                info:req.body.info,
+                imp:req.body.imp
+            }},
+        function (error,response,body) {
+            if(!error){
+                res.redirect('/unittest/'+project+'/bugs');
+            }else{
+                res.render('error',{err:error});
+            }
+        });
+});
+
+router.post('/bug/delete',function(req, res, next){
+    var project = req.params.project;
+    request.post({url:'http://localhost:8701/bug/delete',
+            form:{
+                id:req.body.id,
+            }},
+        function (error,response,body) {
+            if(!error){
+                res.redirect('/unittest/'+project+'/bugs');
+            }else{
+                res.render('error',{err:error});
+            }
+        });
+});
+
+
+router.post('/bug/change',function(req, res, next){
+    var manager="default";
+    /**
+    if(req.session.username!=null){
+        manager=req.session.username;
+    }
+   */
+    request.post({url:'http://localhost:8701/bug/change',
+            form:{
+                id:req.body.id,
+                info:req.body.info,
+                state:req.body.state,
+                manager:manager
+            }},
+        function (error,response,body) {
+            if(!error){
+                res.redirect('/unittest/bug/'+req.body.id);
+            }else{
+                res.render('error',{err:error});
+            }
+        });
+});
 
 module.exports = router;

@@ -9,7 +9,7 @@ function newTestcase(){
         return;
     }
     $.ajax({
-        url : 'http://localhost:8701/testcase/create',
+        url : '/unittest/'+testId+'/testcase/create',
         data : {
             caseId:caseId,
             testId:testId,
@@ -27,13 +27,13 @@ function newTestcase(){
 
 }
 
-function delTestcase(id){
+function delTestcase(id,testId){
     if(!(id)) {
         alert('请输入全部字段！');
         return;
     }
     $.ajax({
-        url : 'http://localhost:8701/testcase/delete',
+        url : '/unittest/'+testId+'/testcase/delete',
         data : {
             id:id
         },
@@ -70,12 +70,13 @@ function modTestcase(id){
     var name = $('#testname').val();
     var info = $('#info').val();
     var file= $('#file').val();
+    var testId=$('#testId').val();
     if(!(id&&name&&caseId&&name)) {
         alert('请输入全部字段！');
         return;
     }
     $.ajax({
-        url : 'http://localhost:8701/testcase/update',
+        url : '/unittest/'+testId+'/testcase/update',
         data : {
             caseId:caseId,
             id:id,
