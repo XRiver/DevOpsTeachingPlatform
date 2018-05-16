@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    .container
+        h1 #{name}
+        ul.nav
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project).nav-link 持续集成首页
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/period').nav-link 设定触发周期
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/computers').nav-link 查看系统节点
+        br
+        .row
+            .col-lg-4
+                label 当前自动触发周期：
+                label #{info.t} 小时
+            .col-lg-4
+                form(action="/jenkins/" + group + "/" + project + "/period",method="post")
+                    .form-group
+                        label(for="period") 设定自动触发周期
+                        input#period.form-control(placeholder="#{info.t}",name="period")
+                    input.btn.btn-primary(type="submit",value="提交")
+
+
