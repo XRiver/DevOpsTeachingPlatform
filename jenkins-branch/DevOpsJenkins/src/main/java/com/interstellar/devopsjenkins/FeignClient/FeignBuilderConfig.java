@@ -1,5 +1,6 @@
 package com.interstellar.devopsjenkins.FeignClient;
 
+import com.interstellar.devopsjenkins.util.jenkinsURL;
 import feign.Feign;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
@@ -23,17 +24,22 @@ public class FeignBuilderConfig {
 
     @Bean
     public JenkinsFeign getJenkinsFeign() {
-        return Feign.builder().encoder(new JacksonEncoder()).decoder(new JacksonDecoder()).target(JenkinsFeign.class, "http://admin:qwe1996222@localhost:8080");
+        return Feign.builder().encoder(new JacksonEncoder()).decoder(new JacksonDecoder()).target(JenkinsFeign.class, "http://admin:qwe1996222@localhost:8070");
     }
 
     @Bean
     public JenkinsFeign1 getJenkinsFeign1() {
-        return Feign.builder().target(JenkinsFeign1.class, "http://admin:qwe1996222@localhost:8080");
+        return Feign.builder().target(JenkinsFeign1.class, "http://admin:qwe1996222@localhost:8070");
     }
 
     @Bean
     public JenkinsFeign2 getJenkinsFeign2() {
-        return Feign.builder().decoder(new ResponseEntityDecoder(new SpringDecoder(this.messageConverters))).target(JenkinsFeign2.class, "http://admin:qwe1996222@localhost:8080");
+        return Feign.builder().decoder(new ResponseEntityDecoder(new SpringDecoder(this.messageConverters))).target(JenkinsFeign2.class, "http://admin:qwe1996222@localhost:8070");
+    }
+
+    @Bean
+    public GitLabFeign getGitLabFeign() {
+        return Feign.builder().encoder(new JacksonEncoder()).target(GitLabFeign.class, jenkinsURL.getDevOpsgitlab());
     }
 
 

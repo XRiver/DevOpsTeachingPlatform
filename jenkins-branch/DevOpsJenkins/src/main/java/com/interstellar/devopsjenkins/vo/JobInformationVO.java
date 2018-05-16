@@ -4,26 +4,35 @@ import java.util.List;
 
 public class JobInformationVO {
     private String name;
+    private String displayName;
+    private String fullDisplayName;
     private String url;
     private List<BuildVO> builds;
-    private String healthReport;
+    private List<healthReport> healthReport;
     private BuildVO lastBuild;
-    private BuildVO lastFailBuild;
+    private BuildVO lastFailedBuild;
     private BuildVO lastSuccessfulBuild;
     private BuildVO lastStableBuild;
     private String description;
+    private boolean buildable;
 
 
-    public JobInformationVO(String name, String url, List<BuildVO> builds, String healthReport, BuildVO lastBuild, BuildVO lastFailBuild, BuildVO lastSuccessfulBuild, BuildVO lastStableBuild, String description) {
+    public JobInformationVO() {
+    }
+
+    public JobInformationVO(String name, String displayName, String fullDisplayName, String url, List<BuildVO> builds, List<com.interstellar.devopsjenkins.vo.healthReport> healthReport, BuildVO lastBuild, BuildVO lastFailedBuild, BuildVO lastSuccessfulBuild, BuildVO lastStableBuild, String description, boolean buildable) {
         this.name = name;
+        this.displayName = displayName;
+        this.fullDisplayName = fullDisplayName;
         this.url = url;
         this.builds = builds;
         this.healthReport = healthReport;
         this.lastBuild = lastBuild;
-        this.lastFailBuild = lastFailBuild;
+        this.lastFailedBuild = lastFailedBuild;
         this.lastSuccessfulBuild = lastSuccessfulBuild;
         this.lastStableBuild = lastStableBuild;
         this.description = description;
+        this.buildable = buildable;
     }
 
     public String getName() {
@@ -32,6 +41,22 @@ public class JobInformationVO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getFullDisplayName() {
+        return fullDisplayName;
+    }
+
+    public void setFullDisplayName(String fullDisplayName) {
+        this.fullDisplayName = fullDisplayName;
     }
 
     public String getUrl() {
@@ -50,11 +75,11 @@ public class JobInformationVO {
         this.builds = builds;
     }
 
-    public String getHealthReport() {
+    public List<com.interstellar.devopsjenkins.vo.healthReport> getHealthReport() {
         return healthReport;
     }
 
-    public void setHealthReport(String healthReport) {
+    public void setHealthReport(List<com.interstellar.devopsjenkins.vo.healthReport> healthReport) {
         this.healthReport = healthReport;
     }
 
@@ -66,12 +91,12 @@ public class JobInformationVO {
         this.lastBuild = lastBuild;
     }
 
-    public BuildVO getLastFailBuild() {
-        return lastFailBuild;
+    public BuildVO getLastFailedBuild() {
+        return lastFailedBuild;
     }
 
-    public void setLastFailBuild(BuildVO lastFailBuild) {
-        this.lastFailBuild = lastFailBuild;
+    public void setLastFailedBuild(BuildVO lastFailedBuild) {
+        this.lastFailedBuild = lastFailedBuild;
     }
 
     public BuildVO getLastSuccessfulBuild() {
@@ -96,5 +121,13 @@ public class JobInformationVO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isBuildable() {
+        return buildable;
+    }
+
+    public void setBuildable(boolean buildable) {
+        this.buildable = buildable;
     }
 }

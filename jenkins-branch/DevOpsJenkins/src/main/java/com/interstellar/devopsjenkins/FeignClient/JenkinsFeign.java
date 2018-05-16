@@ -1,46 +1,39 @@
 package com.interstellar.devopsjenkins.FeignClient;
 
-import com.interstellar.devopsjenkins.vo.BuildInformationVO;
-import com.interstellar.devopsjenkins.vo.NodeInformationVO;
-import com.interstellar.devopsjenkins.vo.StepVO;
-import feign.Headers;
+import com.interstellar.devopsjenkins.vo.*;
 import feign.Param;
 import feign.RequestLine;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 @FeignClient(configuration = FeignMultipartSupportConfig.class)
 public interface JenkinsFeign {
 
+    @RequestLine("GET /computer/api/json")
+    Computer getComputers();
 
-    @RequestLine(value = "GET /api/xml")
-    String api();
+    @RequestLine("GET /job/{name}/api/json")
+    MulitJobInformationVO getJob(@Param("name") String name);
 
-    @RequestLine("POST /job/{name}/build")
-    String Build(@Param("name") String name);
+    @RequestLine("GET /job/{name}/job/{branchName}/api/json")
+    JobInformationVO getJobBranch(@Param("name") String name, @Param("branchName") String branchName);
 
-    @RequestLine("GET /blue/rest/organizations/jenkins/pipelines/{name}/runs/{number}/nodes")
-    List<NodeInformationVO> pipelineNodes(@Param("name") String name, @Param("number") String number);
 
-    @RequestLine("GET /blue/rest/organizations/jenkins/pipelines/{name}/runs/{number}/nodes/{nodeId}")
-    NodeInformationVO pipelineNode(@Param("name") String name, @Param("number") String number, @Param("nodeId") String nodeId);
 
-    @RequestLine("GET /blue/rest/organizations/jenkins/pipelines/{name}/runs/{number}/nodes/{nodeId}/steps")
-    List<StepVO> pipelineNodeSteps(@Param("name") String name, @Param("number") String number, @Param("nodeId") String nodeId);
+    @RequestLine("GET /job/{name}/job/{branchName}/{number}/api/json")
+    BuildInformationVO1 getBuild(@Param("name") String name, @Param("branchName") String branchName, @Param("number") String number);
 
-    @RequestLine("GET /blue/rest/organizations/jenkins/pipelines/{name}/runs/{number}/nodes/{nodeId}/steps/{stepId}")
-    StepVO pipelineStep(@Param("name") String name, @Param("number") String number, @Param("nodeId") String nodeId, @Param("stepId") String stepId);
+    @RequestLine("GET /blue/rest/organizations/jenkins/pipelines/{name}/{branchName}/runs/{number}/nodes")
+    List<NodeInformationVO> pipelineNodes(@Param("name") String name, @Param("branchName") String branchName, @Param("number") String number);
 
-    @RequestLine("GET /job/{name}/{number}")
-    BuildInformationVO getBuild(@Param("name") String name, @Param("number") String number);
+    @RequestLine("GET /blue/rest/organizations/jenkins/pipelines/{name}/{branchName}/runs/{number}/nodes/{nodeId}")
+    NodeInformationVO pipelineNode(@Param("name") String name, @Param("branchName") String branchName, @Param("number") String number, @Param("nodeId") String nodeId);
 
-    @RequestLine("GET /blue/rest/organizations/jenkins/pipelines/{name}/runs/{number}/log?start=0")
-    @Headers("Context-Type: text/plain; charset=utf-8")
-    String downloadLog1(@Param("name") String name, @Param("number") String number);
+    @RequestLine("GET /blue/rest/organizations/jenkins/pipelines/{name}/{branchName}/runs/{number}/nodes/{nodeId}/steps")
+    List<StepVO> pipelineNodeSteps(@Param("name") String name, @Param("branchName") String branchName, @Param("number") String number, @Param("nodeId") String nodeId);
 
-    @RequestLine("POST /credentials/store/system/domain/_/createCredentials")
-    @Headers("Context-Type: application/json")
-    String createCredentials(String data);
+    @RequestLine("GET /blue/rest/organizations/jenkins/pipelines/{name}/{branchName}/runs/{number}/nodes/{nodeId}/steps/{stepId}")
+    StepVO pipelineStep(@Param("name") String name, @Param("branchName") String branchName, @Param("number") String number, @Param("nodeId") String nodeId, @Param("stepId") String stepId);
+
 }

@@ -47,7 +47,7 @@ public class JenkinsTest {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-        jenkinsService.periodJob("sasa", 3);
+        //jenkinsService.periodJob("sasa", 3);
 
     }
 }

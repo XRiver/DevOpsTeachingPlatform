@@ -1,20 +1,20 @@
 package com.interstellar.devopsjenkins.vo;
 
 public class BuildInformationVO {
-    private boolean building;
-    private String description;
-    private String displayName;
-    private long duration;
-    private long estimateDuration;
+        private boolean building;
+        private String description;
+        private String displayName;
+        private long duration;
+        private long estimateDuration;
 
-    private String fullDisplayName;
-    private String id;
+        private String fullDisplayName;
+        private String id;
 
-    private int number;
-    private int queueId;
-    private String result;
-    private long timestamp;
-    private String url;
+        private int number;
+        private int queueId;
+        private String result;
+        private long timestamp;
+        private String url;
 
 
     public BuildInformationVO() {

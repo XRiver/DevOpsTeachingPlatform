@@ -24,4 +24,7 @@ public class BuildVO {
         this.number = number;
         this.url = url;
     }
+
+    public BuildVO() {
+    }
 }
