@@ -21,6 +21,11 @@ public class Util {
     @Autowired
     static ConfigBean configBean;
 
+//    static String server ="http://119.29.157.178/api/v4";
+    static String server ="http://139.219.66.203/api/v4";
+
+//    static String key = "8Ug1y1avCtRRVJDFqvus";
+    static String key = "2jS4Q4V3XHj4mgXHcJEo";
 //    ${configBean}
 //    static String remoteaddress;
     /**
@@ -44,9 +49,9 @@ public class Util {
                 //http://119.29.157.178/api/v4
                 //139.219.66.203
                 //2jS4Q4V3XHj4mgXHcJEo
-                urlNameString ="http://139.219.66.203/api/v4"+url;
+                urlNameString =server+url;
             else
-                urlNameString = "http://139.219.66.203/api/v4"+url + "?" + param;
+                urlNameString = server+url + "?" + param;
 
             //System.out.println("curl http url : " + urlNameString);
             LogBean.log("GET : "+urlNameString);
@@ -58,7 +63,7 @@ public class Util {
             connection.setRequestProperty("connection","close");
             connection.setRequestProperty("user-agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
             //yseqMqqyo9mBEaiFzmf3
-            connection.setRequestProperty("Private-Token","2jS4Q4V3XHj4mgXHcJEo");
+            connection.setRequestProperty("Private-Token",key);
             // 建立实际的连接
             connection.connect();
 
@@ -105,7 +110,7 @@ public class Util {
             BufferedReader in = null;
             String result = "";
             try {
-                URL realUrl = new URL("http://139.219.66.203/api/v4"+url);
+                URL realUrl = new URL(server+url);
                 // 打开和URL之间的连接
                 URLConnection conn = realUrl.openConnection();
                 // 设置通用的请求属性
@@ -113,7 +118,7 @@ public class Util {
                 conn.setRequestProperty("connection", "Keep-Alive");
                 conn.setRequestProperty("user-agent",
                         "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-                conn.setRequestProperty("Private-Token","2jS4Q4V3XHj4mgXHcJEo");
+                conn.setRequestProperty("Private-Token",key);
 
                 // 发送POST请求必须设置如下两行
                 conn.setDoOutput(true);

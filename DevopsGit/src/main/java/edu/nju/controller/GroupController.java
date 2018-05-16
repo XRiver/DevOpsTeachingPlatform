@@ -88,18 +88,18 @@ public class GroupController {
 
         @RequestMapping(value = "/project/newproject" , method = RequestMethod.POST)
         public String  newProject(@RequestParam Map<String,String> map){
-            String groupid=map.get("grouid");
+            String groupid=map.get("groupid");
             String projectid=map.get("projectid");
             String name=map.get("name");
             String description=map.get("description");
 
             String gitlabgroupID=transferService.getGitlabGroupIDByGroupID(groupid);
 
-            String result=projectService.createProject(name);
+            String result=projectService.createProject(name,description);
             JSONObject jsonObject=JSON.parseObject(result);
             String projectgitlabid=jsonObject.getString("id");
-
             projectService.transferPro2Group(gitlabgroupID,projectgitlabid);
+            transferService.insertProjectID(projectid,projectgitlabid);
             LogBean.log("new project ,name: "+name+";gitlabgroup: "+gitlabgroupID+";gitlabpro: "+projectgitlabid);
             return result;
         }
