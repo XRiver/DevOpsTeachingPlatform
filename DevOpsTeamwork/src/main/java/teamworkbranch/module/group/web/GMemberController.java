@@ -28,10 +28,10 @@ public class GMemberController {
 
     @RequestMapping(value = "/{groupId}/addGMember", method = RequestMethod.POST)
     @ResponseBody
-    public String addGMember(@PathVariable int groupId, String userName, int is_manager) {
+    public String addGMember(@PathVariable int groupId, String userName, int is_manager,String memberName) {
         JSONObject toReturn = new JSONObject();
         try{
-            gMemberService.addMember(groupId,userName,is_manager);
+            gMemberService.addMember(groupId,userName,is_manager,memberName);
             toReturn.put("success", true);
             toReturn.put("msg", "success");
         }catch (Exception e){
@@ -45,10 +45,10 @@ public class GMemberController {
 
     @RequestMapping(value = "/{groupId}/removeGMember", method = RequestMethod.POST)
     @ResponseBody
-    public String removeGMember(@PathVariable int groupId,String userName) {
+    public String removeGMember(@PathVariable int groupId,String userName,String memberName) {
         JSONObject toReturn = new JSONObject();
         try{
-            gMemberService.removeMember(groupId,userName);
+            gMemberService.removeMember(groupId,userName,memberName);
             toReturn.put("success", true);
             toReturn.put("msg", "success");
         }catch (Exception e){
@@ -59,12 +59,29 @@ public class GMemberController {
         return toReturn.toString();
     }
 
-    @RequestMapping(value = "/{groupId}/editGMember", method = RequestMethod.POST)
+    @RequestMapping(value = "/{groupId}/leaveGroup", method = RequestMethod.POST)
     @ResponseBody
-    public String editGMember(@PathVariable int groupId,String userName,int is_manager) {
+    public String leaveGroup(@PathVariable int groupId,String userName) {
         JSONObject toReturn = new JSONObject();
         try{
-            gMemberService.editMember(groupId,userName,is_manager);
+            gMemberService.leaveGroup(groupId,userName);
+            toReturn.put("success", true);
+            toReturn.put("msg", "success");
+        }catch (Exception e){
+            toReturn.put("success", false);
+            toReturn.put("msg", e.getMessage());
+
+        }
+        return toReturn.toString();
+    }
+
+
+    @RequestMapping(value = "/{groupId}/editGMember", method = RequestMethod.POST)
+    @ResponseBody
+    public String editGMember(@PathVariable int groupId,String userName,int is_manager,String memberName) {
+        JSONObject toReturn = new JSONObject();
+        try{
+            gMemberService.editMember(groupId,userName,is_manager,memberName);
             toReturn.put("success", true);
             toReturn.put("msg", "success");
         }catch (Exception e){

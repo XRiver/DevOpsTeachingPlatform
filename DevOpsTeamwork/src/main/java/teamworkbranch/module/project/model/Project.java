@@ -15,16 +15,26 @@ public class Project {
     private Timestamp createTime;//创建日期
     private Timestamp updateTime;//最后修改日期
     private List<PManager> managerList;//管理者用户名
+    private String tool;//持续集成使用的工具
 
     public Project(){
 
     }
 
-    public Project(String creatorName, String name, String info, int groupId) {
+    public Project(String creatorName, String name, String info, int groupId,String tool) {
         this.creatorName = creatorName;
         this.name = name;
         this.info = info;
         this.groupId = groupId;
+        this.tool=tool;
+    }
+
+    public String getTool() {
+        return tool;
+    }
+
+    public void setTool(String tool) {
+        this.tool = tool;
     }
 
     public int getProjectId() {
