@@ -50,6 +50,9 @@ public class TaskSerImpl implements TaskSer{
     @Autowired
     HistoryDao historyDao;
 
+    @Autowired
+    GenerateAndConnecte ge;
+
     private static final Logger logger = LoggerFactory.getLogger(TaskSerImpl.class);
 
     @Override
@@ -123,6 +126,17 @@ public class TaskSerImpl implements TaskSer{
         task.setProjectId(vo.getProjectId());
         task.setLinkmethod(vo.getLinkmethod());
         task.setBranchName(vo.getBranchname());
+
+        List<Task> taskList = taskDao.findAllByProjectId(vo.getProjectId());
+
+        int tasksize = taskList.size();
+
+        for(int i=0;i<tasksize;i++){
+            if(taskList.get(i).getBranchName().equals(vo.getBranchname())){
+                return "同分支任务已经存在，无法完成修改";
+            }
+        }
+
         Task result = taskDao.save(task);
 
         List<containerVO> list = vo.getContainers();
@@ -228,7 +242,7 @@ public class TaskSerImpl implements TaskSer{
     	Host host = hostDao.findById(t.getHostId()).get();  //拿到host
     	
     	List<Container> ContainersOrder = containerDao.findContainersByTaskId(Integer.parseInt(taskid)); //拿到Container的顺序
-    	GenerateAndConnecte ge = new GenerateAndConnecte();
+
     	
     	Connection cono = getConnection(host);
     	if(cono == null) {
@@ -255,6 +269,7 @@ public class TaskSerImpl implements TaskSer{
     			return 3;
     		}else {
     			dvo = getDvo(taskid, "3", tempResult);
+    			logger.info("what the fuck!!!");
     			SocketServer.sendMessage(dvo.toString(),taskid);
     			logger.info(tempContainer.getContainerName() + "启动成功");
     		}

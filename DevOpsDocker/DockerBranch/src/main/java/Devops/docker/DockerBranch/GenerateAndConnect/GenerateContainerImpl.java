@@ -9,8 +9,17 @@ import Devops.docker.DockerBranch.FileOperator.FileCreateTools;
 import Devops.docker.DockerBranch.FileOperator.FileOperateFacInstance;
 import Devops.docker.DockerBranch.FileOperator.FileWriterTools;
 import ch.ethz.ssh2.Connection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GenerateContainerImpl implements GenerateContainersService{
+
+	@Autowired
+	DockerfileGenerate dockerfileGenerate;
+
+	@Autowired
+	SetupGenerate setupGenerate;
 
 	@Override
 	public int GenerateTomcat(Container container,Host host,Connection conn) {
@@ -27,7 +36,7 @@ public class GenerateContainerImpl implements GenerateContainersService{
 			return -1;
 		
 		//写文件
-		StringBuilder Dockerfile = new DockerfileGenerate().getTomcatDockerfile(fileName);
+		StringBuilder Dockerfile = dockerfileGenerate.getTomcatDockerfile(fileName);
 		int writeFile = writeFile(container, host, Dockerfile,"Dockerfile","",conn);
 		if(writeFile==-2)
 			return -2;
@@ -46,7 +55,7 @@ public class GenerateContainerImpl implements GenerateContainersService{
 			return -1;
 		
 		//写Dockerfile文件
-		StringBuilder Dockerfile = new DockerfileGenerate().getMysqlDockerfile(fileName);
+		StringBuilder Dockerfile = dockerfileGenerate.getMysqlDockerfile(fileName);
 		int writeFile = writeFile(container, host, Dockerfile,"Dockerfile","",conn);
 		if(writeFile==-2)
 			return -2;
@@ -56,7 +65,7 @@ public class GenerateContainerImpl implements GenerateContainersService{
 		if(createSetup==-1)
 			return -1;
 		//写setup。sh
-		StringBuilder setUp = new DockerfileGenerate().getMysqlSetup();
+		StringBuilder setUp = setupGenerate.getMysqlSetup();
 		int writeSetUp = writeFile(container, host, setUp,"setup","sh",conn);
 		if(writeSetUp==-2)
 			return -2;

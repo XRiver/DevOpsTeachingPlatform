@@ -26,5 +26,5 @@ public interface HistoryDao extends JpaRepository<History, Integer> {
     void delete(History var1);
 
     @Query(value = "select c.* from history c where c.task_id = ?1",nativeQuery = true)
-    List<History> findContainersByTaskId(int task_id);
+    List<History> findHistoriesByTaskId(int task_id);
 }

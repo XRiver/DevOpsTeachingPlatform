@@ -3,6 +3,9 @@ package Devops.docker.DockerBranch.GenerateAndConnect;
 import java.io.IOException;
 import java.util.List;
 
+import Devops.docker.DockerBranch.Service.impl.TaskSerImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import Devops.docker.DockerBranch.Entity.Container;
@@ -12,24 +15,30 @@ import Devops.docker.DockerBranch.RemoteConnection.RemoteExecuteCommand;
 import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
 import Devops.docker.DockerBranch.dao.ContainerLinkDao;
 import ch.ethz.ssh2.Connection;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * author:杨关
  * */
+@Service
 public class GenerateAndConnecte {
 	
 	@Autowired
     ContainerLinkDao containerLinkDao;
+
+	@Autowired
+	GenerateContainersService g;
 	
 	/**
 	 * 
 	 * */
+	private static final Logger logger = LoggerFactory.getLogger(GenerateAndConnecte.class);
 	public String Generate(Container con,Host host,int connectedType) {
-		
-		GenerateContainersService g = new GenerateContainerImpl();
+
 		
 		String image = con.getImage();
+
 //		String fileName = con.getFilename();
 //		String[] temp = fileName.split(".");
 		
@@ -46,7 +55,9 @@ public class GenerateAndConnecte {
 				try {
 					re.ExecCommand(c1, conn);
 					StringBuilder run = ContainerLink(connectedType, con,"3306");
+					logger.info("123"+run.toString()+"123");
 					re.ExecCommand(run, conn);
+					logger.info("wukukukukuk");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 //					e.printStackTrace();
@@ -64,6 +75,7 @@ public class GenerateAndConnecte {
 				try {
 					re.ExecCommand(c1, conn);
 					StringBuilder run = ContainerLink(connectedType, con,"8070");
+					logger.info("alalalala");
 					re.ExecCommand(run, conn);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -92,7 +104,7 @@ public class GenerateAndConnecte {
 					" "+con.getContainerName());
 		}else {
 			List<String> linkC = getLinkList(con.getContainerId());
-			link.append("sudo docker run -p "+con.getPort()+":"+internalPort+" --name "+con.getContainerName()+
+			link.append("sudo docker run -d -p "+con.getPort()+":"+internalPort+" --name "+con.getContainerName()+
 					" "); //接下来是--link
 			for(String linki:linkC) {
 				link.append("--link "+linki+" ");

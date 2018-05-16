@@ -41,7 +41,7 @@ public class DeploySerImpl implements DeployService {
 
         List<deployHistoryVO> result = new ArrayList<>();
 
-        List<History> list = historyDao.findContainersByTaskId(Integer.parseInt(taskid));
+        List<History> list = historyDao.findHistoriesByTaskId(Integer.parseInt(taskid));
         int size = list.size();
 
         for(int i=0;i<size;i++){

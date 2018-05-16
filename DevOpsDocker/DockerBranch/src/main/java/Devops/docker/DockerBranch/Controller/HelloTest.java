@@ -1,33 +1,12 @@
 package Devops.docker.DockerBranch.Controller;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import Devops.docker.DockerBranch.VO.helloVO;
-import ch.ethz.ssh2.Connection;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import Devops.docker.DockerBranch.Entity.Host;
-import Devops.docker.DockerBranch.Exception.FileOperateException;
-import Devops.docker.DockerBranch.Exception.RemoteOperateException;
-import Devops.docker.DockerBranch.FileOperator.FileCreateTools;
-import Devops.docker.DockerBranch.FileOperator.FileDeleteTools;
-import Devops.docker.DockerBranch.FileOperator.FileOperateFacInstance;
-import Devops.docker.DockerBranch.FileOperator.FileOperateFactory;
-import Devops.docker.DockerBranch.FileOperator.FileWriterTools;
-import Devops.docker.DockerBranch.FileOperator.RemoteFileReader;
-import Devops.docker.DockerBranch.FileOperator.RemoteFileWriter;
-import Devops.docker.DockerBranch.GenerateAndConnect.DockerfileGenerate;
-import Devops.docker.DockerBranch.Monitoring.influxDB.GetRemoteLinuxTotalMemory;
-import Devops.docker.DockerBranch.Monitoring.influxDB.InfluxDBImpl;
-import Devops.docker.DockerBranch.Monitoring.influxDB.InfluxDBService;
-import Devops.docker.DockerBranch.Monitoring.influxDB.testInfuxDB;
-import Devops.docker.DockerBranch.RemoteConnection.FileTransport;
-import Devops.docker.DockerBranch.RemoteConnection.RemoteExecuteCommand;
-import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
 
 @RestController
 public class HelloTest {
