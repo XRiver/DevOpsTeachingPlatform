@@ -1,5 +1,6 @@
 package edu.nju.controller;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.alibaba.fastjson.JSON;
 import edu.nju.config.LogBean;
 import edu.nju.model.Branch;
@@ -51,11 +52,32 @@ public class RepositoryController {
         LogBean.log("get raw file."+result);
         return result;
     }
+    //file/tree/{id}/{path}
+    //WSW
+
+//    @RequestMapping(value = "file/tree/{projectid}/{file_path}",method = RequestMethod.GET)
+//    public String getfileTrees2(@PathVariable("projectid") String projectid,
+//                                @PathVariable("file_path") String file_path){
+//        String gitlabID = transferService.getGitlabProjectIDByProjectID(projectid);
+//        List<FileNode> fileNodeList = repositoryService.getTree2(gitlabID,file_path);
+//        String result= JSON.toJSONString(fileNodeList);
+//        LogBean.log("get sub trees filepath :"+file_path+" ,result : "+result);
+//        return result;
+
+//    }
 
     @RequestMapping(value = "file/tree/{projectid}", method = RequestMethod.GET)
-    public String getfileTrees(@PathVariable String projectid){
+    public String getfileTrees(@PathVariable String projectid,
+                               @RequestParam(value="path",required = false)String path){
         String gitlabID = transferService.getGitlabProjectIDByProjectID(projectid);
-        List<FileNode> fileNodeList = repositoryService.getTree(gitlabID);
+        System.out.println("path: "+path);
+        List<FileNode> fileNodeList;
+        if(path==null){
+            fileNodeList = repositoryService.getTree(gitlabID);
+        }else {
+            fileNodeList = repositoryService.getTree2(projectid,path);
+        }
+
         String result = JSON.toJSONString(fileNodeList);
         LogBean.log("file tree: "+result);
         return result;

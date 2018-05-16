@@ -33,6 +33,19 @@ public class RepositoryService {
      * @param projectID
      * @return
      */
+    public List<FileNode> getTree2(String projectID,String file_path){
+        String param= "path="+file_path;
+        String result=Util.get("/projects/"+projectID+"/repository/tree",
+                param);
+        List<FileNode> nodeList = JSON.parseArray(result,FileNode.class);
+        return nodeList;
+    }
+
+    /**
+     * GET /projects/:id/repository/tree
+     * @param projectID
+     * @return
+     */
     public List<FileNode> getTree(String projectID){
         String result=Util.get("/projects/"+projectID+"/repository/tree",
                 null);

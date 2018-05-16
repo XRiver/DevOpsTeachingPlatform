@@ -28,18 +28,6 @@ public class UserController {
     @Autowired
     SSHKeyService sshKeyService;
 
-//    @RequestMapping(value = "/new/{username}/{name}/{password}/{email}",method = {RequestMethod.GET,RequestMethod.POST})
-//    public String newUser(@PathVariable("username") String username,@PathVariable("name") String name,
-//                          @PathVariable("password") String password,@PathVariable("email") String email){
-//        User user=new User();
-//        user.setPassword(password);
-//        user.setUsername(username);
-//        user.setName(name);
-//        user.setEmail(email);
-//        String result=userService.addUser(user);
-//        return result;
-//    }
-
     @RequestMapping(value = "/user/{userid}",method = RequestMethod.GET)
     public String getUser(@PathVariable String userid){
         String usergitlabid = transferService.getGitlabUserIDByUserID(userid);
@@ -75,33 +63,6 @@ public class UserController {
         //String gitlabID=transferService.getGitlabUserIDByUserID(id);
         return JSON.toJSONString(user);
     }
-
-//    @RequestMapping(value = "/user/newuser",method = RequestMethod.POST)
-//    public String newUser2(@RequestBody Map<String,String> map){
-//        String id=map.get("id");
-//        String name=map.get("name");
-//        String username=map.get("username");
-//        String password=map.get("password");
-//        String email=map.get("email");
-//        User user=new User();
-//        user.setPassword(password);
-//        user.setUsername(username);
-//        user.setEmail(email);
-//        user.setName(name);
-//        user.setId(id);
-//        String result=userService.addUser(user);
-//        if(result==null){
-//            LogBean.log("usercontroller adduser: return null");
-//            return null;
-//        }else{
-//            String gitlabID= JSON.parseObject(result,User.class).getId()+"";
-//            transferService.insertUserID(id,gitlabID);
-//            String gitlabIDt=transferService.getGitlabUserIDByUserID(id);
-//            LogBean.log("插入gitlabID ："+gitlabIDt);
-//        }
-//        //String gitlabID=transferService.getGitlabUserIDByUserID(id);
-//        return JSON.toJSONString(user);
-//    }
 
     /**
      *

@@ -32,6 +32,7 @@ public class UserService {
         paramMap.put("password",password);
         paramMap.put("username",username);
         paramMap.put("name",name);
+        paramMap.put("skip_confirmation",true+"");
         String result=Util.post("/users",paramMap);
         result=result.trim();
         LogBean.log("add user result: "+result);

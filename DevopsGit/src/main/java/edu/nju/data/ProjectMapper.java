@@ -16,6 +16,6 @@ public interface ProjectMapper {
     public String getGitlabID(String projectID);
 
 
-    @Insert("Insert into projectandgitlabuser(projectID,gitlabID) values (#{projectID},#{gitlabID})")
+    @Insert("Insert into projectandgitlabproject(projectID,gitlabID) values (#{projectID},#{gitlabID})")
     public int insert(@Param("projectID") String projectID, @Param("gitlabID") String gitlabID);
 }

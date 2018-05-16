@@ -79,9 +79,19 @@ module.exports.getTree = function (req, res, next) {
     if(projectid==null){
         res.redirect("/login");
     }
+    var urlobj = url.parse(req.url,true);
+    // console.log("urlobj: "+urlobj.query["projectid"]);
+    var path=urlobj.query["path"];
 
+    console.log("api repository tree path : "+path);
+
+    var myurl='http://'+help.gitIp+'/file/tree/'+projectid;
+
+    if(path!=null){
+        myurl=myurl+'?path='+path;
+    }
     var data="";
-    http.get('http://'+help.gitIp+'/file/tree/'+projectid,function (resp) {
+    http.get(myurl,function (resp) {
         var buffers = [];
         resp.on('data', function(chunk) {
             buffers.push(chunk);

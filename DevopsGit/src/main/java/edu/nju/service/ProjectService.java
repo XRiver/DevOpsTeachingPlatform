@@ -16,10 +16,11 @@ import java.util.jar.JarEntry;
 @Service
 public class ProjectService {
 
-    public String createProject(String name){
+    public String createProject(String name,String description){
         Map<String,String> map=new HashMap<>();
         map.put("name",name);
         map.put("path",name);
+        map.put("description",description);
         String result= Util.post("/projects",map);
         return result;
     }

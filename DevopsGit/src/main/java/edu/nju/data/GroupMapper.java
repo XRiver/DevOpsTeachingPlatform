@@ -15,6 +15,6 @@ public interface GroupMapper {
     @Select("Select gitlabID from groupandgitlabgroup where groupID = #{groupID}")
     public String getGitlabID(String groupID);
 
-    @Insert("Insert into groupandgitlabuser(groupID,gitlabID) values (#{groupID},#{gitlabID})")
-    public int insert(@Param("groupID") String groupID, @Param("gitlab") String gitlabID);
+    @Insert("Insert into groupandgitlabgroup(groupID,gitlabID) values (#{groupID},#{gitlabID})")
+    public int insert(@Param("groupID") String groupID, @Param("gitlabID") String gitlabID);
 }
