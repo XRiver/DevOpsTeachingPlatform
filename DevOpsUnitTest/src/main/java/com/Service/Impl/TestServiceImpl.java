@@ -31,7 +31,7 @@ public class TestServiceImpl implements TestService{
 
         testRepository.delete(id);
         testRepository.flush();
-        return false;
+        return true;
     }
 
     @Override
