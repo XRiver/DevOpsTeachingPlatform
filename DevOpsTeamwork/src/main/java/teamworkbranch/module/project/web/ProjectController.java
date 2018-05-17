@@ -134,7 +134,9 @@ public class ProjectController {
 
     private void initial(int projectId,int groupId,String projectName,String description) throws Exception {
         String gitResult=gitlabInvoker.initialProject(projectId,groupId,projectName,description);
-        System.out.println(gitResult);
+        JSONObject jsonObject = JSONObject.parseObject(gitResult);
+        String des = jsonObject.getString("description");
+        String url= jsonObject.getString("ssh_url_to_repo");
 
 
     }

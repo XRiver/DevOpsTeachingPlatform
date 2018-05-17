@@ -79,7 +79,8 @@ public class IdentificationController {
 
 
     private void initial(String id,String name,String username,String password,String email) throws Exception {
-        gitlabInvoker.initialUser(id,name,username,password,email);
+        String result=gitlabInvoker.initialUser(id,name,username,password,email);
+        System.out.println(result);
     }
 
 
