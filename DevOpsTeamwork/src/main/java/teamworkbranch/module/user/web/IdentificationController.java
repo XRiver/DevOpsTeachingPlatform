@@ -15,6 +15,7 @@ import teamworkbranch.module.user.model.User;
 import teamworkbranch.module.user.service.IdentificationService;
 import teamworkbranch.module.user.service.UserService;
 import teamworkbranch.module.user.vo.LoginInfo;
+import teamworkbranch.util.GitlabInvoker;
 
 import java.util.List;
 
@@ -24,7 +25,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/identification")
 public class IdentificationController {
-
+    @Autowired
+    GitlabInvoker gitlabInvoker;
 
     @Autowired
     IdentificationService identificationService;
@@ -63,6 +65,7 @@ public class IdentificationController {
         User user=new User(username,changedPwd,name,userId,email,role);
         try {
             identificationService.signUp(user);
+            initial(username,name,username,password,email);
             toReturn.put("success",true);
             toReturn.put("msg","success");
 
@@ -75,7 +78,9 @@ public class IdentificationController {
     }
 
 
-
+    private void initial(String id,String name,String username,String password,String email) throws Exception {
+        gitlabInvoker.initialUser(id,name,username,password,email);
+    }
 
 
 

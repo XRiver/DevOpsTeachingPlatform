@@ -28,6 +28,7 @@ public class UserController {
     @Autowired
     IdentificationService identificationService;
 
+
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     @ResponseBody
     public String modify(String username, String email,String name,String userId) {
@@ -98,6 +99,7 @@ public class UserController {
 
         return toReturn.toString();
     }
+
 
 
     

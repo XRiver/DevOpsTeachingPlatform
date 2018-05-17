@@ -9,7 +9,9 @@ import teamworkbranch.module.project.service.PManagerService;
 import teamworkbranch.module.project.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import teamworkbranch.util.GitlabInvoker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,18 +29,22 @@ public class ProjectController {
 
     @Autowired
     GroupService groupService;
+    @Autowired
+    private GitlabInvoker gitlabInvoker;
 
     @RequestMapping(value = "/createWithGroup", method = RequestMethod.POST)
     @ResponseBody
-    public String createWithGroup(String projectName,String info,List<String> managerList,Integer groupId,String creatorName,String tool) {
+    public String createWithGroup(String projectName, String info, ArrayList<String> managerList, Integer groupId, String creatorName, String tool) {
         JSONObject toReturn = new JSONObject();
         try{
-            projectService.createWithGroup(projectName, info, managerList, groupId, creatorName,tool);
+            int projectId=projectService.createWithGroup(projectName, info, managerList, groupId, creatorName,tool);
+            initial(projectId,groupId,projectName,info);
             toReturn.put("success", true);
-            toReturn.put("msg", "success");
+            toReturn.put("msg", "项目ID为"+projectId);
         }catch (Exception e){
             toReturn.put("success", false);
             toReturn.put("msg", e.getMessage());
+            e.printStackTrace();
 
         }
         return toReturn.toString();
@@ -51,9 +57,10 @@ public class ProjectController {
         JSONObject toReturn = new JSONObject();
         try{
             int groupId=groupService.createGroup(creatorName+"创建的group",creatorName+"创建的group",creatorName,memberList);
-            projectService.createWithGroup(projectName, info, managerList, groupId, creatorName,tool);
+            int projectId=projectService.createWithGroup(projectName, info, managerList, groupId, creatorName,tool);
+            initial(projectId,groupId,projectName,info);
             toReturn.put("success", true);
-            toReturn.put("msg", "success");
+            toReturn.put("msg", "项目ID为"+projectId);
         }catch (Exception e){
             toReturn.put("success", false);
             toReturn.put("msg", e.getMessage());
@@ -125,6 +132,12 @@ public class ProjectController {
         return toReturn.toString();
     }
 
+    private void initial(int projectId,int groupId,String projectName,String description) throws Exception {
+        String gitResult=gitlabInvoker.initialProject(projectId,groupId,projectName,description);
+        System.out.println(gitResult);
+
+
+    }
 
 
 
