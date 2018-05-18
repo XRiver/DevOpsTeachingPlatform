@@ -105,12 +105,9 @@ public class GroupServiceImpl implements GroupService {
      * @param groupId
      * @return
      */
-    public Group getGroupInfo(int groupId) throws NotExistedException {
+    public Group getGroupInfo(int groupId) {
         Group group = groupMapper.selectById(groupId);
-        if(group==null){
-            throw new NotExistedException();
-        }else
-            return group;
+        return group;
     }
 
     /**
@@ -118,12 +115,9 @@ public class GroupServiceImpl implements GroupService {
      * @param groupId
      * @return
      */
-    public List<GMember> getMemberList(int groupId) throws NotExistedException {
+    public List<GMember> getMemberList(int groupId){
         List<GMember> gMembers = gMemberMapper.getGMemberByGroup(groupId);
-        if (gMembers==null){
-            throw new NotExistedException();
-        } else
-            return gMembers;
+        return gMembers;
     }
 
     /**
@@ -131,12 +125,9 @@ public class GroupServiceImpl implements GroupService {
      * @param member_Name
      * @return
      */
-    public List<Group> getGroupList(String member_Name) throws NotExistedException {
+    public List<Group> getGroupList(String member_Name){
         List<Group> groups = groupMapper.selectMyGroups(member_Name);
-        if (groups==null){
-            throw new NotExistedException();
-        }else
-            return groups;
+        return groups;
     }
 
 

@@ -12,7 +12,9 @@ import teamworkbranch.module.group.model.GMember;
 import teamworkbranch.module.group.model.Group;
 import teamworkbranch.module.group.service.GMemberService;
 import teamworkbranch.module.group.service.GroupService;
+import teamworkbranch.util.GitlabInvoker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,18 +29,26 @@ public class GroupController {
     GroupService groupService;
     @Autowired
     GMemberService gMemberService;
+    @Autowired
+    private GitlabInvoker gitlabInvoker;
 
     @RequestMapping(value = "/createGroup", method = RequestMethod.POST)
     @ResponseBody
-    public String createGroup(String groupName, String info, String creatorName, List<String> memberList) {
+    public String createGroup(String groupName, String info, String creatorName, ArrayList<String> memberList, String visibility) {
         JSONObject toReturn = new JSONObject();
         try{
-            groupService.createGroup(groupName, info,creatorName,memberList);
+            int groupId = groupService.createGroup(groupName, info,creatorName,memberList);
+            initialGroup(groupId,groupName,info,visibility);
+            for(String member: memberList){
+                initialGMember(groupId,member);
+            }
             toReturn.put("success", true);
             toReturn.put("msg", "success");
+            toReturn.put("msg", "团队ID为"+groupId);
         }catch (Exception e){
             toReturn.put("success", false);
             toReturn.put("msg", e.getMessage());
+            e.printStackTrace();
 
         }
         return toReturn.toString();
@@ -78,7 +88,7 @@ public class GroupController {
 
     @RequestMapping(value = "/{groupId}/getGroup", method = RequestMethod.GET)
     @ResponseBody
-    public Group getGroup(@PathVariable Integer groupId) throws NotExistedException {
+    public Group getGroup(@PathVariable Integer groupId){
         Group group=groupService.getGroupInfo(groupId);
         return group;
     }
@@ -88,6 +98,24 @@ public class GroupController {
     public List<GMember> getGMembers(@PathVariable Integer groupId) throws NotExistedException {
         List<GMember> gMembers = groupService.getMemberList(groupId);
         return gMembers;
+    }
+
+    private void initialGroup(int groupId,String groupName,String description,String visibility) throws Exception {
+        String gitResult=gitlabInvoker.initialGroup(String.valueOf(groupId),groupName,description,visibility);
+        JSONObject jsonObject = JSONObject.parseObject(gitResult);
+        String des = jsonObject.getString("description");
+        String url= jsonObject.getString("ssh_url_to_repo");
+
+
+    }
+
+    private void initialGMember(int groupId,String userName) throws Exception {
+        String gitResult=gitlabInvoker.initialGMember(String.valueOf(groupId),userName);
+        JSONObject jsonObject = JSONObject.parseObject(gitResult);
+        String des = jsonObject.getString("description");
+        String url= jsonObject.getString("ssh_url_to_repo");
+
+
     }
 
 }

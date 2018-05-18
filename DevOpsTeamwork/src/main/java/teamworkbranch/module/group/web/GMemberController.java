@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import teamworkbranch.exception.NotExistedException;
 import teamworkbranch.module.group.model.Group;
 import teamworkbranch.module.group.service.GMemberService;
 import teamworkbranch.module.group.service.GroupService;
+import teamworkbranch.util.GitlabInvoker;
 
 import java.util.List;
 
@@ -26,12 +26,16 @@ public class GMemberController {
     @Autowired
     GMemberService gMemberService;
 
+    @Autowired
+    private GitlabInvoker gitlabInvoker;
+
     @RequestMapping(value = "/{groupId}/addGMember", method = RequestMethod.POST)
     @ResponseBody
     public String addGMember(@PathVariable int groupId, String userName, int is_manager,String memberName) {
         JSONObject toReturn = new JSONObject();
         try{
             gMemberService.addMember(groupId,userName,is_manager,memberName);
+            initialGMember(groupId,userName);
             toReturn.put("success", true);
             toReturn.put("msg", "success");
         }catch (Exception e){
@@ -94,9 +98,18 @@ public class GMemberController {
 
     @RequestMapping(value = "/{memberName}/getMyGroups", method = RequestMethod.GET)
     @ResponseBody
-    public List<Group> getMyGroups(@PathVariable String memberName) throws NotExistedException {
+    public List<Group> getMyGroups(@PathVariable String memberName){
         List<Group> groups = groupService.getGroupList(memberName);
         return groups;
+    }
+
+    private void initialGMember(int groupId,String userName) throws Exception {
+        String gitResult=gitlabInvoker.initialGMember(String.valueOf(groupId),userName);
+        JSONObject jsonObject = JSONObject.parseObject(gitResult);
+        String des = jsonObject.getString("description");
+        String url= jsonObject.getString("ssh_url_to_repo");
+
+
     }
 
 }
