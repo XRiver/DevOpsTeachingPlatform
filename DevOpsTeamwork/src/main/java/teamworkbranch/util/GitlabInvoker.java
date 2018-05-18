@@ -83,8 +83,8 @@ public class GitlabInvoker {
 
     }
 
-    public String initialGroup(String groupId,String name,String description,String visibility) throws Exception {
-        String query="groupId="+groupId+"&name="+name+"&description="+description+"visibility="+visibility;
+    public String initialGroup(String id,String name,String description,String visibility) throws Exception {
+        String query="id="+id+"&name="+name+"&description="+description+"visibility="+visibility;
         //visibility:private,internal or public
         URL restURL = new URL(GITLAB_URL_PREFIX+"group/newgroup");
         /*
@@ -119,8 +119,8 @@ public class GitlabInvoker {
 
     }
 
-    public String initialGMember(String groupId,String userId) throws Exception {
-        String query="groupId="+groupId+"&userId="+userId;
+    public String initialGMember(String groupid,String userid) throws Exception {
+        String query="groupid="+groupid+"&userid="+userid;
         URL restURL = new URL(GITLAB_URL_PREFIX+"group/newmember");
         /*
          * 此处的urlConnection对象实际上是根据URL的请求协议(此处是http)生成的URLConnection类 的子类HttpURLConnection
