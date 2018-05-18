@@ -5,7 +5,7 @@ var request = require('request');
 router.post('/test/execute-all/:testId',function(req, res, next){
     var id = req.params.testId;
     var username="user1";
-    if(req.session.username!=null){
+    if(req.session.username){
         username=req.session.username;
     }
     request.post({url:'http://localhost:8701/test/execute-all',
@@ -40,6 +40,9 @@ router.get('/test/execute/:id',function(req, res, next){
 router.post('/test/execute/:id',function(req, res, next){
     var id = req.params.id;
     var username="user1";
+    if(req.session.username){
+        username=req.session.username;
+    }
     var files=req.body.file;
     var filestr=JSON.stringify(files);
     request.post({url:'http://localhost:8701/test/execute',

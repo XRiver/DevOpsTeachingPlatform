@@ -86,12 +86,10 @@ router.post('/bug/delete',function(req, res, next){
 
 
 router.post('/bug/change',function(req, res, next){
-    var manager="default";
-    /**
-    if(req.session.username!=null){
+    var manager="user1";
+    if(req.session.username){
         manager=req.session.username;
     }
-   */
     request.post({url:'http://localhost:8701/bug/change',
             form:{
                 id:req.body.id,
