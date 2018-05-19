@@ -1,18 +1,5 @@
 package teamworkbranch;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import teamworkbranch.exception.NonprivilegedUserException;
-import teamworkbranch.exception.NotExistedException;
-import teamworkbranch.module.group.dao.GroupMapper;
-import teamworkbranch.module.group.service.GMemberService;
-import teamworkbranch.module.group.service.GroupService;
-
-import java.util.ArrayList;
-
 /**
  * Created by caosh on 2018/4/23.
  */
@@ -63,5 +50,15 @@ import java.util.ArrayList;
 //    public void testGetMyGroups() throws NotExistedException {
 //        groupService.getGroupList("user2");
 //        System.out.println(groupService.getGroupList("user1").size());
+//    }
+//
+//    @Test
+//    public void testAddGMember() throws NotExistedException, NonprivilegedUserException, ExistedException {
+//       gMemberService.addMember(1,"user3",0,"user1");
+//    }
+//
+//    @Test
+//    public void testRemoveGMember() throws NotExistedException, NonprivilegedUserException, ExistedException {
+//        gMemberService.removeMember(1,"user3","user1");
 //    }
 //}

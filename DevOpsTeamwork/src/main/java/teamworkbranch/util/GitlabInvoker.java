@@ -84,7 +84,7 @@ public class GitlabInvoker {
     }
 
     public String initialGroup(String id,String name,String description,String visibility) throws Exception {
-        String query="id="+id+"&name="+name+"&description="+description+"&visibility="+visibility;
+        String query="&id="+id+"&name="+name+"&description="+description+"&visibility="+visibility;
         //visibility:private,internal or public
         URL restURL = new URL(GITLAB_URL_PREFIX+"group/newgroup");
         /*

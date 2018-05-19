@@ -41,6 +41,7 @@ public class GMemberController {
         }catch (Exception e){
             toReturn.put("success", false);
             toReturn.put("msg", e.getMessage());
+            e.printStackTrace();
 
         }
         return toReturn.toString();

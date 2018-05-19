@@ -24,7 +24,7 @@ public interface GMemberMapper {
          *
          * 删除团队成员
          */
-        int deleteGMember(@Param("groupId") int groupId, @Param("member") String member);
+        int deleteGMember(@Param("groupId") int groupId, @Param("member_Name") String member_Name);
 
 
         /**
