@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,21 +32,24 @@ public class MonitorDataGet {
     
     @Autowired
     HostDao host;
-	
+
+	private static final Logger logger = LoggerFactory.getLogger(MonitorDataGet.class);
 	@RequestMapping("/perContainerCpu")
 	public Map<String,List<CpuUsageVO>> getPerContainerCpuUsageRate(@RequestParam String hostId,
 			@RequestParam String TimeScale){
 		
 		List<String> ContainerNames = this.containerService.getContainersInHost(hostId);
-		
+		logger.info(ContainerNames.toString());
+
 		Host h = this.host.findById(Integer.valueOf(hostId)).get();
 		
 		Map<String,List<CpuUsageVO>> resultMap = new HashMap<String,List<CpuUsageVO>>();
 		
 		for(String ContainerName : ContainerNames) {
+			logger.info(ContainerName);
 			List<CpuUsageVO> tempList = this.influxdbservice.PerContainerCpuUsageRate(ContainerName
 					, TimeScale, h.getIp(), 8086
-					, "root", "root", "cadvidor", "autogen", h);
+					, "root", "root", "cadvisor", "autogen", h);
 			resultMap.put(ContainerName, tempList);
 		}
 		

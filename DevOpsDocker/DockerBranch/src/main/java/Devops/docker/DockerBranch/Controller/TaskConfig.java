@@ -121,7 +121,6 @@ public class TaskConfig {
         if(task==null){
             return "该分支对应容器尚未创建";
         }
-
         int hostid = task.getHostId();
         //获得指定主机
         Host host = hostDao.findById(hostid).get();
@@ -132,15 +131,14 @@ public class TaskConfig {
         //获得文件
         String localPath = "/home/xujianghe/projects/"+task.getGroupName()+"/"+task.getProjectName()+"/"+branchname+"/target/";
         File file = new File(localPath);
-        File[] fileList = file.listFiles();
 
+        File[] fileList = file.listFiles();
         List<File> wjList = new ArrayList<File>();//新建一个文件集合
         for (int i = 0; i < fileList.length; i++) {
             if (fileList[i].isFile()) {//判断是否为文件
                 wjList.add(fileList[i]);
             }
         }
-
         if(wjList.size()==0){
             return "目标文件夹下没有文件";
         }

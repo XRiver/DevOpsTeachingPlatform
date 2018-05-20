@@ -3,7 +3,9 @@ package Devops.docker.DockerBranch.GenerateAndConnect;
 import java.io.IOException;
 import java.util.List;
 
+import Devops.docker.DockerBranch.Controller.SocketServer;
 import Devops.docker.DockerBranch.Service.impl.TaskSerImpl;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +36,9 @@ public class GenerateAndConnecte {
 	 * 
 	 * */
 	private static final Logger logger = LoggerFactory.getLogger(GenerateAndConnecte.class);
-	public String Generate(Container con,Host host,int connectedType) {
+	public String Generate(Container con,Host host,int connectedType,String taskid) {
 
-		
+		JSONObject dvo = null;
 		String image = con.getImage();
 
 //		String fileName = con.getFilename();
@@ -53,11 +55,14 @@ public class GenerateAndConnecte {
 				StringBuilder c1 = new StringBuilder("sudo docker build -t "+con.getContainerName()+" "+
 						con.getPath());
 				try {
-					re.ExecCommand(c1, conn);
+					String temp = re.ExecCommand(c1, conn).toString();
+					logger.info(temp);
+					dvo = getDvo(taskid, "3", temp);
+					SocketServer.sendMessage(dvo.toString(),taskid);
 					StringBuilder run = ContainerLink(connectedType, con,"3306");
-					logger.info("123"+run.toString()+"123");
-					re.ExecCommand(run, conn);
-					logger.info("wukukukukuk");
+					String temp1 = re.ExecCommand(run, conn).toString();
+					dvo = getDvo(taskid, "3", temp1);
+					SocketServer.sendMessage(dvo.toString(),taskid);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 //					e.printStackTrace();
@@ -136,5 +141,12 @@ public class GenerateAndConnecte {
 		}
 		return connection;
 	}
-	
+
+	private JSONObject getDvo(String taskid, String status , String log) {
+		JSONObject temp = new JSONObject();
+		temp.put("taskId", taskid);
+		temp.put("status", status);
+		temp.put("log", log);
+		return temp;
+	}
 }

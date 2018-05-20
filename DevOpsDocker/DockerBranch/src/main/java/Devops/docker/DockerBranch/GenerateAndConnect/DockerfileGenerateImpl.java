@@ -17,7 +17,6 @@ public class DockerfileGenerateImpl implements DockerfileGenerate{
 		result.append("MAINTAINER xiongkaiqi \"2948363603@qq.com\"\r\n");
 		result.append("ADD "+fileName+" /usr/local/tomcat/webapps/\r\n");
 		result.append("CMD [\"catalina.sh\", \"run\"]");
-		
 		return result;
 	}
 	
@@ -29,7 +28,6 @@ public class DockerfileGenerateImpl implements DockerfileGenerate{
 		result.append("COPY "+fileName+" /mysql/database.sql\r\n");
 		result.append("EXPOSE 3306\r\n");
 		result.append("CMD [\"sh\",\"/mysql/setup.sh\"]");
-		
 		return result;
 	}
 	

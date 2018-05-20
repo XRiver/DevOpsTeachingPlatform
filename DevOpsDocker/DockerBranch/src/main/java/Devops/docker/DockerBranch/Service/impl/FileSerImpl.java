@@ -27,8 +27,6 @@ public class FileSerImpl implements FileService {
     @Override
     public String upload(MultipartFile file, String path, String hostId) {
         String fileName = file.getOriginalFilename();
-
-
         String[] array = fileName.split(".");
         int size = array.length;
 
@@ -37,7 +35,6 @@ public class FileSerImpl implements FileService {
             fileType = array[size-1];
         }
         logger.info("上传的文件名为："+fileName);
-
 
         String str = System.getProperty("user.dir");
 

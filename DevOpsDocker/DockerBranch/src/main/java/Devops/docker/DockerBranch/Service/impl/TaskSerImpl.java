@@ -260,7 +260,7 @@ public class TaskSerImpl implements TaskSer{
     	for(int i = 0 ; i < ContainersOrder.size(); i++) { //按顺序build和run
     		Container tempContainer = ContainersOrder.get(i); //拿到Container  新建一个接口
     		int linkmethod = t.getLinkmethod();
-    		String tempResult = ge.Generate(tempContainer, host, linkmethod);
+    		String tempResult = ge.Generate(tempContainer, host, linkmethod,taskid);
     		if(tempResult.contains("失败")||tempResult.contains("断开")) {
     			dvo = getDvo(taskid, "3", tempResult);
     			SocketServer.sendMessage(dvo.toString(),taskid);
@@ -269,7 +269,7 @@ public class TaskSerImpl implements TaskSer{
     			return 3;
     		}else {
     			dvo = getDvo(taskid, "3", tempResult);
-    			logger.info("what the fuck!!!");
+    			logger.info(dvo.toString());
     			SocketServer.sendMessage(dvo.toString(),taskid);
     			logger.info(tempContainer.getContainerName() + "启动成功");
     		}
@@ -282,7 +282,8 @@ public class TaskSerImpl implements TaskSer{
 		Connection monitoring = getConnection(host);
 		
 		try {
-			re.ExecCommand(c1, monitoring);
+			String temp = re.ExecCommand(c1, monitoring).toString();
+			logger.info(temp);
 			StringBuilder run = new StringBuilder("sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro "
 					+ " --publish=9994:8080 --detach=true --link influxsrv:influxsrv --name=cadvisor google/cadvisor:v0.24.1"
 					+ " -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influxsrv:8086");
@@ -325,7 +326,7 @@ public class TaskSerImpl implements TaskSer{
     
     private JSONObject getDvo(String taskid,String status ,String log) {
     	JSONObject temp = new JSONObject();
-    	temp.put("taskid", taskid);
+    	temp.put("taskId", taskid);
     	temp.put("status", status);
     	temp.put("log", log);
     	return temp;

@@ -61,8 +61,6 @@ public class ContainerSerImpl implements ContainerService{
             }
             String[] infos = version.toString().split("\n");
 
-            logger.info(version.toString());
-            logger.info(infos[1]);
             if(infos.length==1){
                 return 1;
             }else{

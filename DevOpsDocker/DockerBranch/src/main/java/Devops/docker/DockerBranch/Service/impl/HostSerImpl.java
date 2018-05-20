@@ -8,6 +8,7 @@ import Devops.docker.DockerBranch.RemoteConnection.RemoteExecuteCommand;
 import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
 import Devops.docker.DockerBranch.Service.HostService;
 import Devops.docker.DockerBranch.Service.tools.DateTool;
+import Devops.docker.DockerBranch.Service.tools.DockerInstall;
 import Devops.docker.DockerBranch.VO.hostVO;
 import Devops.docker.DockerBranch.dao.HistoryDao;
 import Devops.docker.DockerBranch.dao.HostDao;
@@ -54,6 +55,7 @@ public class HostSerImpl implements HostService{
     @Override
     public int addHost(Host host) {
         int result = testHost(host);
+        host.setDate(DateTool.getTimeNow());
         if(result == 4){
             dao.save(host);
         }
@@ -94,7 +96,7 @@ public class HostSerImpl implements HostService{
         try{
             connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
         }catch (IOException e){
-            logger.info("fuck1");
+            logger.info("connect failed!");
             connection.close();
             return 1;
         }catch(RemoteOperateException e){
@@ -120,112 +122,56 @@ public class HostSerImpl implements HostService{
                 return 4;
             }else{
                 //每次执行远程操作，connection都要重新创建，一个connnection仅维持一次远程操作
-
-                try {
-                    version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo mkdir /home/admin/docker"), connection);
-                }catch(IOException e){
-                    connection.close();
-                    return 3;
-                }
-
-
-                String str = System.getProperty("user.dir");
-
-                String localPath = str+"\\DevOpsDocker\\DockerBranch\\src\\main\\resources\\shell\\";
-                FileTransport fileTransport = null;
-                if(host.getOpsSystem().equals("centos")){
-                    fileTransport = new FileTransport("docker_centos","sh",localPath,"/home/admin/docker",connection);
-                    try{
-                        fileTransport.putFile();
-
-                    }catch(IOException e){
-                        connection.close();
-                        return 3;
-                    }
-
-//                    try{
-//                        connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
-//                    }catch (IOException e){
-//                        logger.info("fuck5");
-//                        return 1;
-//                    }catch(RemoteOperateException e){
-//                        if(e.getErrorCode().equals("0"))
-//                            return 2;
-//                    }
+                return new DockerInstall().dockerInstall(host);
+//                try {
+//                    version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo mkdir /home/admin/docker"), connection);
+//                }catch(IOException e){
+//                    connection.close();
+//                    return 3;
+//                }
 //
-//                    try {
-//                        version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo chmod 777 /home/admin/docker/docker_centos.sh"), connection);
-//                        logger.info(version.toString()+"012");
+//
+//                String str = System.getProperty("user.dir");
+//
+//                String localPath = str+"\\DevOpsDocker\\DockerBranch\\src\\main\\resources\\shell\\";
+//                FileTransport fileTransport = null;
+//                if(host.getOpsSystem().equals("centos")){
+//                    fileTransport = new FileTransport("docker_centos","sh",localPath,"/home/admin/docker",connection);
+//                    try{
+//                        fileTransport.putFile();
+//
 //                    }catch(IOException e){
+//                        connection.close();
 //                        return 3;
 //                    }
-
-
-                    try {
-                        version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo bash /home/admin/docker/docker_centos.sh"), connection);
-                    }catch(IOException e){
-                        logger.info(version.toString()+"012");
-                        connection.close();
-                        return 3;
-                    }
-
-
-                }else{
-                    fileTransport = new FileTransport("docker_ubuntu","sh",localPath,"/home/admin/docker",connection);
-
-                    try{
-                        fileTransport.putFile();
-
-                    }catch(IOException e){
-                        connection.close();
-                        return 3;
-                    }
-
-//                    try{
-//                        connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
-//                    }catch (IOException e){
-//                        logger.info("fuck5");
-//                        return 1;
-//                    }catch(RemoteOperateException e){
-//                        if(e.getErrorCode().equals("0"))
-//                            return 2;
-//                    }
 //
 //                    try {
-//                        version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo chmod 777 /home/admin/docker/testDocker.sh"), connection);
-//                        logger.info(version.toString()+"012");
+//                        version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo bash /home/admin/docker/docker_centos.sh"), connection);
 //                    }catch(IOException e){
+//                        logger.info(version.toString()+"012");
+//                        connection.close();
 //                        return 3;
 //                    }
-
-
-
-
-                    try {
-                        version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo bash /home/admin/docker/docker_ubuntu.sh"), connection);
-                        logger.info(version.toString()+"123");
-                    }catch(IOException e){
-                        connection.close();
-                        return 3;
-                    }
-
+//
+//                }else{
+//                    fileTransport = new FileTransport("docker_ubuntu","sh",localPath,"/home/admin/docker",connection);
+//
 //                    try{
-//                        connection= remoteSignIn.ConnectAndAuth(host.getRoot(),host.getPassword());
-//                    }catch (IOException e){
-//                        logger.info("fuck4");
-//                        return 1;
-//                    }catch(RemoteOperateException e){
-//                        if(e.getErrorCode().equals("0"))
-//                            return 2;
+//                        fileTransport.putFile();
+//
+//                    }catch(IOException e){
+//                        connection.close();
+//                        return 3;
 //                    }
 //
 //                    try {
-//                        version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo apt-get install docker-ce"), connection);
+//                        version = remoteExecuteCommand.ExecCommand(new StringBuilder("sudo bash /home/admin/docker/docker_ubuntu.sh"), connection);
 //                        logger.info(version.toString()+"123");
 //                    }catch(IOException e){
+//                        connection.close();
 //                        return 3;
 //                    }
-                }
+//                }
             }
         }
         connection.close();

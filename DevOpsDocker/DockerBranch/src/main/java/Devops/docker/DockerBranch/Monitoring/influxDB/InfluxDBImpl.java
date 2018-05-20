@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Devops.docker.DockerBranch.Controller.SocketServer;
 import org.influxdb.InfluxDB;
 import org.influxdb.dto.Query;
 import org.influxdb.dto.QueryResult;
 import org.influxdb.dto.QueryResult.Result;
 import org.influxdb.dto.QueryResult.Series;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.influxdb.InfluxDBConnectionFactory;
 
 import Devops.docker.DockerBranch.Entity.Host;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class InfluxDBImpl implements InfluxDBService{
 
+	private static final Logger logger = LoggerFactory.getLogger(InfluxDBImpl.class);
 	@Override
 	public List<CpuUsageVO> PerContainerCpuUsageRate(String ContainerName, String TimeScale, String Ip, int DataBasePort,
 			String DataBaseUserName, String DataBasePassword, String database, String type, Host host){
@@ -42,7 +46,8 @@ public class InfluxDBImpl implements InfluxDBService{
 		Query query = new Query(q, database); //Query是查询语句
 		
 		QueryResult result = db.query(query); //执行查找
-		
+
+		System.out.println(result.toString()+"123");
 		List<Result> resultSet = result.getResults(); //获得result的集合
 		Result rs = resultSet.get(0); //拿到第一个result
 		
@@ -96,7 +101,9 @@ public class InfluxDBImpl implements InfluxDBService{
 		Query query = new Query(q, database); //Query是查询语句
 		
 		QueryResult result = db.query(query); //执行查找
-		
+
+		logger.info(result.toString());
+
 		List<Result> resultSet = result.getResults(); //获得result的集合
 		Result rs = resultSet.get(0); //拿到第一个result
 		
@@ -123,7 +130,7 @@ public class InfluxDBImpl implements InfluxDBService{
 		}
 		
 		for(MemoryUsageVO m:MemoryVOList) {
-			System.out.println(m.getTime()+"  "+m.getContainer_name()+"  "+m.getMemoryPersentage());
+			logger.info(m.getTime()+"  "+m.getContainer_name()+"  "+m.getMemoryPersentage());
 		}
 		
 		return MemoryVOList;
