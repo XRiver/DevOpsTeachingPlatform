@@ -1,0 +1,76 @@
+extends layout
+block title
+    title bug detail #{bug.id}
+block stylesheet
+    link(rel="stylesheet" href="/stylesheets/bootstrap-directional-buttons.min.css")
+block content
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link(href="/unittest/"+project+"/tests") 测试列表
+                li.nav-item
+                    a.nav-link.active(href="/unittest/"+project+"/bugs") 缺陷列表
+
+        - if(err)
+            div.row
+                p #{err}
+        - else
+            hr
+            table.table.table-hover
+                tbody
+                    tr
+                        td 名称
+                        td #{bug.name}
+                    tr
+                        td 重要程度
+                        td #{bug.importance}
+                    tr
+                        td 状态
+                        td #{bug.state}
+                    tr
+                        td 说明
+                        td #{bug.info}
+
+            hr
+            br
+            h4 状态变更记录
+            table.table.table-hover
+                thead
+                    tr
+                        th 变更时间
+                        th 变更前状态
+                        th 变更后状态
+                        th 操作人
+                        th 说明
+                tbody
+                    each change in bug.bug_change
+                        tr
+                            td #{change.time}
+                            td #{change.before_state}
+                            td #{change.after_state}
+                            td #{change.manager}
+                            td #{change.info}
+            hr
+            h4 更改状态
+            form.form-group
+                label(for='state') 状态：
+                select#state(type='text',required='required')
+                    option(type='text',value='新建') 新建
+                    option(type='text',value='打开') 打开
+                    option(type='text',value='指派') 指派
+                    option(type='text',value='测试') 测试
+                    option(type='text',value='确认') 确认
+                    option(type='text',value='延期') 延期
+                    option(type='text',value='重新打开') 重新打开
+                    option(type='text',value='重复') 重复
+                    option(type='text',value='拒绝') 拒绝
+                    option(type='text',value='关闭') 关闭
+                br
+                label(for='info') 说明：
+                input.form-control#info(type='text')
+                input.form-control#bugId(type='hidden',value=bug.id)
+                br
+                button.btn.btn-primary.btn-lg.float-right#newbugBtn(type='button',onClick='BugChange()') 更改
+block script
+    script(src="/javascripts/bug_change.js")

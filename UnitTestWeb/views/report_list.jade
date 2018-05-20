@@ -1,0 +1,34 @@
+extends layout
+block title
+    title report list
+block stylesheet
+    link(rel="stylesheet" href="/stylesheets/bootstrap-directional-buttons.min.css")
+block content
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link(href="/unittest/test/"+testid) 测试详情
+                li.nav-item
+                    a.nav-link.active(href="/unittest/"+testid+"/reports") 测试报告
+        hr
+        table.table.table-hover
+            thead
+                tr
+                    th 执行时间
+                    th 用例数
+                    th 失败数
+                    th 通过率
+                    th 操作
+            tbody
+                each report in reports
+                    tr
+                        td #{report.time}
+                        td #{report.case_num}
+                        td #{report.fail_num}
+                        td #{100*report.sucess_num/report.case_num}%
+                        td 
+                            b
+                                a(href="/unittest/"+testid+"/report/" + report.id)   查看详情
+        hr
+
