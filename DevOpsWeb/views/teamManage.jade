@@ -27,10 +27,10 @@ block content
                 -   var members = []; for(usr in group.memberList) members.push(usr.name);
                 -   var managers = []; for(usr in group.managerList) managers.push(usr.name);
                     tr
-                        td #{group.groupId}
-                        td #{group.groupName}
-                        td #{group.info}
-                        td #{group.creator.name}
+                        td= group.groupId
+                        td= group.groupName
+                        td= group.info
+                        td= group.creator.name
                         td= members.join(',')
                         td= managers.join(',')
                         td
@@ -45,7 +45,5 @@ block content
                 input.form-control#infoInput(type='text')
                 label(for="memberInput") 团队成员ID:(每行一个)
                 textarea.form-control#memberInput(rows="5")
-                label(for='managerInput') 管理者id：
-                input.form-control#managerInput(type='text')
             button.btn.btn-primary.btn-lg.float-right(type='button' onClick='createGroup()') 创建
     .col-2

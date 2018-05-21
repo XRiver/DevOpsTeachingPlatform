@@ -1,0 +1,110 @@
+extends layout
+
+block content
+  div.container
+    div.row
+      ul.nav.nav-pills.nav-fill
+        li.nav-item
+          a.nav-link(href="/gitlabci/"+group+"/"+project+"/pipelines") pipelines
+        li.nav-item
+          a.nav-link.active(href="/gitlabci/"+group+"/"+project+"/jobs") jobs
+        li.nav-item
+          a.nav-link(href="/gitlabci/"+group+"/"+project+"/runners") runners
+        li.nav-item
+          a.nav-link(href="/gitlabci/"+group+"/"+project+"/schedules") schedules
+    hr
+    - if(err)
+      div.row
+        p #{err}
+    - else
+      div.row
+        div(style="padding:5px")
+          a(href="/gitlabci/"+group+"/"+project+"/pipelines") pipelines
+          span /
+          a(href="/gitlabci/"+group+"/"+project+"/pipelines/"+detail.pipeline.id) pipeline-#{detail.pipeline.id}
+          span /
+          a(href="/gitlabci/"+group+"/"+project+"/jobs/"+detail.id) job-#{detail.id}
+      hr
+      div.row
+        div
+          case detail.status
+            when "success"
+              span.badge.badge-success 成功
+            when "failed"
+              span.badge.badge-danger 失败
+            when "skipped"
+              span.badge.badge-secondary 跳过
+            when "canceled"
+              span.badge.badge-secondary 取消
+            when "created"
+              span.badge.badge-light 创建
+            when "pending"
+              span.badge.badge-light 等待
+            when "running"
+              span.badge.badge-info 运行中
+            default
+              span.badge.badge-info #{detail.status}
+          span.text-muted &nbsp;&nbsp;job
+            b &nbsp;#{detail.id}
+            span &nbsp;for branch
+            b &nbsp;#{detail.ref}
+            span &nbsp;created at
+            b &nbsp;#{detail.created_at}
+            span &nbsp;by
+            b &nbsp;#{detail.user.name}
+          hr
+      div.row
+        div.col-lg-8
+          div
+            h3.text-center.text-muted log
+            hr
+            pre(class="bg-dark text-"+(detail.status==="success"?"success":"danger"),style="padding:10px") #{log}
+        div.col-lg-4
+          div.card.text-muted
+            div.card-header
+              span
+                b #{detail.name}
+            div.card-body
+              span stage:&nbsp;
+                b #{detail.stage}
+              br
+              span branch:&nbsp;
+                b #{detail.ref}
+              br
+              span pipeline:&nbsp;
+                b
+                  a(href="/gitlabci/"+group+"/"+project+"/pipelines/"+detail.pipeline.id) #{detail.pipeline.id}
+              hr
+              span started at:&nbsp;
+                b #{detail.started_at}
+              br
+              span finished at:&nbsp;
+                b #{detail.finished_at}
+              br
+              span duration:&nbsp
+                b #{detail.duration}
+                span s
+              hr
+              span commit_message:&nbsp;
+                b #{detail.commit.message}
+              br
+              span commit_user:&nbsp;
+                b #{detail.commit.committer_name}
+              - if(detail.runner)
+                hr
+                span runner id:&nbsp;
+                  b
+                    a(href="/gitlabci/"+group+"/"+project+"/runners#runner-"+detail.runner.id) #{detail.runner.id}
+                br
+                span name:&nbsp;
+                  b #{detail.runner.name}
+                br
+                span description:&nbsp
+                  b #{detail.runner.description}
+            div.card-footer
+              - if(detail.artifacts_file)
+                span 此job有产物归档文件可供下载，大小
+                  b #{detail.artifacts_file.size}
+                  span B,点击下方按钮下载artifacts。
+                br
+                a.btn.btn-primary(href="/gitlabci/"+group+"/"+project+"/jobs/"+detail.id+"/artifacts") 下载

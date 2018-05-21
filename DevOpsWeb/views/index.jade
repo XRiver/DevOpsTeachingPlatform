@@ -3,6 +3,8 @@ extends layout
 block content
   - if (activeProjectId > 0) {
     h3 已激活项目:#{activeProjectInfo.name}
+    h4 项目管理者为： 张三
+    h4 项目参与者包括： 张三，李四
   - } else {
     h3 尚未激活项目，请前往“项目管理”选择项目。
   - }

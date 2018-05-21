@@ -10,6 +10,7 @@ router.post('/login', async function(req, res, next) {
     if(usr && pwd && await teamApi.validateAccount(usr, pwd)) {
         var sess = req.session;
         sess.usr = usr;
+        sess.username = usr;
         sess.logined = true;
         res.send({
             status:true,
@@ -58,7 +59,7 @@ router.get('/logout', async function(req, res, next) {
 })
 
 router.post('/delGroup', async function(req, res, next) {
-    ret = await teamApi.delGroup(req.body.groupId);
+    ret = await teamApi.delGroup(req.body.groupId, req.session.usr);
     res.send(ret);
 })
 
@@ -66,9 +67,8 @@ router.post('/createGroup', async function(req, res, next) {
     var gName = req.body.groupName,
         gInfo = req.body.groupInfo,
         members = req.body.members,
-        managerId = req.body.managerId,
-        creatorId = await teamApi.getUserInfo(req.session.usr).userId;
-    var ret = await teamApi.createGroup(gName, gInfo, members, managerId, creatorId);
+        creatorName = req.session.usr;
+    var ret = await teamApi.createGroup(gName, gInfo, members, managerId, creatorName);
     res.send(ret);
 })
 

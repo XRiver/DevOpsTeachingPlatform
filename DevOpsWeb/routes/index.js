@@ -80,10 +80,13 @@ var renderProjectManage = async function(baseRenderOptions, req, res) {
   res.render('projectManage', baseRenderOptions);
 }
 
-router.get('/test', function(req,res,next){
-  res.render('deploy',{
-    realName:"徐江河",
-    activeProjectId: 123421
+router.get('/sqtest/:p', function(req,res,next){
+  res.render('sqtest',{
+    p:req.params.p,
+    gi:req.query.gi,
+    gn:req.query.gn,
+    pi:req.query.pi,
+    pn:req.query.pn
   });
 });
 

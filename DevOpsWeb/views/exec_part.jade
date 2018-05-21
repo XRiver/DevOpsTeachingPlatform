@@ -1,0 +1,37 @@
+extends layout
+  
+block content
+    link(rel="stylesheet" href="/stylesheets/bootstrap-directional-buttons.min.css")
+    script(src="/javascripts/execfiles.js")
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link.active(href="/unittest/test/"+test.id) 测试详情
+                li.nav-item
+                    a.nav-link(href="/unittest/"+test.id+"/reports") 测试报告
+
+        hr
+        h4 测试用例选择
+        form(action="/unittest/test/execute/" + test.id,method="post")
+            table.table.table-hover
+                thead
+                    tr
+                        th 选择
+                        th 用例ID
+                        th 用例名
+                        th 文件路径
+                        th 说明
+                tbody
+                    each testcase in test.test_case
+                        tr
+                            td
+                                input(type='checkbox',value=testcase.file, name='file')
+                            td #{testcase.caseId}
+                            td #{testcase.name}
+                            td #{testcase.file}
+                            td #{testcase.info}
+            input.btn.btn-primary(type='submit',value='执行')
+        hr
+
+

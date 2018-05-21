@@ -21,7 +21,6 @@ var createGroup = function() {
     var gName = $('#groupNameInput').val();
     var gInfo = $('#infoInput').val();
     var members = $('#memberInput').val().split("\\s+");
-    var managerId = $('#managerInput').val();
     $.post('/fapi/createGroup',
     {
         groupName: gName,

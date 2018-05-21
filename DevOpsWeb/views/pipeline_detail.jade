@@ -1,0 +1,80 @@
+extends layout
+
+    
+block content
+    link(rel="stylesheet" href="/stylesheets/bootstrap-directional-buttons.min.css")
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link.active(href="/gitlabci/"+group+"/"+project+"/pipelines") pipelines
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/jobs") jobs
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/runners") runners
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/schedules") schedules
+        hr
+        - if(err)
+            div.row
+                p #{err}
+        - else
+            div
+                case pipeline.status
+                    when "success"
+                        span.badge.badge-success 成功
+                    when "failed"
+                        span.badge.badge-danger 失败
+                    when "skipped"
+                        span.badge.badge-secondary 跳过
+                    when "canceled"
+                        span.badge.badge-secondary 取消
+                    when "created"
+                        span.badge.badge-light 创建
+                    when "pending"
+                        span.badge.badge-light 等待
+                    when "running"
+                        span.badge.badge-info 运行中
+                    default
+                        span.badge.badge-info #{detail.status}
+                span.text-muted &nbsp;&nbsp;pipeline
+                    b &nbsp;#{pipeline.id}
+                    span &nbsp;for branch
+                    b &nbsp;#{pipeline.ref}
+                    span &nbsp;created at
+                    - var date = pipeline.created_at
+                    - date = date.replace(/T/g,' ');
+                    - date = date.substring(0,19);
+                    b &nbsp;#{date}
+                    span &nbsp;by
+                    b &nbsp;#{pipeline.user.name}
+            hr
+            div
+                h3.text-muted 流水线作业
+                div.row
+                    each stage_jobs,stage_name in pipeline_jobs
+                        div.card.col-lg-3(style="margin:10px")
+                            div.btn.btn-primary.btn-arrow-right #{stage_name}
+                            div.card-body
+                                each job in stage_jobs
+                                    case job.status
+                                        when "success"
+                                            span.badge.badge-success 成功
+                                        when "failed"
+                                            span.badge.badge-danger 失败
+                                        when "skipped"
+                                            span.badge.badge-secondary 跳过
+                                        when "canceled"
+                                            span.badge.badge-secondary 取消
+                                        when "created"
+                                            span.badge.badge-light 创建
+                                        when "pending"
+                                            span.badge.badge-light 等待
+                                        when "running"
+                                            span.badge.badge-info 运行中
+                                        default
+                                            span.badge.badge-info #{detail.status}
+                                    span &nbsp;&nbsp;
+                                        a(href="/gitlabci/"+group+"/"+project+"/jobs/"+job.id)
+                                            b #{job.name}
+                                    hr

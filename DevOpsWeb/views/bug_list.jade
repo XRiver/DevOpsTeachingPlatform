@@ -1,0 +1,58 @@
+extends layout
+
+    
+block content
+    link(rel="stylesheet" href="/stylesheets/bootstrap-directional-buttons.min.css")
+    script(src="/javascripts/new_bug.js")
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link(href="/unittest/"+project+"/tests") 测试列表
+                li.nav-item
+                    a.nav-link.active(href="/unittest/"+project+"/bugs") 缺陷列表
+        hr
+        - if(err)
+            div.row
+                p #{err}
+        - else
+            table.table.table-hover
+                thead
+                    tr
+                        th 名称
+                        th 重要程度
+                        th 状态
+                        th 操作
+                        th
+                tbody
+                    each bug in bugs
+                        tr
+                            td
+                                b
+                                    a(href="/unittest/bug/" + bug.id)   #{bug.name}
+                            td #{bug.importance}
+                            td #{bug.state}
+                            td
+                                button.btn.btn-primary#modBugBtn(type='button',onClick='modBugPanel('+bug.id+',"'+bug.name+'","'+bug.importance+'","'+bug.info+'")') 修改
+                            td
+                                button.btn.btn-danger#delBugBtn(type='button',onClick='delBug('+bug.id+')') 删除
+
+
+            hr
+            h4#modlabel 新建缺陷
+            form.form-group
+                label(for='bugname') 缺陷名：
+                input.form-control#bugname(type='text',required='required')
+                br
+                label(for='imp') 重要程度：
+                select#imp(type='text',required='required')
+                    option(type='text',value='关键') 关键
+                    option(type='text',value='重要') 重要
+                    option(type='text',value='一般') 一般
+                    option(type='text',value='提示') 提示
+                br
+                label(for='info') 说明：
+                input.form-control#info(type='text')
+                input.form-control#projectId(type='hidden',value=project)
+                br
+                button.btn.btn-primary.btn-lg.float-right#newbugBtn(type='button',onClick='newBug()') 创建

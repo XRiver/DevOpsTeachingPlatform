@@ -1,0 +1,69 @@
+extends layout
+
+block content
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/pipelines") pipelines
+                li.nav-item
+                    a.nav-link.active(href="/gitlabci/"+group+"/"+project+"/jobs") jobs
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/runners") runners
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/schedules") schedules
+        hr
+        - if(err)
+          div.row
+            p #{err}
+        - else
+          div.row
+            each job in jobs
+              div.card.bg-light.text-dark.col-lg-5(style="margin:5px")
+                div.card-header
+                  case job.status
+                    when "success"
+                      span.badge.badge-success 成功
+                    when "failed"
+                      span.badge.badge-danger 失败
+                    when "skipped"
+                      span.badge.badge-secondary 忽略
+                    when "canceled"
+                      span.badge.badge-secondary 取消
+                    when "created"
+                      span.badge.badge-light 创建
+                    when "pending"
+                      span.badge.badge-light 等待
+                    default
+                      span.badge.badge-info 未知
+                  span &nbsp;
+                    a(href="/gitlabci/"+group+"/"+project+"/jobs/"+job.id) ##{job.id}
+                    span &nbsp;of pipeline&nbsp;
+                    a(href="/gitlabci/"+group+"/"+project+"/pipelines/"+job.pipeline.id) ##{job.pipeline.id}
+                div.card-body
+                  span stage: #{job.stage}
+                  br
+                  span name: #{job.name}
+                  br
+                  span branch: #{job.ref}
+                  br
+                  span commit: #{job.commit.message}
+                  br
+                  span user: #{job.commit.committer_name}
+                  hr
+                  - var date = job.created_at
+                  - date = date.replace(/T/g,' ');
+                  - date = date.substring(0,19);
+                  span #{date}
+          div
+            ul.pagination
+              - if(page>1)
+                li.page-item
+                - var previous = page-1
+                  a.page-link(href="/gitlabci/"+group+"/"+project+"/jobs?page="+previous) 上一页
+              l1.page-item.active
+                a.pagelink(href="#") #{page}
+              - if(jobs.length>19)
+                li.page-item
+                - var next = parseInt(page)+1
+                  a.page-link(href="/gitlabci/"+group+"/"+project+"/jobs?page="+next) 下一页

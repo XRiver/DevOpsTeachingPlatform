@@ -20,9 +20,9 @@ var getUserInfo = function(username) {
 
 var register = function(usr, pwd, role, email, name, uid) {
     return rp({
-        uri:'http://'+help.teamIp+'/identification/register',
+        uri:'http://'+help.teamIp+'/identification/signUp',
         method:'POST',
-        body:{
+        form:{
             username:usr,
             password:pwd,
             role:role,
@@ -33,24 +33,33 @@ var register = function(usr, pwd, role, email, name, uid) {
         json:true
     })
     .then(function(body){
+        console.log(body)
         return {
             status:body.success,
             msg:body.msg
+        };
+    })
+    .catch(function(err) {
+        console.log(err)
+        return {
+            status:false,
+            msg:"团队服务出现未知错误"
         };
     });
 }
 
 var validateAccount = function(usr,pwd) {
     return rp({
-        uri:'http://'+help.teamIp+'/identification/login',
+        uri:'http://'+help.teamIp+'/identification/logIn',
         method:'POST',
-        body:{
+        form:{
             username:usr,
             password:pwd
         },
         json:true
     })
     .then(function(body){
+        console.log(body)
         if(body.success) {
             return true;
         } else {
@@ -117,23 +126,21 @@ var modUserInfo = function(usr, email, realName, id) {
  */
 var getGroupsByUsr = function(usr) {
     rp({
-        uri:"http://"+help.teamIp+"/group/getGroupList",
+        uri:"http://"+help.teamIp+"/"+usr+"/getMyGroups",
         method:"GET",
-        qs: {
-            username: usr
-        },
         json:true
     }).then(function(body){
         return body;
     });
 }
 
-var delGroup = function(teamId) {
+var delGroup = function(teamId, requesterName) {
     rp({
-        uri:"http://"+help.teamIp+"/"+teamId+"/delete",
+        uri:"http://"+help.teamIp+"/"+teamId+"/deleteGroup",
         method:"POST",
         body:{
-            groupId: teamId
+            groupId: teamId,
+            memberName: requesterName
         },
         json:true
     }).then(function(body){
@@ -152,16 +159,16 @@ var delGroup = function(teamId) {
  * @param {*} managerId 
  * @param {*} creatorId 
  */
-var createGroup = function(gName, gInfo, members, managerId, creatorId) {
+var createGroup = function(gName, gInfo, members, creatorName) {
     return rp({
-        uri:"http://"+help.teamIp+"/group/create",
+        uri:"http://"+help.teamIp+"/group/createGroup",
         method:"POST",
         body:{
             groupName: gName,
             info: gInfo,
             memberList: members,
-            managerId: managerId,
-            creatorId: creatorId
+            visibility: "public", //TODO 收集输入？ private/internal/public
+            creatorName: creatorName
         },
         json:true
     }).then(function(body){

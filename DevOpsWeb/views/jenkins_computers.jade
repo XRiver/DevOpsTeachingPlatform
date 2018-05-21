@@ -1,0 +1,40 @@
+extends layout
+
+block content
+    .container
+        h1 #{name}
+        ul.nav
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project).nav-link 持续集成首页
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/period').nav-link 设定触发周期
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/computers').nav-link 查看系统节点
+        br
+        .row
+            .col-lg-8
+                label 系统节点：
+                ul.list-group
+                    each computer in computers
+                        li.list-group-item.list-group-item-action
+                            p 名称：#{computer.displayName}
+                            p 并行数量：#{computer.numExecutors}
+
+                            if computer.offline
+                                p 离线
+                                p 离线原因：#{computer.offlineCauseReason}
+                            else
+                                p 在线
+
+                            if computer.jnlpAgent
+                                a(href='http://139.219.66.203:8071/computer/' + computer.displayName + "/download") 下载节点
+                                p
+                            if computer.description
+                                p 信息：#{computer.description}
+
+                            if computer.idle
+                                p 状态：空闲
+                            else
+                                p 状态：繁忙
+
+

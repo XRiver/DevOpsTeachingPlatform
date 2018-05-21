@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    .container
+        h3 您的操作出错了
+        br
+        if info
+            p 原因是： #{info}
+        else if info.information
+            p 原因是： #{info.information}
+        else
+            p 原因是： #{err}
+
+        br
+        if nodeId
+            a(href='/jenkins/' + group + "/" + project + "/branch/" + branchName + "/" + number + "/node/" + nodeId).nav-link 返回节点页面
+        else if number
+            a(href='/jenkins/' + group + "/" + project + "/branch/" + branchName + "/" + number).nav-link 返回构建页面
+        else if branchName
+            a(href='/jenkins/' + group + "/" + project + "/branch/" + branchName).nav-link 返回分支页面
+        else
+            a(href='/jenkins/' + group + "/" + project).nav-link 返回持续集成首页
+
+
