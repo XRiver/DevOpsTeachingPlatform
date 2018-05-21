@@ -16,8 +16,8 @@ import java.net.URL;
 public class GitlabInvoker {
 
     private final static String GITLAB_URL_PREFIX = "http://139.219.66.203:8762/";
-    public String initialProject(int groupId,int projectId,String projectName,String description) throws Exception {
-        String query="groupid="+groupId+"&projectid="+projectId+"&name="+projectName+"&description="+description;
+    public String initialProject(int groupId,int projectId,String projectName,String description,String creatorName) throws Exception {
+        String query="groupid="+groupId+"&projectid="+projectId+"&name="+projectName+"&description="+description+"&userid="+creatorName;
         URL restURL = new URL(GITLAB_URL_PREFIX+"project/newproject");
         /*
          * 此处的urlConnection对象实际上是根据URL的请求协议(此处是http)生成的URLConnection类 的子类HttpURLConnection

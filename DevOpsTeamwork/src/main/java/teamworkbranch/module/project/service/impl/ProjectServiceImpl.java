@@ -46,7 +46,7 @@ public class ProjectServiceImpl implements ProjectService{
             pManagerMapper.insertPManager(pManager);
         }
         logService.addLog("创建团队",creatorName,String.valueOf(projectId));
-        return 0;
+        return projectId;
     }
 
 
