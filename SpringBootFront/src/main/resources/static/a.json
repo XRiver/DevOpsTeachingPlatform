@@ -1,0 +1,35 @@
+{
+	"total": 21,
+	"rows": [
+		{
+			"id": 1,
+			"type": "Bugs",
+			"file": "src/nju/wqy/a.java",
+			"lineNo": 8
+		},
+		{
+			"id": 2,
+			"type": "Code Smell",
+			"file": "src/nju/wqy/b.java",
+			"lineNo": 8
+		},
+		{
+			"id": 3,
+			"type": "Vulnerabilities",
+			"file": "src/nju/wqy/c.java",
+			"lineNo": 8
+		},
+		{
+			"id": 4,
+			"type": "Bugs",
+			"file": "src/nju/wqy/d.java",
+			"lineNo": 8
+		},
+		{
+			"id": 5,
+			"type": "Code Smell",
+			"file": "src/nju/wqy/e.java",
+			"lineNo": 8
+		}
+	]
+}

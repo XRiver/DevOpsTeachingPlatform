@@ -1,0 +1,53 @@
+stages:
+    - system_code_clone
+    - system_build
+    - system_test
+    - system_deploy
+#如上定义了4个阶段，每个阶段内的job并行执行，只有前一个阶段内的所有job执行成功才会执行下一个阶段的job，否则就会跳过。默认的三个stage不建议改动，如有需要可自行新增stage。
+
+system_code_clone:
+    stage: system_code_clone
+    script:
+        - mkdir -p ~/projects/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME
+        - rm -rf ~/projects/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME
+        - cp -a ./ ~/projects/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME
+    tags:
+        - system_code_clone
+
+system_build:
+    stage: system_build
+    script:
+        - cd ~/projects/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME
+        - mvn clean package -Dmaven.test.skip=true -U -B -e
+        - cd -
+        - cp -a ~/projects/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME/target ./target
+        - ls ./target
+    only:
+        - master
+    tags:
+        - system_mvn_build
+    artifacts:
+        paths:
+            - target/
+#如上定义了build阶段的唯一job system_build，不建议改动。only指出此job只会被发到master分支的push所触发，不会对其余分支的push有所相应，可按需修改、增加响应的分支。tags代表希望哪一台runner来执行此job，不建议改动。artifacts代表中间产物，之后可以在job详细页面进行下载，也能传递到之后的阶段供之后的job使用，比如deploy阶段的job system_docker_deploy就使用了此job产生的中间产物target/，不建议改动。
+
+system_unit_test:
+    stage: system_test
+    script:
+        - cd ~/projects/$CI_PROJECT_NAME/$CI_PROJECT_NAMESPACE/$CI_COMMIT_REF_NAME
+        - mvn test -B -e
+        - curl -X GET 'localhost:8701/starttest?group=$CI_PROJECT_NAMESPACE&project=$CI_PROJECT_NAME&projectid=req_projectid&branch=$CI_COMMIT_REF_NAME'
+    only:
+        - master
+    tags:
+        - system_mvn_test
+
+system_docker_deploy:
+    stage: system_deploy
+    script:
+        - curl -X GET 'localhost:8887/deploy/startTask?group=$CI_PROJECT_NAMESPACE&project=$CI_PROJECT_NAME&projectid=req_projectid&branchname=$CI_COMMIT_REF_NAME'
+    only:
+        - master
+    tags:
+        - system_docker
+#如上所有job都是系统默认配置，不建议改动，若要执行自定义功能，请自行添加stage，在新stage中配置新job，格式参照如上。

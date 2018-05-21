@@ -1,0 +1,81 @@
+extends layout
+
+block content
+    .container
+        h1 #{group}-#{project} 分支：#{branchName}
+        ul.nav
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project).nav-link 持续集成首页
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/period').nav-link 设定触发周期
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/computers').nav-link 查看系统节点
+        br
+        .row
+            .col-lg-4
+                p 名称：#{info.name}
+
+                p 路径：#{info.fullDisplayName}
+            .col-lg-4
+                label 描述：#{info.description}
+        br
+        .row
+            .col-lg-8
+                p 健康报告：
+                ul.list-group
+                    each healthReport in info.healthReport
+                        li.list-group-item.list-group-item-action
+                            p #{healthReport.description}
+                            p 得分：#{healthReport.score}
+        br
+        .row
+            .col-lg-4
+                p 构建列表：
+                ul.list-group
+                    each build in info.builds
+                        li.list-group-item.list-group-item-action
+                            .row
+                                .col-lg-5
+                                    p #{build.number}
+                                .col-lg-5
+                                    a(href='/jenkins/' + group + '/' + project + '/branch/' + branchName + '/' + build.number) 构建页面
+            .col-lg-4
+                p 相关链接：
+                ul.list-group
+                    li.list-group-item.list-group-item-action
+                        .row
+                            .col-lg-4
+                                if info.buildable
+                                    form(action="/jenkins/" + group + "/" + project + "/branch/" + branchName + "/build",method="post")
+                                        input.btn.btn-primary(type="submit",value="立即构建")
+                                    br
+                if info.lastBuild
+                    li.list-group-item.list-group-item-action
+                        .row
+                            .col-lg-8
+                                p 上次执行构建：
+                            .col-lg-4
+                                p #{info.lastBuild.number}
+                if info.lastFailedBuild
+                    li.list-group-item.list-group-item-action
+                        .row
+                            .col-lg-8
+                                p 上次失败构建：
+                            .col-lg-4
+                                p #{info.lastFailedBuild.number}
+                if info.lastSuccessfulBuild
+                    li.list-group-item.list-group-item-action
+                        .row
+                            .col-lg-8
+                                p 上次成功构建：
+                            .col-lg-4
+                                p #{info.lastSuccessfulBuild.number}
+                if info.lastStableBuild
+                    li.list-group-item.list-group-item-action
+                        .row
+                            .col-lg-8
+                                p 上次稳定构建：
+                            .col-lg-4
+                                p #{info.lastStableBuild.number}
+
+        br
