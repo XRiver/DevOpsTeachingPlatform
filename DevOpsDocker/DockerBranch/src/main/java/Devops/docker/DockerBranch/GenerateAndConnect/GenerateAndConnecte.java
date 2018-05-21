@@ -81,8 +81,8 @@ public class GenerateAndConnecte {
 					String temp = re.ExecCommand(c1, conn).toString();
 					dvo = getDvo(taskid, "3", temp);
 					SocketServer.sendMessage(dvo.toString(),taskid);
-					StringBuilder run = ContainerLink(connectedType, con,"8070");
-					logger.info("alalalala");
+					StringBuilder run = ContainerLink(connectedType, con,"8080");
+					logger.info(run.toString());
 					String temp1 = re.ExecCommand(run, conn).toString();
 					dvo = getDvo(taskid, "3", "容器id:"+temp1);
 					SocketServer.sendMessage(dvo.toString(),taskid);
