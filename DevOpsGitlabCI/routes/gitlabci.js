@@ -5,8 +5,8 @@ var YAML = require('yamljs');
 var async = require('async');
 var fs = require('fs');
 
-const token = '?private_token=wyU62Tv8Tso1aw5bxfSL';
-const gitlabUrl = 'localhost:7777';
+const token = '?private_token=RsByonYoaC-_wAkG-6mM';
+const gitlabUrl = 'http://localhost:80';
 
 /* GET users listing. */
 router.get('/:group/:project', function(req, res, next) {
@@ -56,7 +56,7 @@ router.get('/:group/:project/init',function (req, res, next) {
                         if(error){
                             res.json({ok:false,message:'uploading pipeline configuration error.'});
                         }else{
-                            res.json({ok:true});
+                            res.json({ok:true,message:'init success!'});
                         }
                     });
             }
