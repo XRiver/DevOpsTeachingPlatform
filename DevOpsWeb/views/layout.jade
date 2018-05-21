@@ -26,7 +26,7 @@ html
         .container-fluid#teamworkMenu 
           .row
             - if(activeProjectId!=-1) {
-            span 当前激活的项目id为#{activeProjectId}，等等
+            span 当前激活的项目id为#{activeProjectId}
             - } else {
             span 当前未激活项目
             - }
@@ -38,5 +38,6 @@ html
         .btn-group-vertical.col-2.border.border-primary#menu
           button.btn.btn-primary.btn-block#jenkinsBtn(type='button',onClick="window.location.href='/index?p=ci'") 持续集成  
           button.btn.btn-primary.btn-block#dockerBtn(type='button',onClick="window.location.href='/index?p=deploy'") Docker部署
+          button.btn.btn-primary.btn-block#sonarBtn(type='button',onClick="window.location.href='/index?p=sonar'") 静态检查
         .col-10#main.border.border-primary
           block content

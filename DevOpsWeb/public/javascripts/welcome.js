@@ -1,5 +1,3 @@
-var hostname = 'localhost:4444';
-
 var login = function() {
     var usr = $('#usrLogin').val();
     var pwd = $('#pwdLogin').val();
@@ -37,7 +35,7 @@ var register = function() {
         alert('两次输入的密码不一致，请检查。');
         return;
     }
-    $.post('http://'+hostname+'/identification/register',
+    $.post('/fapi/register',
     {
         username:usr,
         password:pwd1,
@@ -48,7 +46,7 @@ var register = function() {
     },
     function(data, status){
         if(status=='success') {
-            if(data.success) {
+            if(data.status) {
                 alert('注册成功！');
             } else {
                 alert('注册失败：'+data.msg);
@@ -58,8 +56,3 @@ var register = function() {
         }
     });
 }
-
-$(document).ready(function(){
-    $('#loginBtn').click(login);
-    $('#registerBtn').click(register);
-});

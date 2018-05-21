@@ -6,8 +6,7 @@ var help = require('./help');
  * @returns UserVO(对照teamwork组API文档) 
  */
 var getUserInfo = function(username) {
-    var ret = null;
-    rp({
+    return rp({
         uri:"http://"+help.teamIp+"/user/getInfo",
         method:"GET",
         qs:{
@@ -15,17 +14,34 @@ var getUserInfo = function(username) {
         },
         json:true
     }).then(function(body){
-        ret = body;
+        return body;
     });
-    return ret;
+}
+
+var register = function(usr, pwd, role, email, name, uid) {
+    return rp({
+        uri:'http://'+help.teamIp+'/identification/register',
+        method:'POST',
+        body:{
+            username:usr,
+            password:pwd,
+            role:role,
+            email:email,
+            name:name,
+            userId:uid
+        },
+        json:true
+    })
+    .then(function(body){
+        return {
+            status:body.success,
+            msg:body.msg
+        };
+    });
 }
 
 var validateAccount = function(usr,pwd) {
-    // if(usr=='123'&&pwd=='456') {
-    //     return true;
-    // } 
-    var ret = false;
-    rp({
+    return rp({
         uri:'http://'+help.teamIp+'/identification/login',
         method:'POST',
         body:{
@@ -36,13 +52,15 @@ var validateAccount = function(usr,pwd) {
     })
     .then(function(body){
         if(body.success) {
-            ret = true;
+            return true;
+        } else {
+            return false;
         }
     })
     .catch(function(err){
         console.log(err);
+        return false;
     });
-    return ret;
 }
 
 /**
@@ -53,8 +71,7 @@ var validateAccount = function(usr,pwd) {
  * @returns {} {status:bool, msg:"..."}
  */
 var modPassword = function(usr, oldPwd, newPwd) {
-    var ret = null;
-    rp({
+    return rp({
         uri:"http://"+help.teamIp+"/user/modifyPassword",
         method:"POST",
         body:{
@@ -64,19 +81,17 @@ var modPassword = function(usr, oldPwd, newPwd) {
         },
         json:true
     }).then(function(body){
-        ret = {
+        return {
             status:body.success,
             msg:body.msg
         };
     })
-    return ret;
 }
 
 /**
  * @returns {} {status:bool, msg:"..."}
 */
 var modUserInfo = function(usr, email, realName, id) {
-    var ret = null;
     rp({
         uri:"http://"+help.teamIp+"/user/modify",
         method:"POST",
@@ -88,12 +103,11 @@ var modUserInfo = function(usr, email, realName, id) {
         },
         json:true
     }).then(function(body){
-        ret = {
+        return {
             status:body.success,
             msg:body.msg
         };
     })
-    return ret;
 }
 
 /**
@@ -102,7 +116,6 @@ var modUserInfo = function(usr, email, realName, id) {
  * @returns List<GroupVO>
  */
 var getGroupsByUsr = function(usr) {
-    var ret = null;
     rp({
         uri:"http://"+help.teamIp+"/group/getGroupList",
         method:"GET",
@@ -111,13 +124,11 @@ var getGroupsByUsr = function(usr) {
         },
         json:true
     }).then(function(body){
-        ret = body;
+        return body;
     });
-    return ret;
 }
 
 var delGroup = function(teamId) {
-    var ret = null;
     rp({
         uri:"http://"+help.teamIp+"/"+teamId+"/delete",
         method:"POST",
@@ -126,12 +137,11 @@ var delGroup = function(teamId) {
         },
         json:true
     }).then(function(body){
-        ret = {
+        return {
             status:body.success,
             msg:body.msg
         };
     })
-    return ret;
 }
 
 /**
@@ -143,8 +153,7 @@ var delGroup = function(teamId) {
  * @param {*} creatorId 
  */
 var createGroup = function(gName, gInfo, members, managerId, creatorId) {
-    var ret = null;
-    rp({
+    return rp({
         uri:"http://"+help.teamIp+"/group/create",
         method:"POST",
         body:{
@@ -157,22 +166,15 @@ var createGroup = function(gName, gInfo, members, managerId, creatorId) {
         json:true
     }).then(function(body){
         if(body.groupName) {
-            ret = {
-                status:'success',
-            };
+            return {status:true};
         } else {
-            ret = {
-                status:'fail',
-            }
+            return {status:false}
         }
-        
     })
-    return ret;
 }
 
 var getProjectList = function(usr) {
-    var ret = null;
-    rp({
+    return rp({
         uri:"http://"+help.teamIp+"/project/getProjectList",
         method:"GET",
         qs: {
@@ -180,26 +182,22 @@ var getProjectList = function(usr) {
         },
         json:true
     }).then(function(body){
-        ret = body;
+        return body;
     });
-    return ret;
 }
 
 var getProjectInfo = function(pid) {
-    var ret = null;
-    rp({
+    return rp({
         uri:"http://"+help.teamIp+"/project/"+pid+"/getInfo",
         method:"GET",
         json:true
     }).then(function(body){
-        ret = body;
+        return body;
     });
-    return ret;
 }
 
 var createProjectWithGroup = function(pName, pInfo, managerUsrs, gId, creatorUsr) {
-    var ret = null;
-    rp({
+    return rp({
         uri:"http://"+help.teamIp+"/project/createWithGroup",
         method:"POST",
         body:{
@@ -211,17 +209,15 @@ var createProjectWithGroup = function(pName, pInfo, managerUsrs, gId, creatorUsr
         },
         json:true
     }).then(function(body){
-        ret = {
+        return {
             status:body.success,
             msg:body.msg
         };
     })
-    return ret;
 }
 
 var createProjectWithoutGroup = function(pName, pInfo, managerUsrs, memberUsrs, creatorUsr) {
-    var ret = null;
-    rp({
+    return rp({
         uri:"http://"+help.teamIp+"/project/createWithoutGroup",
         method:"POST",
         body:{
@@ -233,16 +229,16 @@ var createProjectWithoutGroup = function(pName, pInfo, managerUsrs, memberUsrs, 
         },
         json:true
     }).then(function(body){
-        ret = {
+        return {
             status:body.success,
             msg:body.msg
         };
     })
-    return ret;
 }
 
 var out = {
     getUserInfo: getUserInfo,
+    register: register,
     getProjectInfo: getProjectInfo,
     validateAccount: validateAccount,
     modPassword: modPassword,

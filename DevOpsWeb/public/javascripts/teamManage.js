@@ -31,7 +31,7 @@ var createGroup = function() {
     },
     function(data, status) {
         if(status=="success") {
-            if(data.status==true) {
+            if(data.status) {
                 alert('创建成功！');
                 document.location.reload(true);
             } else {
