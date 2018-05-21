@@ -16,12 +16,12 @@ import java.util.jar.JarEntry;
 @Service
 public class ProjectService {
 
-    public String createProject(String name,String description){
+    public String createProject(String name,String description,String userid){
         Map<String,String> map=new HashMap<>();
         map.put("name",name);
         map.put("path",name);
         map.put("description",description);
-        String result= Util.post("/projects",map);
+        String result= Util.post("/projects/user/"+userid,map);
         return result;
     }
 
