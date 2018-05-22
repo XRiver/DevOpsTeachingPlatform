@@ -49,6 +49,16 @@ app.use('/gitlabci',gitlabciRouter);
 var jenkinsRouter = require('./routes/jenkins/jenkins');
 app.use('/jenkins',jenkinsRouter);
 
+// Git module
+var indexRouter = require('./routes/git/index');
+var usersRouter = require('./routes/git/users');
+var groupRouter = require('./routes/git/group');
+var repositoryRouter = require('./routes/git/repository');
+app.use('/git', indexRouter);
+app.use('/git/user', usersRouter);
+app.use('/git/group',groupRouter);
+app.use('/git/repository',repositoryRouter);
+
 // 错误处理1：当无法在设计好的路由里找到请求的路径时，提示404状态码
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

@@ -134,6 +134,16 @@ var getGroupsByUsr = function(usr) {
     });
 }
 
+var getGroupById = function(id) {
+    rp({
+        uri:"http://"+help.teamIp+"/"+id+"/getGroup",
+        method:"GET",
+        json:true
+    }).then(function(body){
+        return body;
+    });
+}
+
 var delGroup = function(teamId, requesterName) {
     rp({
         uri:"http://"+help.teamIp+"/"+teamId+"/deleteGroup",
@@ -205,14 +215,15 @@ var getProjectInfo = function(pid) {
 
 var createProjectWithGroup = function(pName, pInfo, managerUsrs, gId, creatorUsr) {
     return rp({
-        uri:"http://"+help.teamIp+"/project/createWithGroup",
+        uri:"http://"+help.teamIp+"/project/createWithGroupUseGitlabCI",
         method:"POST",
         body:{
             projectName: pName,
             info: pInfo,
             managerList: managerUsrs,
             groupId: gId,
-            creatorName: creatorUsr
+            creatorName: creatorUsr,
+            language:"java"
         },
         json:true
     }).then(function(body){
@@ -255,7 +266,8 @@ var out = {
     createGroup: createGroup,
     getProjectList: getProjectList,
     createProjectWithGroup: createProjectWithGroup,
-    createProjectWithoutGroup: createProjectWithoutGroup
+    getGroupById: getGroupById
+    //createProjectWithoutGroup: createProjectWithoutGroup
 }
 
 module.exports = out;

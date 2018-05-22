@@ -16,9 +16,9 @@ router.post('/test/execute-all/:testId',function(req, res, next){
         function (error,response,body) {
             if(!error&& response.statusCode == 200){
                 var report = JSON.parse(body);
-                res.render('report_detail',{report:report,testid:id});
+                res.render('report_detail',{report:report,testid:id,sess:req.session});
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });
@@ -29,9 +29,9 @@ router.get('/test/execute/:id',function(req, res, next){
         function (error,response,body) {
             if (!error&& response.statusCode == 200) {
                 var test = JSON.parse(body);
-                res.render('exec_part',{test:test});
+                res.render('exec_part',{test:test,sess:req.session});
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });
@@ -54,9 +54,9 @@ router.post('/test/execute/:id',function(req, res, next){
         function (error,response,body) {
             if(!error&& response.statusCode == 200){
                 var report = JSON.parse(body);
-                res.render('report_detail',{report:report,testid:id});
+                res.render('report_detail',{report:report,testid:id,sess:req.session});
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 

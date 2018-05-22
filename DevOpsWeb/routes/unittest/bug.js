@@ -9,9 +9,9 @@ router.get('/:project/bugs',function (req, res, next) {
         function (error,response,body) {
             if (!error&& response.statusCode == 200) {
                 var bugs = JSON.parse(body);
-                res.render('bug_list',{bugs:bugs,project:project});
+                res.render('bug_list',{bugs:bugs,project:project,sess:req.session});
             }else{
-                res.render('error',{err:error,project:project});
+                res.render('error',{err:error,project:project,sess:req.session});
             }
         });
 
@@ -25,9 +25,9 @@ router.get('/bug/:id',function (req, res, next) {
         function (error,response,body) {
             if (!error&& response.statusCode == 200) {
                 var bug = JSON.parse(body);
-                res.render('bug_detail',{bug:bug});
+                res.render('bug_detail',{bug:bug,sess:req.session});
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 
@@ -46,7 +46,7 @@ router.post('/:project/createbug',function(req, res, next){
             if(!error){
                 res.redirect('/unittest/'+project+'/bugs');
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });
@@ -64,7 +64,7 @@ router.post('/bug/update',function(req, res, next){
             if(!error){
                 res.redirect('/unittest/'+project+'/bugs');
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });
@@ -79,7 +79,7 @@ router.post('/bug/delete',function(req, res, next){
             if(!error){
                 res.redirect('/unittest/'+project+'/bugs');
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });
@@ -101,7 +101,7 @@ router.post('/bug/change',function(req, res, next){
             if(!error){
                 res.redirect('/unittest/bug/'+req.body.id);
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });

@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    body
+        .container-fluid#frame
+            .row.container-fluid.px-1.py-2
+                .col-10#main.border.border-primary
+                    .table-responsive
+                        table.table-striped.table-hover.col-12
+                            thead
+                                tr
+                                    th  title
+                                    th  上传者
+                                    th  上传时间
+                            tbody
+                                - for(var i =0; i< commits.length;i++)
+                                    tr
+                                        td #{commits[i].title}
+                                        td #{commits[i].committer_name}
+                                        td #{commits[i].created_at}
+
+                    br
+                    br

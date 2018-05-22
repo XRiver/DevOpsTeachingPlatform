@@ -27,8 +27,9 @@ module.exports.getCommits = function (req, res, next) {
             res.render('commitlist',{
                 title:"express",
                 projectid:projectid,
-                realname:req.session.user.username,
-                commits:commits
+                realname:req.session.username,
+                commits:commits,
+                sess:req.session
             })
         });
     }).on('error', function(err) {
@@ -61,7 +62,8 @@ module.exports.getMerges = function (req, res, next) {
                 title: "express",
                 projectid: projectid,
                 realname: "yhqqq",
-                merges: merges
+                merges: merges,
+                sess:req.session
 
             })
         });
@@ -106,9 +108,10 @@ module.exports.getTree = function (req, res, next) {
 
             res.render('index',{
                 projectid:req.session.projectid,
-                realname:req.session.user.username,
+                realname:req.session.username,
                 project:req.session.project,
-                trees:trees
+                trees:trees,
+                sess:req.session
             })
 
         });

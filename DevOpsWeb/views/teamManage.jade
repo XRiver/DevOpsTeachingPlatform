@@ -2,48 +2,40 @@ extends layout
 
 block content
     script(src="/javascripts/teamManage.js")
-    .col-2
-      ul.mx-auto.nav.nav-tabs.nav-justified.col-8
-        li.nav-item
-            a.nav-link.active(href="#teamViewPane" data-toggle="tab") 我的团队
-        li.nav-item 
-            a.nav-link(href="#teamCreatePane" data-toggle="tab") 创建团队
-    .col-2
-    .col-2
-    .tab-content.container.col-8
-        .tab-pane.container.active.pt-2#teamViewPane
-            table.table.table-hover
-                thead
-                    tr
-                        th 团队编号
-                        th 团队名
-                        th 团队信息
-                        th 团队创建者
-                        th 团队成员
-                        th 团队管理者
-                        th 操作
-                tbody
-                - for(group in myGroups) { 
-                -   var members = []; for(usr in group.memberList) members.push(usr.name);
-                -   var managers = []; for(usr in group.managerList) managers.push(usr.name);
-                    tr
-                        td= group.groupId
-                        td= group.groupName
-                        td= group.info
-                        td= group.creator.name
-                        td= members.join(',')
-                        td= managers.join(',')
-                        td
-                            button.btn.btn-outline-warning.btn-sm(type="button", onClick="delGroup("+group.groupId+")") 删除团队 
-
-                - }
-        .tab-pane.container.pt-2#teamCreatePane
-            .form-group
-                label(for='groupNameInput') 团队名称：
-                input.form-control#groupNameInput(type='text')
-                label(for='infoInput') 团队介绍：
-                input.form-control#infoInput(type='text')
-                label(for="memberInput") 团队成员ID:(每行一个)
-                textarea.form-control#memberInput(rows="5")
-            button.btn.btn-primary.btn-lg.float-right(type='button' onClick='createGroup()') 创建
-    .col-2
+    .container-fliud
+        .col-2
+        ul.mx-auto.nav.nav-tabs.nav-justified.col-8
+            li.nav-item
+                a.nav-link.active(href="#teamViewPane" data-toggle="tab") 我的团队
+            li.nav-item 
+                a.nav-link(href="#teamCreatePane" data-toggle="tab") 创建团队
+        .col-2
+    .container-fluid
+        .col-2
+        .tab-content.container.col-8
+            .tab-pane.container.active.pt-2#teamViewPane
+                table.table.table-hover
+                    thead
+                        tr
+                            th 团队编号
+                            th 团队名
+                            th 团队信息
+                            th 操作
+                    tbody
+                        each group in myGroups 
+                            tr
+                                td= group.groupId
+                                td= group.groupName
+                                td= group.info
+                                td
+                                    button.btn.btn-outline-warning.btn-sm(type="button", onClick="delGroup("+group.groupId+")") 删除团队 
+            .tab-pane.container.pt-2#teamCreatePane
+                .form-group
+                    label(for='groupNameInput') 团队名称：
+                    input.form-control#groupNameInput(type='text')
+                    label(for='infoInput') 团队介绍：
+                    input.form-control#infoInput(type='text')
+                    label(for="memberInput") 团队成员ID:(每行一个)
+                    textarea.form-control#memberInput(rows="5")
+                button.btn.btn-primary.btn-lg.float-right(type='button' onClick='createGroup()') 创建
+        .col-2

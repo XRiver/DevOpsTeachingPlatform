@@ -1,0 +1,62 @@
+extends layout
+
+block content
+  body
+    .container-fluid#frame
+      include header
+      .row.container-fluid.px-1.py-2
+        include sidebar
+        .col-10#main.border.border-primary
+            h1= project.name
+            p= '项目描述: '+project.description
+            hr
+            .row
+              .col-2
+                p='web_url:'+project.web_url
+                p='http_url:'+project.http_url_to_repo
+                p='ssh_url:'+project.ssh_url_to_repo
+            hr
+            .row
+              .col-2
+                .btn-group
+                  button.btn.btn-primary(type=button) 提交次数
+                  button.btn.btn-secondary(type=button,) #{project.commit_count}
+              .col-2
+                .btn-group
+                  button.btn.btn-primary(type=button) 仓库大小
+                  button.btn.btn-secondary(type=button,) #{project.repository_size}
+              .col-2
+              .col-2
+
+            hr
+            .row
+                .col-2
+                    .dropdown
+                        button.btn.btn-primary.dropdown-toggle(type="button",data-toggle="dropdown")    master
+                        .dropdown-menu
+                            a.dropdown-item(href="#") branch1
+                .col-2
+                .col-2
+                .col-2
+                .col-2
+                    button.btn.btn-primary(type=button) 上传
+                .col-2
+                    button.btn.btn-primary(type=button) 下载
+            .table-responsive
+                table.table-striped.table-hover.col-12
+                  thead
+                    tr
+                      th  名称
+                      th  类型
+                  tbody
+                      -for(var i =0 ; i<trees.length; i++)
+                          tr
+                            - if(trees[i].type=="tree")
+                                td
+                                    a(href='/git/repository/trees?path=' + trees[i].path) #{trees[i].name}
+                                td 文件夹
+                            -  if(trees[i].type!="tree")
+                                td #{trees[i].name}
+                                td 文件
+            br
+            br

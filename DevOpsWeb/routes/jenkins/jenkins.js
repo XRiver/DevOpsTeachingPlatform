@@ -14,13 +14,14 @@ router.get('/:group/:project', function (req, res, next) {
     request(jenkinsUrl + '/job/' + name + '/info', function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var obj = JSON.parse(body);
+            console.log(body)
             if (!obj.success) {
-                res.render('jenkins_error', {info: obj, group: group, project: project});
+                res.render('jenkins_error', {info: obj, group: group, project: project,sess:req.session});
             } else {
-                res.render('jenkins_home', {info: obj.t, group: group, project: project});
+                res.render('jenkins_home', {info: obj.t, group: group, project: project,sess:req.session});
             }
         } else {
-            res.render('jenkins_error', {err: "访问主页失败", group: group, project: project})
+            res.render('jenkins_error', {err: "访问主页失败", group: group, project: project,sess:req.session})
         }
     });
 });
@@ -40,13 +41,13 @@ router.post('/:group/:project/update', function (req, res, next) {
         if (!error && response.statusCode == 200) {
             var obj = JSON.parse(body);
             if (!obj.success) {
-                res.render('jenkins_error', {info: obj, group: group, project: project});
+                res.render('jenkins_error', {info: obj, group: group, project: project,sess:req.session});
             } else {
                 res.redirect('/jenkins/' + group + "/" + project);
             }
 
         } else {
-            res.render('jenkins_error', {err: "更新失败", group: group, project: project})
+            res.render('jenkins_error', {err: "更新失败", group: group, project: project,sess:req.session})
         }
     })
 })
@@ -58,14 +59,14 @@ router.get('/:group/:project/period', function (req, res, next) {
         if (!error && response.statusCode == 200) {
             var obj = JSON.parse(body);
             if (!obj.success) {
-                res.render('jenkins_error', {info: obj, group: group, project: project});
+                res.render('jenkins_error', {info: obj, group: group, project: project,sess:req.session});
             }
             else {
 
-                res.render('jenkins_home_period', {info: obj, name: name, group: group, project: project});
+                res.render('jenkins_home_period', {info: obj, name: name, group: group, project: project,sess:req.session});
             }
         } else {
-            res.render('jenkins_error', {err: "访问触发周期失败", group: group, project: project})
+            res.render('jenkins_error', {err: "访问触发周期失败", group: group, project: project,sess:req.session})
         }
     })
 })
@@ -83,13 +84,13 @@ router.post('/:group/:project/period', function (req, res, next) {
         if (!error && response.statusCode == 200) {
             var obj = JSON.parse(body);
             if (!obj.success) {
-                res.render('jenkins_error', {info: obj, group: group, project: project});
+                res.render('jenkins_error', {info: obj, group: group, project: project,sess:req.session});
             } else {
                 res.redirect('/jenkins/' + group + "/" + project + "/period");
             }
 
         } else {
-            res.render('jenkins_error', {err: "更新触发周期失败", group: group, project: project})
+            res.render('jenkins_error', {err: "更新触发周期失败", group: group, project: project,sess:req.session})
         }
     })
 })
@@ -106,12 +107,12 @@ router.post('/:group/:project/build', function (req, res, next) {
         if (!error && response.statusCode == 200) {
             var obj = JSON.parse(body);
             if (!obj.success) {
-                res.render('jenkins_error', {info: obj, group: group, project: project});
+                res.render('jenkins_error', {info: obj, group: group, project: project,sess:req.session});
             } else {
                 res.redirect('/jenkins/' + group + "/" + project);
             }
         } else {
-            res.render('jenkins_error', {err: "扫描失败", group: group, project: project})
+            res.render('jenkins_error', {err: "扫描失败", group: group, project: project,sess:req.session})
         }
     })
 })
@@ -122,9 +123,9 @@ router.get('/:group/:project/computers', function (req, res, next) {
     request(jenkinsUrl + "/computers", function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var obj = JSON.parse(body);
-            res.render('jenkins_computers', {computers: obj.t, name: name, group: group, project: project});
+            res.render('jenkins_computers', {computers: obj.t, name: name, group: group, project: project,sess:req.session});
         } else {
-            res.render('jenkins_error', {err: "获取系统节点失败", group: group, project: project})
+            res.render('jenkins_error', {err: "获取系统节点失败", group: group, project: project,sess:req.session})
         }
     })
 })
@@ -160,14 +161,15 @@ router.get('/:group/:project/branch/:branchName', function (req, res, next) {
         }
     }, function (err, result) {
         if (err) {
-            res.render('jenkins_error', {err: err, group: group, project: project, branchName: branchName})
+            res.render('jenkins_error', {err: err, group: group, project: project, branchName: branchName,sess:req.session})
         } else {
             res.render('jenkins_branch_home', {
                 info: result.information,
                 success: result.hasArtifact,
                 group: group,
                 project: project,
-                branchName: branchName
+                branchName: branchName,
+                sess:req.session
             })
         }
 
@@ -200,12 +202,12 @@ router.post('/:group/:project/branch/:branchName/build', function (req, res, nex
         if (!error && response.statusCode == 200) {
             var obj = JSON.parse(body);
             if (!obj.success) {
-                res.render('jenkins_error', {info: obj, group: group, project: project, branchName: branchName});
+                res.render('jenkins_error', {info: obj, group: group, project: project, branchName: branchName,sess:req.session});
             } else {
                 res.redirect('/jenkins/' + group + "/" + project + "/branch/" + branchName);
             }
         } else {
-            res.render('jenkins_error', {err: "构建发起失败", group: group, project: project, branchName: branchName})
+            res.render('jenkins_error', {err: "构建发起失败", group: group, project: project, branchName: branchName,sess:req.session})
         }
     })
 
@@ -252,7 +254,7 @@ router.get('/:group/:project/branch/:branchName/:number', function (req, res, ne
         }
     }, function (err, result) {
         if (err) {
-            res.render('jenkins_error', {err: err, group: group, project: project, branchName: branchName})
+            res.render('jenkins_error', {err: err, group: group, project: project, branchName: branchName,sess:req.session})
         } else {
 
             for (var i = 0; i < result.nodes.length; i++) {
@@ -270,7 +272,8 @@ router.get('/:group/:project/branch/:branchName/:number', function (req, res, ne
                 duration: result.information.duration / 1000.0,
                 estimatedDuration: result.information.estimatedDuration / 1000.0,
                 nodes: result.nodes,
-                log: result.log
+                log: result.log,
+                sess:req.session
             })
         }
     })
@@ -332,7 +335,8 @@ router.get('/:group/:project/branch/:branchName/:number/node/:nodeId', function 
                 number: number,
                 nodeId: nodeId,
                 time: time,
-                steps: result.steps
+                steps: result.steps,
+                sess:req.session
             })
         }
     })
@@ -356,7 +360,8 @@ router.get('/:group/:project/branch/:branchName/:number/node/:nodeId/step/:stepI
                 number: number,
                 nodeId: nodeId,
                 stepId: stepId,
-                log: body
+                log: body,
+                sess:req.session
             })
         } else {
             res.render('jenkins_error', {
@@ -365,7 +370,8 @@ router.get('/:group/:project/branch/:branchName/:number/node/:nodeId/step/:stepI
                 project: project,
                 branchName: branchName,
                 number: number,
-                nodeId: nodeId
+                nodeId: nodeId,
+                sess:req.session
             })
         }
     })

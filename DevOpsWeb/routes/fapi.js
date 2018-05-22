@@ -11,6 +11,10 @@ router.post('/login', async function(req, res, next) {
         var sess = req.session;
         sess.usr = usr;
         sess.username = usr;
+        uinfo =  await teamApi.getUserInfo(usr);
+        sess.userid = uinfo.userId;
+        sess.userId = uinfo.userId;
+        sess.realName = uinfo.name;
         sess.logined = true;
         res.send({
             status:true,
@@ -76,6 +80,8 @@ router.post('/activateProject', async function(req, res, next) {
     var sess = req.session;
     sess.activeProjectId = req.body.projectId;
     sess.activeProjectInfo = await teamApi.getProjectInfo(sess.activeProjectId);
+    sess.activeGroupId = sess.activeProjectInfo.groupId;
+    sess.activeGroupInfo = await teamApi.getGroupById(sess.activeGroupId);
     res.send({
         status:true
     });
@@ -90,6 +96,25 @@ router.post('/createProjectWithGroup', async function(req, res, next) {
         creatorUsr = sess.usr;
     var ret = await teamApi.createProjectWithGroup(pName, pInfo, managerUsrs, gId, creatorUsr);
     res.send(ret);
+})
+
+router.get('/fakelogin', function(req, res, next) {
+    var sess = req.session;
+    sess.usr = 'riverxu';
+    sess.username = 'riverxu';
+    sess.userid = 141250000;
+    sess.logined = true;
+    sess.activeProjectId = 1;
+    sess.activeProjectInfo = {
+        name:"物流管理系统",
+        info:"软工课程作业"
+    };
+    sess.activeGroupId = 1;
+    sess.activeGroupInfo = {
+        name:"软工1小队",
+        info:"无"
+    };
+    res.json({status:"OK"})
 })
 
 module.exports = router;

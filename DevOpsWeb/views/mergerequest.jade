@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    body
+        .container-fluid#frame
+            .row.container-fluid.px-1.py-2
+                .col-10#main.border.border-primary
+                    .table-responsive
+                        table.table-striped.table-hover.col-12
+                            thead
+                                tr
+                                    th  发起分支
+                                    th  目标分支
+                                    th  请求时间
+                                    th  发起人
+                                    th  操作
+                            tbody
+                                tr
+                                    td
+                                        a(href="#") branch1
+                                    td
+                                        a(href="#") master
+                                    td  2018-4-23
+                                    td  yhqqq
+                                    td
+                                        .btn-group
+                                            button.btn.btn-primary  允许
+                                            button.btn.btn-danger   拒绝
+
+                    br
+                    br

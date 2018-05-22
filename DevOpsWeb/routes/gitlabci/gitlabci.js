@@ -29,9 +29,9 @@ router.get('/:group/:project', function(req, res, next) {
                     }
                 }
                 yaml_obj.stages=stages;
-                res.render('ci-yaml',{yaml_obj:yaml_obj,yaml_str:body,group:group,project:project});
+                res.render('ci-yaml',{yaml_obj:yaml_obj,yaml_str:body,group:group,project:project,sess:req.session});
             }else{
-                res.render('ci-yaml',{err:"getting .gitlab-ci.yml file content error!",group:group,project:project})
+                res.render('ci-yaml',{err:"getting .gitlab-ci.yml file content error!",group:group,project:project,sess:req.session})
             }
         });
 });
@@ -105,13 +105,13 @@ router.get('/:group/:project/pipelines',function(req, res, next){
                 });
                 async.parallel(paraFuncs,function (err,result) {
                     if(err){
-                        res.render('pipelines',{err:err,group:group,project:project});
+                        res.render('pipelines',{err:err,group:group,project:project,sess:req.session});
                     }else{
-                        res.render('pipelines',{branches:result.pop(),pipelines:result,group:group,project:project,page:page});
+                        res.render('pipelines',{branches:result.pop(),pipelines:result,group:group,project:project,page:page,sess:req.session});
                     }
                 });
             }else{
-                res.render('pipelines',{err:"getting pipelines list error!",group:group,project:project})
+                res.render('pipelines',{err:"getting pipelines list error!",group:group,project:project,sess:req.session})
             }
         });
 });
@@ -156,7 +156,7 @@ router.get('/:group/:project/jobs/:job_id',function(req, res, next){
         }
     },function(err, result){
         if(err){
-            res.render('job_detail',{err:err,group:group,project:project});
+            res.render('job_detail',{err:err,group:group,project:project,sess:req.session});
         }else{
             var det_obj = JSON.parse(result.detail);
             var str = result.log;
@@ -187,9 +187,9 @@ router.get('/:group/:project/jobs',function(req, res, next){
     request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/jobs'+token+'&per_page='+per_page+'&page='+page,
         function (error,response,body) {
             if (!error && response.statusCode == 200) {
-                res.render('jobs',{jobs:JSON.parse(body),page:page,group:group,project:project,page:page});
+                res.render('jobs',{jobs:JSON.parse(body),page:page,group:group,project:project,page:page,sess:req.session});
             }else{
-                res.render('jobs',{err:"获取jobs失败，请稍后再试。",group:group,project:project});
+                res.render('jobs',{err:"获取jobs失败，请稍后再试。",group:group,project:project,sess:req.session});
             }
         });
 });
@@ -226,9 +226,9 @@ router.get('/:group/:project/pipelines/:pipeline_id',function(req, res, next){
             });
     }},function (err, result) {
         if(err){
-            res.render('pipeline_detail',{err:err,group:group,project:project});
+            res.render('pipeline_detail',{err:err,group:group,project:project,sess:req.session});
         }else{
-            res.render('pipeline_detail',{pipeline:result.pipeline,pipeline_jobs:result.pipeline_jobs,group:group,project:project});
+            res.render('pipeline_detail',{pipeline:result.pipeline,pipeline_jobs:result.pipeline_jobs,group:group,project:project,sess:req.session});
         }
     });
 });
@@ -284,9 +284,9 @@ router.get('/:group/:project/ci-yaml',function(req, res, next){
     request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/files/.gitlab-ci.yml/raw'+token+'&ref=master',
         function (error,response,body) {
             if (!error && response.statusCode == 200) {
-                res.render('ci-yaml',{ci_yaml:body,group:group,project:project});
+                res.render('ci-yaml',{ci_yaml:body,group:group,project:project,sess:req.session});
             }else{
-                res.render('ci-yaml',{err:"获取.gitlab-ci.yml失败。",group:group,project:project});
+                res.render('ci-yaml',{err:"获取.gitlab-ci.yml失败。",group:group,project:project,sess:req.session});
             }
         });
 });
@@ -301,7 +301,7 @@ router.post('/:group/:project/ci-yaml',function(req, res, next){
             if (!error) {
                 res.redirect("/gitlabci/"+group+"/"+project);
             }else{
-                res.render('ci-yaml',{err:"更新.gitlab-ci.yml失败。",group:group,project:project});
+                res.render('ci-yaml',{err:"更新.gitlab-ci.yml失败。",group:group,project:project,sess:req.session});
             }
         });
 });
@@ -329,13 +329,13 @@ router.get('/:group/:project/runners',function(req, res, next){
                 }
                 async.parallel(parallelFuncs,function (err,result) {
                     if(err){
-                        res.render('runners',{err:"获取runners失败，请稍后再试。",group:group,project:project});
+                        res.render('runners',{err:"获取runners失败，请稍后再试。",group:group,project:project,sess:req.session});
                     }else{
-                        res.render('runners',{runners:result,group:group,project:project});
+                        res.render('runners',{runners:result,group:group,project:project,sess:req.session});
                     }
                 });
             }else{
-                res.render('runners',{err:"获取runners失败，请稍后再试。",group:group,project:project});
+                res.render('runners',{err:"获取runners失败，请稍后再试。",group:group,project:project,sess:req.session});
             }
         });
 });
@@ -363,9 +363,9 @@ router.get('/:group/:project/schedules', function(req, res, next){
             });
     }},function (err, result) {
         if(err){
-            res.render('schedules',{err:err,group:group,project:project});
+            res.render('schedules',{err:err,group:group,project:project,sess:req.session});
         }else{
-            res.render('schedules',{schedules:result.schedules,branches:result.branches,group:group,project:project});
+            res.render('schedules',{schedules:result.schedules,branches:result.branches,group:group,project:project,sess:req.session});
         }
     });
 });
@@ -384,7 +384,7 @@ router.post('/:group/:project/schedules',function(req, res, next){
             if(!error){
                 res.redirect('/gitlabci/'+group+'/'+project+'/schedules');
             }else{
-                res.render('schedules',{err:"添加schedules失败。",group:group,project:project});
+                res.render('schedules',{err:"添加schedules失败。",group:group,project:project,sess:req.session});
             }
         });
 });
@@ -398,7 +398,7 @@ router.get('/:group/:project/schedules_active/:schedule_id',function (req, res, 
         if(!error){
             res.redirect('/gitlabci/'+group+'/'+project+'/schedules');
         }else{
-            res.render('schedules',{err:"updating schedule "+req.params.schedule_id+" error!",group:group,project:project});
+            res.render('schedules',{err:"updating schedule "+req.params.schedule_id+" error!",group:group,project:project,sess:req.session});
         }
     });
 });
@@ -410,7 +410,7 @@ router.get('/:group/:project/schedules_delete/:schedule_id',function (req, res, 
         if(!error){
             res.redirect('/gitlabci/'+group+'/'+project+'/schedules');
         }else{
-            res.render('schedules',{err:"deleting schedule "+req.params.schedule_id+" error!",group:group,project:project});
+            res.render('schedules',{err:"deleting schedule "+req.params.schedule_id+" error!",group:group,project:project,sess:req.session});
         }
     });
 });

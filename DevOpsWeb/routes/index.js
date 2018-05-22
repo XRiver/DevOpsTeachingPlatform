@@ -39,18 +39,12 @@ router.get('/', async function(req, res, next) {
 
   var renderOptions = {
     realName: userInfo.name,
-    activeProjectId: activeProjectId,
-    activeProjectInfo: activeProjectInfo,
+    sess: sess
   };
 
   switch(req.query.p) {
     case "welcome":
       res.render('index', renderOptions);
-    break;
-    case "deploy":
-    res.render('deploy', renderOptions);
-    case "ci":
-    res.render('ci', renderOptions);
     break;
     case "modUserInfo":
     res.render('modUserInfo', renderOptions);
@@ -79,6 +73,22 @@ var renderProjectManage = async function(baseRenderOptions, req, res) {
   baseRenderOptions.myProjects = projects;
   res.render('projectManage', baseRenderOptions);
 }
+
+router.get('/test',function(req,res,next){
+  res.render('projectManage',{
+    realName:"徐江河",
+    sess:req.session,
+    myProjects:[
+      {
+        projectId:1,
+        name:"物流管理系统",
+        info:"软工课程作业",
+        creatorName:"徐江河",
+        managers:['徐江河','王阳明']
+      }
+    ]
+  });
+});
 
 router.get('/sqtest/:p', function(req,res,next){
   res.render('sqtest',{

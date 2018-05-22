@@ -57,8 +57,9 @@ module.exports.getSSHkey=function (req, res, next) {
             var keys = JSON.parse(data);
             res.render('sshkey',{
                 projectid:req.session.projectid,
-                realname:req.session.user.username,
-                keys:keys
+                realname:req.session.username,
+                keys:keys,
+                sess:req.session
 
             })
         });

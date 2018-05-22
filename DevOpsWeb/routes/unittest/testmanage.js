@@ -10,9 +10,9 @@ router.get('/:project/tests',function (req, res, next) {
         function (error,response,body) {
             if (!error&& response.statusCode == 200) {
                 var tests = JSON.parse(body);
-                res.render('test_list',{tests:tests,project:project});
+                res.render('test_list',{tests:tests,project:project,sess:req.session});
             }else{
-                res.render('test_list',{err:error,project:project});
+                res.render('test_list',{err:error,project:project,sess:req.session});
             }
         });
 
@@ -26,9 +26,9 @@ router.get('/test/:id',function (req, res, next) {
         function (error,response,body) {
             if (!error&& response.statusCode == 200) {
                 var test = JSON.parse(body);
-                res.render('test_detail',{test:test});
+                res.render('test_detail',{test:test,sess:req.session});
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });
@@ -50,7 +50,7 @@ router.post('/:project/createtest',function(req, res, next){
             if(!error){
                 res.redirect('/unittest/'+project+'/tests');
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });
@@ -70,7 +70,7 @@ router.post('/test/update',function(req, res, next){
             if(!error){
                 res.redirect('/unittest/'+project+'/tests');
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });
@@ -85,7 +85,7 @@ router.post('/test/delete',function(req, res, next){
             if(!error){
                 res.redirect('/unittest/'+project+'/tests');
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });

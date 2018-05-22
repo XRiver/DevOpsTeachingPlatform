@@ -10,9 +10,9 @@ router.get('/:testId/testcase/:id',function (req, res, next) {
         function (error,response,body) {
             if (!error&& response.statusCode == 200) {
                 var testcase = JSON.parse(body);
-                res.render('testcase_detail',{testcase:testcase,testid:testId});
+                res.render('testcase_detail',{testcase:testcase,testid:testId,sess:req.session});
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 
@@ -33,7 +33,7 @@ router.post('/:testId/testcase/create',function(req, res, next){
             if(!error){
                 res.redirect('/unittest/test/'+test);
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });
@@ -52,7 +52,7 @@ router.post('/:testId/testcase/update',function(req, res, next){
             if(!error){
                 res.redirect('/unittest/test/'+test);
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });
@@ -67,7 +67,7 @@ router.post('/:testId/testcase/delete',function(req, res, next){
             if(!error){
                 res.redirect('/unittest/test'+test);
             }else{
-                res.render('error',{err:error});
+                res.render('error',{err:error,sess:req.session});
             }
         });
 });

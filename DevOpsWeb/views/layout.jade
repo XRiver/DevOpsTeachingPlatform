@@ -25,8 +25,8 @@ html
             button.btn.btn-outline-warning.btn-sm.float-right#logoutBtn(type="button", onClick="logout()") 退出登录
         .container-fluid#teamworkMenu 
           .row
-            - if(activeProjectId!=-1) {
-            span 当前激活的项目id为#{activeProjectId}
+            - if(sess.activeProjectId>0) {
+            span 当前激活的项目为#{sess.activeProjectInfo.name}
             - } else {
             span 当前未激活项目
             - }
@@ -36,15 +36,34 @@ html
               button.btn.btn-outline-info.btn-sm.float-left#projectManageBtn(type="button") 项目管理
       .row.container-fluid.px-1.py-2
         .btn-group-vertical.col-2.border.border-primary.pt-3.d-block#menu
-          button.btn.btn-primary.btn-block#jenkinsBtn(type='button',onClick="window.location.href='/index?p=ci'") 持续集成  
+          - if(sess.activeProjectId!=-1 && sess.activeGroupId>0) {
+
+          button.btn.btn-primary.btn-block#gitlabciBtn(type='button',onClick="window.location.href='/gitlabci/"+sess.activeGroupInfo.name+"/"+sess.activeProjectInfo.name+"'") GitlabCI持续集成
+          button.btn.btn-primary.btn-block#jenkinsBtn(type='button',onClick="window.location.href='/jenkins/"+sess.activeGroupInfo.name+"/"+sess.activeProjectInfo.name+"'") Jenkins持续集成   
           button.btn.btn-primary.btn-block#dockerBtn(type='button',onClick="window.location.href='/index?p=deploy'") Docker部署
+          button.btn.btn-primary.btn-block#unittestBtn(type='button',onClick="window.location.href='/unittest/"+sess.activeProjectId+"/tests'") 动态测试
           button.btn.btn-primary.btn-block#sonarBtn(type='button',onClick="window.location.href='/index?p=sonar'") 静态检查
           button.btn.btn-primary.btn-block#gitBtn(type='button', data-toggle='collapse', data-target='.collapse-workboards')
+              | 源码管理
+              i.fa.fa-chevron-down
+          button.btn.btn-secondary.btn-block.collapse.collapse-workboards#repositoryBtn(type='button',onClick!="window.location.href='/git/group/project?projectid="+sess.activeProjectId+"'")  仓库详情
+          button.btn.btn-secondary.btn-block.collapse.collapse-workboards#commitBtn(type='button',onClick!="window.location.href='/git/repository/commit?projectid="+sess.activeProjectId+"'")  提交记录
+          button.btn.btn-secondary.btn-block.collapse.collapse-workboards#mergeBtn(type='button',onClick!="window.location.href='/git/repository/merge?projectid="+sess.activeProjectId+"'")  合并管理
+          button.btn.btn-secondary.btn-block.collapse.collapse-workboards#keyBtn(type='button',onClick!="window.location.href='/git/user/sshkey'")  密钥管理
+          - } else {
+
+          button.btn.btn-primary.btn-block.disabled#gitlabciBtn(type='button',onClick="") GitlabCI持续集成
+          button.btn.btn-primary.btn-block.disabled#jenkinsBtn(type='button',onClick="") Jenkins持续集成   
+          button.btn.btn-primary.btn-block.disabled#dockerBtn(type='button',onClick="") Docker部署
+          button.btn.btn-primary.btn-block.disabled#unittestBtn(type='button',onClick="") 动态测试
+          button.btn.btn-primary.btn-block.disabled#sonarBtn(type='button',onClick="") 静态检查
+          button.btn.btn-primary.btn-block.disabled#gitBtn(type='button', data-toggle='collapse', data-target='.collapse-workboards')
               | 源码管理
               i.fa.fa-chevron-down
           button.btn.btn-secondary.btn-block.collapse.collapse-workboards#repositoryBtn(type='button')  仓库详情
           button.btn.btn-secondary.btn-block.collapse.collapse-workboards#commitBtn(type='button')  提交记录
           button.btn.btn-secondary.btn-block.collapse.collapse-workboards#mergeBtn(type='button')  合并管理
           button.btn.btn-secondary.btn-block.collapse.collapse-workboards#keyBtn(type='button')  密钥管理
+          - }
         .col-10#main.border.border-primary
           block content
