@@ -38,7 +38,7 @@ public class FileSerImpl implements FileService {
 
         String str = System.getProperty("user.dir");
 
-        String localPath = str+"\\temp\\";
+        String localPath = str+"/temp/";
         Host host = hostDao.findById(Integer.parseInt(hostId)).get();
 
         try{
