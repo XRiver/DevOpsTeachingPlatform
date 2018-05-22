@@ -39,6 +39,7 @@ public class FileSerImpl implements FileService {
         String str = System.getProperty("user.dir");
 
         String localPath = str+"/temp/";
+        logger.info(localPath);
         Host host = hostDao.findById(Integer.parseInt(hostId)).get();
 
         try{
@@ -62,17 +63,7 @@ public class FileSerImpl implements FileService {
             }
 
         }
-        //适应windows服务器路径向linux服务器的路径代码，噫，这可真蠢
-        int length = localPath.length();
-        String temp = "";
-        for(int i=0;i<length;i++){
-            if(localPath.charAt(i)=='/'){
-                temp = temp + '\\';
-            }else{
-                temp = temp + localPath.charAt(i);
-            }
-        }
-        localPath = temp;
+
         FileTransport fileTransport = new FileTransport(fileName,fileType,localPath,path,connection);
         try {
 			fileTransport.putFile();
