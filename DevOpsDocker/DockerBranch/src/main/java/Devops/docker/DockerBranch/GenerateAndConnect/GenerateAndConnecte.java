@@ -89,7 +89,7 @@ public class GenerateAndConnecte {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 //					e.printStackTrace();
-					return "创建Tomacat镜像时，连接断开";
+					return "创建Tomcat镜像时，连接断开";
 				}
 				
 			}else if(resultCode == -1) {

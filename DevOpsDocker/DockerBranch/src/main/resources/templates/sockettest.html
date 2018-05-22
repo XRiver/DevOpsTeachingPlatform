@@ -17,10 +17,10 @@
     function connect(){
         if($("#username").val()!=null&&$("#username").val()!=""){
             if ('WebSocket' in window){
-                ws = new WebSocket("ws://localhost:8080/deploy/startTask/"+$("#username").val()+"/"+$("#username").val());
+                ws = new WebSocket("ws://139.219.66.203:8887/deploy/startTask/"+$("#username").val()+"/"+$("#username").val());
             }
             else if ('MozWebSocket' in window){
-                ws = new MozWebSocket("ws://localhost:8080/deploy/startTask/"+$("#username").val()+"/"+$("#username").val());
+                ws = new MozWebSocket("ws://139.219.66.203:8887/deploy/startTask/"+$("#username").val()+"/"+$("#username").val());
             }
             else{
                 alert("该浏览器不支持websocket");
