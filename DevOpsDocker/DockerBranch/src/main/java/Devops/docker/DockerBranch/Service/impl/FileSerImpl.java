@@ -38,7 +38,7 @@ public class FileSerImpl implements FileService {
 
         String str = System.getProperty("user.dir");
 
-        String localPath = str+"\\DevOpsDocker\\DockerBranch\\src\\main\\resources\\temp\\";
+        String localPath = str+"\\temp\\";
         Host host = hostDao.findById(Integer.parseInt(hostId)).get();
 
         try{
