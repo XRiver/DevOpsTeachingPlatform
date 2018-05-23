@@ -34,15 +34,15 @@ public class DockerBranchApplication {
 		return factory.createMultipartConfig();
 	}
 	
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				// TODO Auto-generated method stub
-				registry.addMapping("/**").allowedOrigins("http://localhost:8887");
-			}
-		};
-	}
+//	@Bean
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurerAdapter() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+//				// TODO Auto-generated method stub
+//				registry.addMapping("/**").allowedOrigins("http://localhost:8887");
+//			}
+//		};
+//	}
 
 }
