@@ -150,6 +150,7 @@ public class TaskConfig {
         for(int i=0;i<wjList.size();i++){
             File the = wjList.get(i);
             String fileName = the.getName();
+            logger.info(fileName);
             String[] array = fileName.split(".");
             int size1 = array.length;
 
@@ -157,6 +158,7 @@ public class TaskConfig {
             if(size1==2){
                 fileType = array[size1-1];
             }
+            logger.info(fileType);
             if(fileType.equals("war")||fileType.equals("jar")){
                 one = the;
             }
