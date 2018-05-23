@@ -7,6 +7,7 @@ import Devops.docker.DockerBranch.Exception.RemoteOperateException;
 import Devops.docker.DockerBranch.RemoteConnection.FileTransport;
 import Devops.docker.DockerBranch.RemoteConnection.RemoteSignIn;
 import Devops.docker.DockerBranch.Service.TaskSer;
+import Devops.docker.DockerBranch.Service.impl.TaskSerImpl;
 import Devops.docker.DockerBranch.VO.*;
 import Devops.docker.DockerBranch.dao.ContainerDao;
 import Devops.docker.DockerBranch.dao.HostDao;
@@ -37,6 +38,7 @@ public class TaskConfig {
     @Autowired
     ContainerDao containerDao;
 
+    private static final Logger logger = LoggerFactory.getLogger(TaskConfig.class);
     /**
      *
      * @param task 任务
@@ -130,6 +132,7 @@ public class TaskConfig {
         Container container = null;
         //获得文件
         String localPath = "/home/xujianghe/projects/"+task.getGroupName()+"/"+task.getProjectName()+"/"+branchname+"/target/";
+        logger.info(localPath);
         File file = new File(localPath);
 
         File[] fileList = file.listFiles();
@@ -154,7 +157,7 @@ public class TaskConfig {
             if(size1==2){
                 fileType = array[size1-1];
             }
-            if(fileType=="war"||fileType=="jar"){
+            if(fileType.equals("war")||fileType.equals("jar")){
                 one = the;
             }
         }
