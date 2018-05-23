@@ -7,10 +7,8 @@
 </head>
 <body>
 
-请输入您的昵称<input type="text" id="username">
+请输入任务id<input type="text" id="username">
 <input type="button" value="连接" onclick="connect()"></input>   <br>
-请填写要发送的内容<input type="text" id="writeMsg"></input>
-<input type="button" value="发送" onclick="sendMsg()"></input>
 
 <script type="text/javascript">
     var ws = null;
@@ -43,9 +41,6 @@
         }
     }
 
-    function sendMsg() {
-        ws.send($("#writeMsg").val());
-    }
 </script>
 </body>
 </html>

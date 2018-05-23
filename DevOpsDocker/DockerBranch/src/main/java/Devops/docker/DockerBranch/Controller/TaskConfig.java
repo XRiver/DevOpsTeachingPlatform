@@ -143,7 +143,24 @@ public class TaskConfig {
             return "目标文件夹下没有文件";
         }
         //获取文件名
-        File one = wjList.get(0);
+        File one = null;
+        for(int i=0;i<wjList.size();i++){
+            File the = wjList.get(i);
+            String fileName = the.getName();
+            String[] array = fileName.split(".");
+            int size1 = array.length;
+
+            String fileType = "";
+            if(size1==2){
+                fileType = array[size1-1];
+            }
+            if(fileType=="war"||fileType=="jar"){
+                one = the;
+            }
+        }
+        if(one==null){
+            return "目标文件夹下找不到文件";
+        }
         String fileName = one.getName();
         String[] array = fileName.split(".");
         int size1 = array.length;
