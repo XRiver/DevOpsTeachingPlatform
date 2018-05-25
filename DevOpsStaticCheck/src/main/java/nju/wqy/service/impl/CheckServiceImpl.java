@@ -26,6 +26,12 @@ public class CheckServiceImpl implements CheckService{
 	private ConfigWrapper configWrapper;
 	@Override
 	public OperationStatus check(String projectKey) {
+		try {
+			Thread.sleep(9000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//检查相应文件夹下是否有相应文件
 		//如果有则更新一下
 		//如果没有则需clone一个

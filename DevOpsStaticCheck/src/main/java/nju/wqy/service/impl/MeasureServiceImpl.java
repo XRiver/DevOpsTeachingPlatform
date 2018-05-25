@@ -55,7 +55,7 @@ public class MeasureServiceImpl implements MeasureService{
 	@Override
 	public MeasureVO getMeasure(String projectKey) {
 		//得到各种问题的数量
-		String result=APIManager.get("http://localhost:9000/api/measures/component?additionalFields=periods&componentKey="+projectKey+
+		String result=APIManager.get("http://139.219.66.203:9000/api/measures/component?additionalFields=periods&componentKey="+projectKey+
 				"&metricKeys=bugs%2Cclasses%2Ccode_smells%2Ccomment_lines%2Ccomment_lines_density%2C"
 				+ "vulnerabilities%2Cfunctions%2Cfiles%2Clines%2Cncloc");
 		MeasureVO vo=null;
@@ -135,7 +135,7 @@ public class MeasureServiceImpl implements MeasureService{
 	}
 	@Override
 	public List<HistoryVO> getHistory(String projectKey, String type) {
-		String result=APIManager.get("http://localhost:9000/api/measures/search_history?component="+projectKey+"&metrics="+type+"&ps=1000");
+		String result=APIManager.get("http://139.219.66.203:9000/api/measures/search_history?component="+projectKey+"&metrics="+type+"&ps=1000");
 		List<HistoryVO> lists=new ArrayList<HistoryVO>();
 		if(result!=null){  
 			JSONObject obj=JSONObject.fromObject(result);      

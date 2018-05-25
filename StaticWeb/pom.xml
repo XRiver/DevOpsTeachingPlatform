@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>nju.wqy</groupId>
     <version>1.0-SNAPSHOT</version>
-    <artifactId>SpringBootFront</artifactId>
+    <artifactId>StaticWeb</artifactId>
     <properties>
         <spring.boot.version>1.3.8.RELEASE</spring.boot.version>
         <maven.compiler.source>1.8</maven.compiler.source>

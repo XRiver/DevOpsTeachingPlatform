@@ -36,10 +36,12 @@ public class ConfigServiceImpl implements ConfigService{
 	@Override
 	public OperationStatus save(ConfigVO vo) {
 		ConfigData data=configDao.getByProjectKey(vo.getProjectKey());
+		System.out.println("sa"
+				+ "na"+vo.getProjectName());
 		if(data==null) {//新增
 			data=new ConfigData();
 //			data.setJavaBinary(vo.getJavaBinary());
-//			data.setLanguage(vo.getLanguage());
+			data.setLanguage(vo.getLanguage());
 			data.setProjectKey(vo.getProjectKey());
 			data.setProjectName(vo.getProjectName());
 //			data.setProjectVersion(vo.getProjectVersion());
@@ -64,6 +66,7 @@ public class ConfigServiceImpl implements ConfigService{
 			data.setJavaBinary(vo.getJavaBinary());
 			data.setLanguage(vo.getLanguage());
 			data.setProjectKey(vo.getProjectKey());
+			System.out.println("na"+vo.getProjectName());
 			data.setProjectName(vo.getProjectName());
 			data.setProjectVersion(vo.getProjectVersion());
 			data.setSource(vo.getSource());

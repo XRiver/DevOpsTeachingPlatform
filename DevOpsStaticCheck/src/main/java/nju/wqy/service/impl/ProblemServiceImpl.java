@@ -36,7 +36,11 @@ public class ProblemServiceImpl implements ProblemService{
 		for(int i=0;i<arr.size();i++) {
 			if(getValue(arr.getString(i),"message").equals("1 duplicated blocks of code must be removed.")) {
 				continue;
-			}	
+			}
+			if(getValue(arr.getString(i),"rule").equals("common-java:DuplicatedBlocks")) {
+				continue;
+			}
+			
 			ProblemVO vo=new ProblemVO();
 			vo.setFilePath(getValue(arr.getString(i),"component"));
 			vo.setLineNo(getValue(arr.getString(i),"line"));
@@ -50,11 +54,11 @@ public class ProblemServiceImpl implements ProblemService{
 	}
 	@Override
 	public PaginationVO getProblem(String type, String projectKey ,int offset,int pageSize,String fileName,String severity) {
-		String urlBug="http://localhost:9000/api/issues/search?componentKeys="+projectKey+"&s=FILE_LINE&resolved=false&types="
+		String urlBug="http://139.219.66.203:9000/api/issues/search?componentKeys="+projectKey+"&s=FILE_LINE&resolved=false&types="
 	+"BUG"+"&ps=100&facets=severities%2Ctypes&additionalFields=_all";
-		String urlVul="http://localhost:9000/api/issues/search?componentKeys="+projectKey+"&s=FILE_LINE&resolved=false&types="
+		String urlVul="http://139.219.66.203:9000/api/issues/search?componentKeys="+projectKey+"&s=FILE_LINE&resolved=false&types="
 				+"VULNERABILITY"+"&ps=100&facets=severities%2Ctypes&additionalFields=_all";
-		String urlCode="http://localhost:9000/api/issues/search?componentKeys="+projectKey+"&s=FILE_LINE&resolved=false&types="
+		String urlCode="http://139.219.66.203:9000/api/issues/search?componentKeys="+projectKey+"&s=FILE_LINE&resolved=false&types="
 				+"CODE_SMELL"+"&ps=100&facets=severities%2Ctypes&additionalFields=_all";
 		List<ProblemVO> problems=new ArrayList<ProblemVO>();
 		if(type.equals("BUG")) {

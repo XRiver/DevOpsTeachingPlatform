@@ -18,43 +18,14 @@ import nju.wqy.web.vo.IndexVO;
 public class APIManager {
 
 	public static void main(String[] args) {
-		String baseUrl="http://localhost:9000/api/";
 		Map<String,String> params=new HashMap<String,String>();
-		params.put("projectKeys","Student");
-		//String result=APIManager.post(baseUrl+"measures/search",params);
-		String result=APIManager.get("http://localhost:9000/api/measures/"
-				+ "search?projectKeys=Student&metricKeys=bugs%2Ccode_smells%2Cduplicated_lines_density%2C"
-				+ "ncloc%2Cncloc_language_distribution%2Cvulnerabilities");
-		if(result!=null){  
-			JSONObject obj=JSONObject.fromObject(result);      
-			result=obj.getString("measures");//得到json格式字符串数组  
-			JSONArray arr=JSONArray.fromObject(result);  
-			if(arr.size()==6) {
-				String bugs=getValue(arr.get(0));
-				String code_smells=getValue(arr.get(1));
-				String duplicated_lines_density=getValue(arr.get(2));
-				String ncloc=getValue(arr.get(3));
-				String ncloc_language_distribution=getValue(arr.get(4));
-				String vulnerabilities=getValue(arr.get(5));
-				int healthDegree=10*Integer.parseInt(bugs)+3*Integer.parseInt(code_smells)+1*Integer.parseInt(vulnerabilities);
-				int risk=healthDegree/Integer.parseInt(ncloc)/1000;
-				
-			}
-		} 
+		params.put("key","AWNtLiD0KQ0B0Ro_0fUj");
+		params.put("rule","mycompany-java:AvoidBrandInMethodNames");
+		String result=APIManager.post("http://localhost:9000/api/qualityprofiles/activate_rule",params);
+		System.out.println(result);
 	}
-	public static IndexVO getIndexVO(JSONArray arr) {
-		
-		IndexVO vo=new IndexVO();
-		
-		return null;
-	}
-	public static String getValue(Object o) {
-		System.out.println(o);
-		JSONObject obj=JSONObject.fromObject(o); 	
-		String value=obj.getString("value");
-		System.out.println(value);
-		return value;
-	}
+
+	
 	/** 
 	 * get方法直接调用post方法 
 	 * @param url 网络地址 
@@ -76,6 +47,7 @@ public class APIManager {
 			conn=(HttpURLConnection) u.openConnection();  
 			StringBuffer sb=null;  
 			if(param!=null){//如果请求参数不为空  
+				conn.setRequestProperty("Authorization", "Basic YWRtaW46YWRtaW4=");
 				sb=new StringBuffer();  
 				/*A URL connection can be used for input and/or output.  Set the DoOutput 
 				 * flag to true if you intend to use the URL connection for output, 

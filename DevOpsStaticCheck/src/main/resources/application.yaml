@@ -29,10 +29,18 @@ swagger:
 spring:
     profiles: dev
     datasource:
-        url: jdbc:mysql://localhost:3306/sample
+        url: jdbc:mysql://139.219.66.203:3306/code_check
         username: root
-        password: root
+        password: Xujianghecentos71
+    http:
+        multipart:
+            enabled: true
+            max-file-size: 20MB
+            max-request-size: 20MB
 
+
+  
+      
 server:
     port: 8088
 

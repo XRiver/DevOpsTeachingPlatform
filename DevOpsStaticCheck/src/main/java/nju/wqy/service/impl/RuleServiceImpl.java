@@ -13,7 +13,7 @@ public class RuleServiceImpl implements RuleService{
 
 	@Override
 	public RuleVO getRuleVO(String key) {
-		String result=APIManager.get("http://localhost:9000/api/rules/show?key="+key);
+		String result=APIManager.get("http://139.219.66.203:9000/api/rules/show?key="+key);
 		if(result!=null){  
 			JSONObject obj=JSONObject.fromObject(result);      
 			result=obj.getString("rule");//得到json格式字符串  

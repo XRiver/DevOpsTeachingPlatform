@@ -16,7 +16,7 @@ public class CodeServiceImpl implements CodeService{
 
 	@Override
 	public CodeVO getCodes(String key) {
-		String url="http://localhost:9000/api/sources/lines?"+key+"&from=1&to=502";
+		String url="http://139.219.66.203:9000/api/sources/lines?"+key+"&from=1&to=502";
 		System.out.println(url);
 		List<CodeVO> code=new ArrayList<CodeVO>();
 		String result=APIManager.get(url);
