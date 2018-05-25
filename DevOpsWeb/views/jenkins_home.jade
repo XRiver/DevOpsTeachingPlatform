@@ -1,0 +1,54 @@
+extends layout
+
+block content
+    .container
+        h1 #{info.fullDisplayName}
+        ul.nav
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project).nav-link 持续集成首页
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/period').nav-link 设定触发周期
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/computers').nav-link 查看系统节点
+        br
+        .row
+            .col-lg-4
+                //p 名称：#{info.name}
+                p 名称：mytestproject
+            .col-lg-4
+                form(action='/jenkins/'+ group + "/" + project +'/update',method="post")
+                    .form-group
+                        label(for="description") 描述：
+                        textarea#description.form-control(cols=40,rows=5,name="description") #{info.description}
+                    input.btn.btn-primary(type="submit",value="更新描述")
+        br
+        .row
+            .col-lg-8
+                p 健康报告：
+                ul.list-group
+                    each healthReport in info.healthReport
+                        li.list-group-item.list-group-item-action
+                            p #{healthReport.description}
+                            p 得分：#{healthReport.score}
+
+        br
+        .row
+            .col-lg-4
+                p 项目分支：
+                    ul.list-group
+                        each job in info.jobs
+                            li.list-group-item.list-group-item-action
+                                .row
+                                    .col-lg-4
+                                        if job.color=="blue"
+                                            span.badge.badge-success 成功
+                                        else
+                                            span.badge.badge-danger 危险
+                                    .col-lg-4
+                                        a(href='/jenkins/' + group + "/" + project + "/branch/" + job.name) #{job.name}
+
+            .col-lg-4
+                p 如果看不到分支的话，请手动扫描项目
+                form(action="/jenkins/" + group + "/" + project + "/build",method="post")
+                    input.btn.btn-primary(type="submit",value="立即扫描")
+        br

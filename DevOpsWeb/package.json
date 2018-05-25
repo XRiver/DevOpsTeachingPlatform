@@ -10,8 +10,21 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
+    "express-session": "^1.7.6",
+    "http-errors": "~1.6.2",
     "jade": "~1.11.0",
+    "mongodb": "^3.0.7",
     "morgan": "~1.9.0",
-    "serve-favicon": "~2.4.5"
+    "moment": "^2.22.1",
+    "request": "^2.85.0",
+    "request-promise": "~4.2.2",
+    "serve-favicon": "~2.4.5",
+    "url": "^0.11.0",
+    "async": "^2.6.0",
+    "bootstrap": "^4.1.0",
+    "jquery": "^3.3.1",
+    "yamljs": "^0.3.0",
+    "hoek": "^5.0.3",
+    "pug": "2.0.3"
   }
 }

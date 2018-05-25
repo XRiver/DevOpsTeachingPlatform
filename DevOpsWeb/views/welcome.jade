@@ -1,0 +1,57 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title 南京大学软件学院DevOps教学平台
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.0.8/css/all.css')
+    link(rel='stylesheet', href='/stylesheets/welcome.css')
+    script(src='https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
+    script(src='./javascripts/welcome.js')
+  body
+    .container.my-5
+      .mx-auto.h2#header1 南京大学软件学院
+      .mx-auto.h1#header2 DevOps教学平台
+      .col-2
+      ul.mx-auto.nav.nav-tabs.nav-justified.col-8
+        li.nav-item
+          a.nav-link.active(href="#loginPane" data-toggle="tab") 登录
+        li.nav-item 
+          a.nav-link(href="#registerPane" data-toggle="tab") 注册
+      .col-2
+      .col-2
+      .tab-content.container.col-8
+        .tab-pane.container.active.pt-2#loginPane
+          .form-group
+            label(for='usrLogin') 用户名：
+            input.form-control#usrLogin(type='text')
+            label(for='pwdLogin') 密码：
+            input.form-control#pwdLogin(type='password')
+          button.btn.btn-primary.btn-lg.float-right#loginBtn(type='button', onClick='login()') 登录
+        .tab-pane.container.pt-2#registerPane
+          .form-group
+            label(for='usrRegister') 用户名：
+            input.form-control#usrRegister(type='text')
+            label(for='pwd1Register') 密码：
+            input.form-control#pwd1Register(type='password')
+            label(for='pwd2Register') 重复密码：
+            input.form-control#pwd2Register(type='password')
+            div
+              label 账号类型：
+              label.radio-inline
+                input(type='radio', name='typeOpt', value='student', checked)
+                |学生&nbsp;&nbsp;
+              label.radio-inline
+                input(type='radio', name='typeOpt', value='teacher')
+                |教师
+            label(for='emailRegister') 邮箱：
+            input.form-control#emailRegister(type='text')
+            label(for='nameRegister') 姓名：
+            input.form-control#nameRegister(type='text')
+            label(for='idRegister') 学号/工号：
+            input.form-control#idRegister(type='text')
+          button.btn.btn-primary.btn-lg.float-right#registerBtn(type='button', onClick='register()') 注册
+      .col-2

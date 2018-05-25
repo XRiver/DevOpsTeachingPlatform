@@ -1,0 +1,86 @@
+extends layout
+    
+block content
+    link(rel="stylesheet" href="/stylesheets/bootstrap-directional-buttons.min.css")
+    .container
+        h1 #{group}-#{project} 分支：#{branchName} 构建：#{number} 节点：#{nodeId}
+        ul.nav
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project).nav-link 持续集成首页
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/branch/' + branchName).nav-link 回到分支首页
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/branch/' + branchName + '/' + number).nav-link 回到构建首页
+        br
+        .row
+            .col-lg-8
+                .row
+                    .col-lg-2
+                        p 节点状态
+                    .col-lg-1
+                        if info.state == "FINISHED"
+                            span.badge.badge-success 完成
+                        else if info.state == "SKIPPED"
+                            span.badge.badge-warning 跳过
+                        else
+                            span.badge.badge-dark #{info.state}
+        br
+        .row
+            .col-lg-4
+                if info.causeOfBlockage
+                    p 阻塞原因：#{info.causeOfBlockage}
+                if info.displayDescription
+                    p 节点描述：#{info.displayDescription}
+                if info.input
+                    p 输入：#{info.displayDescription}
+                p 节点类型： #{info.type}
+            .col-lg-4
+                if time
+                    p #{time}
+
+                if info.result == "SUCCESS"
+                    p 执行结果：成功
+                else if info.result == "NOT_BUILT"
+                    p 执行结果：未执行
+                else
+                    p 执行结果：失败
+        br
+        .row
+            .col-lg-12
+                if steps[0]
+                    p 节点中的步骤：
+                    .row
+                        each step in steps
+                            div.card.col-lg-3(style="margin:10px")
+                                if step.result == "SUCCESS"
+                                    div.btn.btn-primary.btn-arrow-right #{step.displayName} 成功
+                                else if step.result == "NOT_BUILT"
+                                    div.btn.btn-warning.btn-arrow-right #{step.displayName} 未执行
+                                else
+                                    div.btn.btn-danger.btn-arrow-right #{step.displayName} 失败
+                                div.card-body
+                                    br
+                                    if step.startTime
+                                        p #{step.startTime}
+                                    else
+                                        p 未执行
+                                    .row
+                                        .col-lg-6
+                                            p 步骤状态：
+                                        .col-lg-2
+                                            if step.state == "FINISHED"
+                                                span.badge.badge-success 完成
+                                            else if step.state == "SKIPPED"
+                                                span.badge.badge-warning 跳过
+                                            else
+                                                span.badge.badge-dark #{step.state}
+                                    if step.causeOfBlockage
+                                        p 阻塞原因：#{step.causeOfBlockage}
+                                    if step.displayDescription
+                                        p 步骤描述：
+                                        textarea(readonly=true,cols=20,rows=3,disabled=true) #{step.displayDescription}
+                                    if step.input
+                                        p 输入：#{step.input}
+                                    p 步骤类型：#{step.type}
+                                    p 所用时间：#{step.durationInMillis}毫秒
+                                    a(href='/jenkins/' + group + "/" + project + '/branch/' + branchName + '/' + number + '/node/' + nodeId + '/step/' + step.id) 查看该步骤日志

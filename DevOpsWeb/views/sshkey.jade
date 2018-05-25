@@ -1,0 +1,43 @@
+extends layout
+
+block content
+    body
+        .container-fluid#frame
+            .row.container-fluid.px-1.py-2
+                .col-10#main.border.border-primary
+                    .table-responsive
+                        br
+                        .row
+                            .col-10
+                            .col-2
+                                button.btn.btn-primary(data-toggle="modal",data-target="#myModal")  添加密钥
+                                .modal.fade#myModal
+                                    .modal-dialog
+                                        .modal-content
+                                            .modal-header
+                                                button.close(type="button",data-dismiss="modal")    &times;
+                                            .modal-body
+                                                input(type="textfield")
+                                            .mocal-footer
+                                                button.btn.btn-secondary(type="button",data-dismiss="modal")    上传
+                        br
+                        table.table-striped.table-hover.col-12
+                            thead
+                                tr
+                                    th  标题
+                                    th  key
+                                    th  添加时间
+                                    th  操作
+                            tbody
+                                - for(var i =0; i<keys.length; i++)
+                                    tr
+                                        td  #{keys[i].title}
+                                        td  #{keys[i].key}
+                                        td  #{keys[i].created_at}
+                                        td
+                                            button.btn.btn-danger   删除
+
+                    br
+                    br
+
+

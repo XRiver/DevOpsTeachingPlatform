@@ -1,0 +1,15 @@
+stages:
+    - system_code_clone
+    - system_build
+    - system_test
+    - system_deploy
+#如上定义了4个阶段，每个阶段内的job并行执行，只有前一个阶段内的所有job执行成功才会执行下一个阶段的job，否则就会跳过。默认的三个stage不建议改动，如有需要可自行新增stage。
+
+system_code_clone:
+    stage: system_code_clone
+    script:
+        - mkdir -p ~/projects/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME
+        - rm -rf ~/projects/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME
+        - cp -a ./ ~/projects/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$CI_COMMIT_REF_NAME
+    tags:
+        - system_code_clone

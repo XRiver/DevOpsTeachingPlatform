@@ -1,0 +1,77 @@
+extends layout
+    
+block content
+    link(rel="stylesheet" href="/stylesheets/bootstrap-directional-buttons.min.css")
+    script(src="/javascripts/newtest.js")
+    script(src="/javascripts/testexec.js")
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link.active(href="/unittest/"+project+"/tests") 测试列表
+                li.nav-item
+                    a.nav-link(href="/unittest/"+project+"/bugs") 缺陷列表
+        - if(err)
+            div.row
+                p #{err}
+        - else
+
+            table.table.table-hover
+                thead
+                    tr
+                        th ID
+                        th 名称
+                        th 语言
+                        th 所属branch
+                        th 执行次数
+                        th 最近执行时间
+                        th 最近执行人
+                        th 操作
+                        th
+                        th
+                tbody
+                    each test in tests
+                        tr
+                            td
+                                b
+                                    a(href="/unittest/test/"+test.id)   #{test.testId}
+                            td #{test.name}
+                            td #{test.language}
+                            td #{test.branch}
+                            td #{test.perform_times}
+                            td #{test.latest_time}
+                            td #{test.latest_person}
+                            td
+                                form(action="/unittest/test/execute-all/" +test.id,method="post")
+                                    input.btn.btn-primary(type='submit', value='执行')
+                            td
+                                button.btn.btn-primary#modTestBtn(type='button',onClick='modTestPanel('+test.id+',"'+test.testId+'","'+test.name+'","'+test.lan+'","'+test.branch+'","'+test.src+'")') 修改
+                            td
+                                button.btn.btn-danger#delTestBtn(type='button',onClick='delTest('+test.id+')') 删除
+
+
+            hr
+
+            h4#modlabel 新建测试
+            form.form-group(action="/unittest/"+project+"/createtest",method="post")
+                label(for='testId') 测试id：
+                input.form-control#testId(type='text',required='required')
+                label(for='testname') 测试名：
+                input.form-control#testname(type='text',required='required')
+                br
+                label(for='lan') 语言：
+                select#lan(type='text',required='required')
+                    option(type='text',value='java') java
+                    option(type='text',value='python') python
+                    option(type='text',value='c') c
+                    option(type='text',value='other') other
+                br
+                label(for='branch') 分支：
+                input.form-control#branch(type='text',required='required',value='master')
+                label(for='path') 测试目录路径：
+                input.form-control#path(type='text')
+                input.form-control#projectId(type='hidden',value=project)
+                br
+                button.btn.btn-primary.btn-lg.float-right#newTestBtn(type='button',onClick='newTest()') 创建
+
+    

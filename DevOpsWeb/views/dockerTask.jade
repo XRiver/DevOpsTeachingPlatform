@@ -1,0 +1,149 @@
+extends layout
+
+block content
+    script(src="/javascripts/docker.js")
+    .container-fluid#submain
+        .container-fliud
+            .container.row 
+                h2.mx-auto 主机
+            .col-2
+            ul.mx-auto.nav.nav-tabs.nav-justified.col-8
+                li.nav-item
+                    a.nav-link.active(href="#hostViewPane" data-toggle="tab") 主机列表
+                li.nav-item 
+                    a.nav-link(href="#hostCreatePane" data-toggle="tab") 添加主机
+            .col-2
+        .container-fluid
+            .col-2
+            .tab-content.container.col-8
+                .tab-pane.container.active.pt-2#hostViewPane
+                    table.table.table-hover
+                        thead
+                            tr
+                                th 主机ID
+                                th 主机名
+                                th 主机IP
+                                th 操作
+                        tbody
+                            tr#hostRow
+                                td 1
+                                td testHost1
+                                td 119.29.88.207
+                                td
+                                    button.btn.btn-outline-warning.btn-sm(type="button", onClick="") 删除 
+                                    button.btn.btn-outline-secondary.btn-sm(type="button", onClick="testHost()") 测试
+                                    button.btn.btn-outline-success.btn-sm(type="button", onClick="showPanes()") 激活
+                .tab-pane.container.pt-2#hostCreatePane
+                    .form-group
+                        label(for='groupNameInput') 主机名：
+                        input.form-control#groupNameInput(type='text')
+                        label(for='infoInput') 操作系统类型：（CentOS或Ubuntu）
+                        input.form-control#infoInput(type='text')
+                        label(for='infoInput') 主机IP：
+                        input.form-control#infoInput(type='text')
+                        label(for='infoInput') root密码：
+                        input.form-control#infoInput(type='password')
+                        label(for='infoInput') 项目ID：
+                        input.form-control#infoInput(type='text')
+                        label(for='infoInput') ssh端口号：
+                        input.form-control#infoInput(type='text')
+                        label
+                            input(type="checkbox") 
+                            自动配置Docker环境
+                    button.btn.btn-primary.btn-lg.float-right(type='button' onClick='') 添加
+            .col-2
+        .container-fluid.collapse#imagePane
+            .container.row 
+                h2.mx-auto  容器
+            .col-2
+            .col-8.container-fluid
+                table.table.table-hover
+                            thead
+                                tr
+                                    th 容器ID
+                                    th 容器名
+                                    th 基础镜像
+                                    th 部署文件
+                            tbody
+                                tr#imageRow
+                                    td 21
+                                    td 持续部署1号
+                                    td Tomcat
+                                    td myapp.war
+            .col-2
+        .container-fluid.collapse#taskPane
+            .container.row 
+                h2.mx-auto  任务
+            .container-fliud
+                .col-2
+                ul.mx-auto.nav.nav-tabs.nav-justified.col-8
+                    li.nav-item
+                        a.nav-link.active(href="#taskViewPane" data-toggle="tab") 任务列表
+                    li.nav-item 
+                        a.nav-link(href="#taskCreatePane" data-toggle="tab") 添加任务
+                .col-2
+            .container-fluid
+                .col-2
+                .tab-content.container.col-8
+                    .tab-pane.container.active.pt-2#taskViewPane
+                        table.table.table-hover
+                            thead
+                                tr
+                                    th 任务ID
+                                    th 任务名
+                                    th 描述
+                                    th 操作
+                            tbody
+                                tr#taskRow(onClick="showTaskDetail()")
+                                    td 16
+                                    td 持续部署任务1
+                                    td 纳入流水线，持续部署
+                                    td 
+                                        button.btn.btn-outline-success.btn-sm(type="button", onClick="") 启动
+                                        button.btn.btn-outline-primary.btn-sm(type="button", onClick="showDeployInfo()") 部署信息
+                                        button.btn.btn-outline-warning.btn-sm(type="button", onClick="") 删除 
+                    .tab-pane.container.pt-2#taskCreatePane
+                        .form-group
+                            label(for='groupNameInput') 任务名名：
+                            input.form-control#groupNameInput(type='text')
+                            label(for='infoInput') 描述：
+                            input.form-control#infoInput(type='text')
+                            label(for='infoInput') 项目ID：
+                            input.form-control#infoInput(type='text')
+                            label(for='infoInput') 容器类型：（Tomcat/Angle）
+                            input.form-control#infoInput(type='text')
+                            button.btn.btn-primary(type='button' onClick='') 上传文件
+                        button.btn.btn-primary.btn-lg.float-right(type='button' onClick='') 创建
+                .col-2
+            .container-fluid
+                .col-2
+                .col-8.container-fluid
+                    h3.row 任务信息：
+                    textarea.row#deployInfoArea(name="", cols="80", rows="10")
+                .col-2
+            .container-fluid.collapse#taskDetailPane
+                .col-2
+                .col-8.container-fluid
+                    table.table.table-hover
+                            thead
+                                tr
+                                    th 条目
+                                    th 内容
+                            tbody
+                                tr
+                                    td ID
+                                    td 16
+                                tr
+                                    td 主机IP
+                                    td 119.29.88.207
+                                tr
+                                    td 项目ID
+                                    td 1
+                                tr
+                                    td 项目代码分支
+                                    td master
+                                tr
+                                    td 容器
+                                    td {"containerId": "21","containerName": "持续部署1号","creator": "xiong","image":"mysql","path":"/home/ubuntu/docker/sql","port": "3306","filename": "database.sql","date": "2018/05/22"}
+                                
+                .col-2

@@ -1,0 +1,94 @@
+extends layout
+
+block content
+    link(rel="stylesheet" href="/stylesheets/bootstrap-directional-buttons.min.css")    
+    .container
+        h1 #{group}-#{project} 分支：#{branchName} 构建：#{info.number}
+        ul.nav
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project).nav-link 持续集成首页
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/branch/' + branchName).nav-link 回到分支首页
+        br
+        .row
+            .col-lg-8
+                .row
+                    .col-lg-1
+                        p 状态
+                    .col-lg-4
+                        if info.building
+                            span.badge.badge-pill.badge-warning 正在构建
+                        else
+                            span.badge.badge-pill.badge-primary 构建完成
+        br
+        .row
+            .col-lg-4
+                p 序号：#{info.number}
+                p 描述：#{info.description}
+                p 名称：#{info.displayName}
+                p 结果：#{info.result}
+            .col-lg-4
+                p 队列序号：#{info.queueId}
+                p 执行时间：#{duration} 秒
+                p 预估时间：#{estimatedDuration} 秒
+                p 开始时间：#{time}
+        br
+        .row
+            .col-lg-4
+                p 构建日志：
+            .col-lg-4
+                a(href='http://139.219.66.203:8071/job/' + group + '-' + project + '/branch/' + branchName + '/build/' + number + '/log/download') 下载日志
+        rb
+        .row
+            .col-lg-8
+                textarea(readonly=true,cols=100,rows=13) #{log}
+        br
+        .row
+            .col-lg-8
+                if info.artifacts[0]
+                    p 制品列表：
+                    ul.list-group
+                        each artifact in info.artifacts
+                            li.list-group-item.list-group-item-action
+                                p 文件名称：#{artifact.fileName}
+                                p 相对路径：#{artifact.relativePath}
+                    a(href='http://139.219.66.203:8070/job/' + group + '-' + project + '/job/' + branchName + '/' + number + '/artifact/*zip*/archive.zip') 打包下载所有制品
+        br
+        .row
+            .col-lg-12
+                if nodes[0]
+                    p 流水线：
+                    .row
+                        each node in nodes
+                            div.card.col-lg-3(style="margin:10px")
+                                if node.result == "SUCCESS"
+                                    div.btn.btn-primary.btn-arrow-right #{node.displayName} 成功
+                                else if node.result == "NOT_BUILT"
+                                    div.btn.btn-warning.btn-arrow-right #{node.displayName} 未执行
+                                else
+                                    div.btn.btn-danger.btn-arrow-right #{node.displayName} 失败
+                                div.card-body
+                                    a(href='/jenkins/' + group + "/" + project + '/branch/' + branchName + '/' + number + '/node/' + node.id) 访问节点
+                                    br
+                                    br
+                                    if node.startTime
+                                        p #{node.startTime}
+                                    else
+                                        p 未执行
+                                    .row
+                                        .col-lg-6
+                                            p 节点状态：
+                                        .col-lg-2
+                                            if node.state == "FINISHED"
+                                                span.badge.badge-success 完成
+                                            else if node.state == "SKIPPED"
+                                                span.badge.badge-warning 跳过
+                                            else
+                                                span.badge.badge-dark #{node.state}
+                                    if node.causeOfBlockage
+                                        p 阻塞原因：#{node.causeOfBlockage}
+                                    if node.displayDescription
+                                        p 节点描述：#{node.displayDescription}
+                                    if node.input
+                                        p 输入：#{node.input}
+                                    p 节点类型：#{node.type}

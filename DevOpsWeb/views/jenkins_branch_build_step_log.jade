@@ -1,0 +1,20 @@
+extends layout
+
+block content
+    link(rel="stylesheet" href="/stylesheets/bootstrap-directional-buttons.min.css")
+    .container
+        h1 #{group}-#{project} 分支：#{branchName} 构建：#{number} 节点：#{nodeId} 步骤：#{stepId}
+        ul.nav
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project).nav-link 持续集成首页
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/branch/' + branchName).nav-link 回到分支首页
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + '/branch/' + branchName + '/' + number).nav-link 回到构建首页
+            li.nav-item
+                a(href='/jenkins/' + group + "/" + project + "/branch/" + branchName + "/" + number + "/node/" + nodeId).nav-link 返回节点页面
+        br
+        .row
+            .col-lg-8
+                p 步骤执行日志：
+                textarea(readonly=true,cols=100,rows=20) #{log}

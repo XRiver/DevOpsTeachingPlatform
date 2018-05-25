@@ -1,0 +1,82 @@
+extends layout
+
+block content
+    div.container
+        div.row
+            ul.nav.nav-pills.nav-fill
+                li.nav-item
+                    a.nav-link.active(href="/gitlabci/"+group+"/"+project+"/pipelines") pipelines
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/jobs") jobs
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/runners") runners
+                li.nav-item
+                    a.nav-link(href="/gitlabci/"+group+"/"+project+"/schedules") schedules
+        hr
+        - if(err)
+            div.row
+                p #{err}
+        - else
+            div(style="margin:10px")
+                div.dropdown(style="float:right")
+                    a.dropdown-toggle(href="#",data-toggle="dropdown")
+                        span 从以下branch新建一条流水线
+                        b.caret
+                    ul.dropdown-menu
+                        each branch in branches
+                            li
+                                a(href="/gitlabci/"+group+"/"+project+"/pipelines_create?branch="+branch.name) &nbsp;&nbsp;#{branch.name}
+            hr
+            table.table.table-hover
+                thead
+                    tr
+                        th 状态
+                        th 流水线
+                        th 分支
+                        th 用户
+                        th 日期
+                        th 时长
+                tbody
+                    each pipeline in pipelines
+                        tr
+                            td
+                                case pipeline.status
+                                    when "success"
+                                        span.badge.badge-success 成功
+                                    when "failed"
+                                        span.badge.badge-danger 失败
+                                    when "skipped"
+                                        span.badge.badge-secondary 忽略
+                                    when "canceled"
+                                        span.badge.badge-secondary 取消
+                                    when "created"
+                                        span.badge.badge-light 创建
+                                    when "pending"
+                                        span.badge.badge-light 等待
+                                    default
+                                        span.badge.badge-info 未知
+                            td
+                                b
+                                    a(href="/gitlabci/"+group+"/"+project+"/pipelines/"+pipeline.id) ##{pipeline.id}
+                            td
+                                b #{pipeline.ref}
+                            td #{pipeline.user.name}
+                            td
+                                - var date = pipeline.created_at;
+                                - date = date.replace(/T/g,' ');
+                                - date = date.substring(0,19);
+                                span #{date}
+                            td #{pipeline.duration} s
+            hr
+            div
+                ul.pagination
+                    - if(page>1)
+                        li.page-item
+                        - var previous = page-1
+                            a.page-link(href="/gitlabci/" + group + "/" + project + "/pipelines?page=" + previous) 上一页
+                    l1.page-item.active
+                        a.pagelink(href="#") #{page}
+                    - if(pipelines.length>9)
+                        li.page-item
+                        - var next = parseInt(page)+1
+                            a.page-link(href="/gitlabci/" + group + "/" + project + "/pipelines?page=" + next) 下一页

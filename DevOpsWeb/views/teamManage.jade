@@ -1,0 +1,60 @@
+extends layout
+
+block content
+    script(src="/javascripts/teamManage.js")
+    .container-fliud
+        .col-2
+        ul.mx-auto.nav.nav-tabs.nav-justified.col-8
+            li.nav-item
+                a.nav-link.active(href="#teamViewPane" data-toggle="tab") 我的团队
+            li.nav-item 
+                a.nav-link(href="#teamCreatePane" data-toggle="tab") 创建团队
+        .col-2
+    .container-fluid
+        .col-2
+        .tab-content.container.col-8
+            .tab-pane.container.active.pt-2#teamViewPane
+                table.table.table-hover
+                    thead
+                        tr
+                            th 团队编号
+                            th 团队名
+                            th 团队信息
+                            th 创建者
+                            th 操作
+                    tbody#teamList
+                        each group in myGroups 
+                            tr(onClick='showGroupDetail()')
+                                td= group.groupId
+                                td= group.groupName
+                                td= group.info
+                                td 徐江河
+                                td
+                                    button.btn.btn-outline-warning.btn-sm(type="button", onClick="delGroup("+group.groupId+")") 删除团队 
+                .container-fluid.collapse#grpDetailPane
+                    button.btn.btn-outline-success.btn-sm(type="button", onClick="") 添加成员
+                    table.table.table-hover
+                        thead
+                            tr
+                                th 成员名
+                                th 权限
+                                th 操作
+                        tbody
+                            - grpDetails = [{name:"徐江河",au:"管理员"},{name:"曹姝玥",au:"成员"},{name:"李莹",au:"成员"}]
+                            each mem in grpDetails
+                                tr
+                                    td #{mem.name}
+                                    td #{mem.au}
+                                        button.btn.btn-outline-primary.btn-sm(type="button", onClick="") 修改
+                                    td 
+                                        button.btn.btn-outline-warning.btn-sm(type="button", onClick="") 删除成员
+            .tab-pane.container.pt-2#teamCreatePane
+                .form-group
+                    label(for='groupNameInput') 团队名称：
+                    input.form-control#groupNameInput(type='text')
+                    label(for='infoInput') 团队介绍：
+                    input.form-control#infoInput(type='text')
+                    label(for="memberInput") 团队成员ID:(每行一个)
+                    textarea.form-control#memberInput(rows="5")
+                button.btn.btn-primary.btn-lg.float-right(type='button' onClick='createGroup()') 创建
+        .col-2

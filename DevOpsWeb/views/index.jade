@@ -1,5 +1,9 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  - if (sess.activeProjectId > 0) {
+    h3 已激活项目:#{sess.activeProjectInfo.name}
+    h3 请使用左侧的DevOps工具链进行操作
+  - } else {
+    h3 尚未激活项目，请前往“项目管理”选择项目。
+  - }
