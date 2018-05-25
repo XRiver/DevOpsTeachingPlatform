@@ -13,7 +13,7 @@ router.get('/merge', function(req, res, next) {
 router.get('/trees',function (req,res,next) {
     var path=req.query.path;
     console.log("trees path : " +path );
-    res.redirect('/group/project?path='+path);
+    res.redirect('/git/group/project?path='+path);
 });
 
 module.exports = router;

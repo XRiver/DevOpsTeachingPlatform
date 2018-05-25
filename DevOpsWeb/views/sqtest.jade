@@ -4,5 +4,6 @@ block content
   script
     | var changeFrameHeight = function(){$("#subframe").height($("#subframe").contents().find("html").height());}
     | window.onresize=function(){changeFrameHeight();} 
-  iframe#subframe(src!="http://139.219.66.203:8091/"+p+"?groupId="+gi+"&groupName="+gn+"&projectId="+pi+"&projectName="+pn,
-   frameborder="0",style="margin:0;padding:0;width:100%;height:100vh;",onload="changeFrameHeight()")
+    //iframe#subframe(src!="http://139.219.66.203:8091/index.html?groupId="+gi+"&groupName="+gn+"&projectId="+pi+"&projectName="+pn,frameborder="0",style="margin:0;padding:0;width:100%;height:100vh;",onload="changeFrameHeight()")
+
+  iframe#subframe(src!="http://139.219.66.203:8091/index.html?groupId=1&groupName=testor&projectId=1&projectName=物流管理系统",frameborder="0",style="margin:0;padding:0;width:100%;height:100vh;",onload="changeFrameHeight()")

@@ -8,6 +8,11 @@ var fs = require('fs');
 const token = '?private_token=RsByonYoaC-_wAkG-6mM';
 const gitlabUrl = 'http://139.219.66.203:80';
 
+var javaYaml = "";
+fs.readFile('public/GitlabCITemplate/java.yml',{encoding:"utf-8"},function(err,data) {
+    javaYaml = data;
+})
+
 /* GET users listing. */
 router.get('/:group/:project', function(req, res, next) {
     var group = req.params.group;
@@ -15,7 +20,9 @@ router.get('/:group/:project', function(req, res, next) {
     request(gitlabUrl+'/api/v4/projects/'+encodeURIComponent(group+'/'+project)+'/repository/files/.gitlab-ci.yml/raw'+token+'&ref=master',
         function (error,response,body) {
             if (!error && response.statusCode == 200) {
-                var yaml_obj = YAML.parse(body);
+                //var yaml_obj = YAML.parse(body);
+                var yaml_obj = YAML.parse(javaYaml);
+
                 var stages = {};
                 for(var x in yaml_obj.stages){
                     stages[yaml_obj.stages[x]]=[];
@@ -161,7 +168,7 @@ router.get('/:group/:project/jobs/:job_id',function(req, res, next){
             var det_obj = JSON.parse(result.detail);
             var str = result.log;
             str=str.replace(/\u001b|\[0K|\[32;1m|\[0;m|\[31;1m/g,'');
-            res.render('job_detail',{detail:det_obj,log:str,group:group,project:project});
+            res.render('job_detail',{detail:det_obj,log:str,group:group,project:project,sess:req.session});
         }
     });
 

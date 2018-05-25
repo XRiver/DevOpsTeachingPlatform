@@ -16,7 +16,7 @@ router.get('/', async function(req, res, next) {
     res.redirect('/');
     return;
   }
-  
+  /*
   sess.userInfo = await teamAPI.getUserInfo(sess.usr);
   var userInfo = sess.userInfo;
   
@@ -36,9 +36,8 @@ router.get('/', async function(req, res, next) {
   } else {
     activeProjectInfo = -1;
   }
-
+*/
   var renderOptions = {
-    realName: userInfo.name,
     sess: sess
   };
 
@@ -58,19 +57,42 @@ router.get('/', async function(req, res, next) {
     case "projectManage":
     await renderProjectManage(renderOptions, req, res);
     break;
+    case "sonar":
+    res.render('sqtest', renderOptions);
+    break;
     default:
     break;
   }
 });
 
 var renderTeamManage = async function(baseRenderOptions, req, res) {
+  /*
   groups = await teamAPI.getGroupsByUsr(req.session.usr);
   baseRenderOptions.myGroups = groups;
+  */
+ baseRenderOptions.myGroups = [
+  {
+    groupName:"mytestor",
+    groupId:1,
+    info:"软工1小队"
+  }
+ ];
   res.render('teamManage', baseRenderOptions);
 }
 var renderProjectManage = async function(baseRenderOptions, req, res) {
+  /*
   projects = await teamAPI.getProjectList(req.session.usr);
   baseRenderOptions.myProjects = projects;
+  */
+  baseRenderOptions.myProjects = [
+    {
+      projectId:1,
+      name:"mytestproject",
+      info:"软工课程作业",
+      creatorName:"徐江河",
+      managers:['徐江河']
+    }
+  ];
   res.render('projectManage', baseRenderOptions);
 }
 
@@ -78,26 +100,9 @@ router.get('/test',function(req,res,next){
   res.render('projectManage',{
     realName:"徐江河",
     sess:req.session,
-    myProjects:[
-      {
-        projectId:1,
-        name:"物流管理系统",
-        info:"软工课程作业",
-        creatorName:"徐江河",
-        managers:['徐江河','王阳明']
-      }
-    ]
+    myProjects:[]
   });
 });
 
-router.get('/sqtest/:p', function(req,res,next){
-  res.render('sqtest',{
-    p:req.params.p,
-    gi:req.query.gi,
-    gn:req.query.gn,
-    pi:req.query.pi,
-    pn:req.query.pn
-  });
-});
 
 module.exports = router;

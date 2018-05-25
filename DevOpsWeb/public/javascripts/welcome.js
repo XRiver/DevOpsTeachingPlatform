@@ -1,4 +1,5 @@
 var login = function() {
+    /*
     var usr = $('#usrLogin').val();
     var pwd = $('#pwdLogin').val();
     if(!usr || !pwd) {
@@ -17,6 +18,8 @@ var login = function() {
             alert('登录失败，请检查密码。');
         }
     });
+    */
+   window.location.href ='/index?p=welcome';
 }
 
 var register = function() {

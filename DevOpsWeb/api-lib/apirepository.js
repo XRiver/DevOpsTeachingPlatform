@@ -106,7 +106,7 @@ module.exports.getTree = function (req, res, next) {
             //console.log('trees : '+trees[0].id);
             //res.send(JSON.stringify(buffers));
 
-            res.render('index',{
+            res.render('git-index',{
                 projectid:req.session.projectid,
                 realname:req.session.username,
                 project:req.session.project,

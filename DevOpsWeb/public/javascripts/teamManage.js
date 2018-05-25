@@ -18,6 +18,7 @@ var delGroup = function(gid) {
 }
 
 var createGroup = function() {
+    /*
     var gName = $('#groupNameInput').val();
     var gInfo = $('#infoInput').val();
     var members = $('#memberInput').val().split("\\s+");
@@ -40,4 +41,14 @@ var createGroup = function() {
             alert('暂时无法连接至服务器。');
         }
     })
+    */
+
+    $("#teamList").html($("#teamList").html()+"<tr><td>2</td><td>软工小队2</td><td>无</td><td>徐江河</td><td><button type='button' onclick='delGroup(2)' class='btn btn-outline-warning btn-sm'>删除团队 </button></td></tr>");
+    setTimeout(function(){
+        alert('添加成功！')
+    },1000)
+}
+
+var showGroupDetail = function() {
+    $('#grpDetailPane').show();
 }

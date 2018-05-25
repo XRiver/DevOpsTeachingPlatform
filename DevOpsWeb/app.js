@@ -59,6 +59,10 @@ app.use('/git/user', usersRouter);
 app.use('/git/group',groupRouter);
 app.use('/git/repository',repositoryRouter);
 
+// Docker module
+var dockerRouter = require('./routes/docker/docker');
+app.use('/deploy', dockerRouter);
+
 // 错误处理1：当无法在设计好的路由里找到请求的路径时，提示404状态码
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

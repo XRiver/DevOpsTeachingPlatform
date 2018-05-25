@@ -102,16 +102,17 @@ router.get('/fakelogin', function(req, res, next) {
     var sess = req.session;
     sess.usr = 'riverxu';
     sess.username = 'riverxu';
+    sess.realName = '徐江河';
     sess.userid = 141250000;
     sess.logined = true;
     sess.activeProjectId = 1;
     sess.activeProjectInfo = {
-        name:"物流管理系统",
+        name:"mytestproject",
         info:"软工课程作业"
     };
     sess.activeGroupId = 1;
     sess.activeGroupInfo = {
-        name:"软工1小队",
+        name:"mytestor",
         info:"无"
     };
     res.json({status:"OK"})

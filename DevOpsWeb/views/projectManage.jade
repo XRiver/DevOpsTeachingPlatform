@@ -23,17 +23,33 @@ block content
                             th 项目创建者
                             //th 项目管理者
                             th 操作
-                    tbody
-                    each project in myProjects 
-                    
-                        tr
-                            td #{project.projectId}
-                            td #{project.name}
-                            td #{project.info}
-                            td #{project.creatorName}
-                            //td= managers.join(',')
-                            td
-                                button.btn.btn-outline-success.btn-sm(type="button", onClick="activateProject("+project.projectId+")") 激活项目 
+                    tbody#projectList
+                        each project in myProjects 
+                            tr(onClick="showProjectDetail()")
+                                td #{project.projectId}
+                                td #{project.name}
+                                td #{project.info}
+                                td #{project.creatorName}
+                                //td= managers.join(',')
+                                td
+                                    button.btn.btn-outline-success.btn-sm(type="button", onClick="activateProject("+project.projectId+")") 激活项目
+                .container-fluid.collapse#projectDetailPane 
+                    button.btn.btn-outline-success.btn-sm(type="button", onClick="") 添加成员
+                    table.table.table-hover
+                        thead
+                            tr
+                                th 成员名
+                                th 权限
+                                th 操作
+                        tbody
+                            - grpDetails = [{name:"徐江河",au:"管理员"},{name:"曹姝玥",au:"成员"},{name:"李莹",au:"成员"}]
+                            each mem in grpDetails
+                                tr
+                                    td #{mem.name}
+                                    td #{mem.au}
+                                        button.btn.btn-outline-primary.btn-sm(type="button", onClick="") 修改
+                                    td 
+                                        button.btn.btn-outline-warning.btn-sm(type="button", onClick="") 删除成员
             .tab-pane.container.pt-2#projectCreatePane
                 .form-group
                     label(for='projectNameInput') 项目名称：
