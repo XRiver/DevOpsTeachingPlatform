@@ -92,10 +92,12 @@ public class GroupController {
             String projectid=map.get("projectid");
             String name=map.get("name");
             String description=map.get("description");
+            String userid=map.get("userid");
 
+            String gitlabuserID=transferService.getGitlabUserIDByUserID(userid);
             String gitlabgroupID=transferService.getGitlabGroupIDByGroupID(groupid);
 
-            String result=projectService.createProject(name,description);
+            String result=projectService.createProject(name,description,gitlabuserID);
             JSONObject jsonObject=JSON.parseObject(result);
             String projectgitlabid=jsonObject.getString("id");
             projectService.transferPro2Group(gitlabgroupID,projectgitlabid);
